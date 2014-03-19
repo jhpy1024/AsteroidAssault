@@ -4,8 +4,11 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
+#include <glm/glm.hpp>
+
 #include <memory>
 #include <string>
+#include <map>
 
 class Shader
 {
@@ -15,6 +18,12 @@ public:
 	static Shader& getInstance();
 
 	void bind();
+
+	void setUniform(const std::string& uniformName, float value);
+	void setUniform(const std::string& uniformName, const glm::mat4& matrix);
+	void setUniform(const std::string& uniformName, const glm::vec2& vector);
+	void setUniform(const std::string& uniformName, const glm::vec3& vector);
+	void setUniform(const std::string& uniformName, const glm::vec4& vector);
 	
 protected:
 	Shader(const std::string& vertexFile, const std::string& fragmentFile);
@@ -30,6 +39,8 @@ private:
 	void checkCompileStatus(GLuint shader);
 	void checkLinkStatus();
 
+	GLint getUniformLocation(const std::string& uniformName);
+
 private:
 	static std::unique_ptr<Shader> m_Instance;
 
@@ -37,6 +48,8 @@ private:
 	std::string m_FragmentFile;
 
 	GLuint m_Program;
+
+	std::map<std::string, GLint> m_UniformLocations;
 };
 
 #endif

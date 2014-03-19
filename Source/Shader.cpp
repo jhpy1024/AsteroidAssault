@@ -1,5 +1,7 @@
 #include "Shader.hpp"
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -16,6 +18,47 @@ Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile)
 Shader::~Shader()
 {
 	glDeleteProgram(m_Program);
+}
+
+void Shader::setUniform(const std::string& uniformName, float value)
+{
+	auto location = getUniformLocation(uniformName);
+	glUniform1f(location, value);
+}
+
+void Shader::setUniform(const std::string& uniformName, const glm::mat4& matrix)
+{
+	auto location = getUniformLocation(uniformName);
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void Shader::setUniform(const std::string& uniformName, const glm::vec2& vector)
+{
+	auto location = getUniformLocation(uniformName);
+	glUniform2fv(location, 1, glm::value_ptr(vector));
+}
+
+void Shader::setUniform(const std::string& uniformName, const glm::vec3& vector)
+{
+	auto location = getUniformLocation(uniformName);
+	glUniform3fv(location, 1, glm::value_ptr(vector));
+}
+
+void Shader::setUniform(const std::string& uniformName, const glm::vec4& vector)
+{
+	auto location = getUniformLocation(uniformName);
+	glUniform4fv(location, 1, glm::value_ptr(vector));
+}
+
+GLint Shader::getUniformLocation(const std::string& uniformName)
+{
+	if (m_UniformLocations.find(uniformName) == m_UniformLocations.end())
+	{
+		auto uniformLocation = glGetUniformLocation(m_Program, uniformName.c_str());
+		m_UniformLocations[uniformName] = uniformLocation;
+	}
+
+	return m_UniformLocations[uniformName];
 }
 
 void Shader::init()
