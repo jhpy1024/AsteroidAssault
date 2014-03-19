@@ -9,11 +9,13 @@
 SDL_Window* window;
 SDL_GLContext glContext;
 
-bool isRunning = false;
+bool isRunning = true;
 
 const std::string WINDOW_TITLE = "Asteroid Assault";
 const int WINDOW_WIDTH = 700;
 const int WINDOW_HEIGHT = 640;
+
+Uint32 oldElapsedTime;
 
 void initSDL()
 {
@@ -52,9 +54,9 @@ void handleInput()
 	}
 }
 
-void update()
+void update(Uint32 delta)
 {
-
+	
 }
 
 void render()
@@ -62,21 +64,30 @@ void render()
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glBegin(GL_QUADS);
-		glColor3f(1.f, 0.f, 0.f);
-		glVertex2f(-1.f, -1.f);
-
-		glColor3f(0.f, 1.f, 0.f);
-		glVertex2f(0.f, -1.f);
-
-		glColor3f(0.f, 0.f, 1.f);
-		glVertex2f(0.f, 0.f);
-
-		glColor3f(0.f, 1.f, 1.f);
-		glVertex2f(-1.f, 0.f);
-	glEnd();
+	
 
 	SDL_GL_SwapWindow(window);
+}
+
+Uint32 calculateDelta()
+{
+	auto elapsedTime = SDL_GetTicks();
+	auto delta = elapsedTime - oldElapsedTime;
+	oldElapsedTime = elapsedTime;
+
+	return delta;
+}
+
+void gameLoop()
+{
+	while (isRunning)
+	{
+		auto delta = calculateDelta();
+
+		handleInput();
+		update(delta);
+		render();
+	}
 }
 
 int main(int argc, char* argv[])
@@ -85,18 +96,8 @@ int main(int argc, char* argv[])
 	createWindow();
 	createGLContext();
 
-	isRunning = true;
-
-	while (isRunning)
-	{
-		handleInput();
-		update();
-		render();
-
-		SDL_Delay(20);
-	}
+	gameLoop();
 
 	SDL_Quit();
-
 	return 0;
 }
