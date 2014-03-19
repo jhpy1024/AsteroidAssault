@@ -440,7 +440,7 @@ typedef struct SDL_DropEvent
 {
     Uint32 type;        /**< ::SDL_DROPFILE */
     Uint32 timestamp;
-    char *file;         /**< The file name, which should be freed with SDL_free() */
+    char *fileName;         /**< The file name, which should be freed with SDL_free() */
 } SDL_DropEvent;
 
 
