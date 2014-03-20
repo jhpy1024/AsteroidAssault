@@ -1,12 +1,16 @@
 #include <SDL.h>
+#include <SDL_image.h>
 
 #include <GL/glew.h>
 #include <GL/GL.h>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
 #include <string>
 
 #include "ShaderManager.hpp"
+#include "Buffer.hpp"
 
 SDL_Window* window;
 SDL_GLContext glContext;
@@ -18,6 +22,10 @@ const int WINDOW_WIDTH = 700;
 const int WINDOW_HEIGHT = 640;
 
 Uint32 oldElapsedTime;
+
+Buffer vertexBuffer;
+Buffer texCoordBuffer;
+GLuint texture;
 
 void initSDL()
 {
@@ -66,7 +74,7 @@ void render()
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	
+	glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.getDataSize());
 
 	SDL_GL_SwapWindow(window);
 }
@@ -106,6 +114,73 @@ int main(int argc, char* argv[])
 	createWindow();
 	createGLContext();
 	initGlew();
+
+	vertexBuffer.init();
+	texCoordBuffer.init();
+
+	ShaderManager::getInstance().addShader("Texture", "Resources/Shaders/texture.vert", "Resources/Shaders/texture.frag");
+
+	glActiveTexture(GL_TEXTURE0);
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	auto imageSurface = IMG_Load("Resources/Textures/TestTexture.png");
+
+	if (!imageSurface)
+		std::cerr << "Error loading image" << std::endl;
+
+	//SDL_Surface* newSurface = SDL_CreateRGBSurface(0, imageSurface->w, imageSurface->h, imageSurface->format->BitsPerPixel, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+	SDL_Surface* newSurface = SDL_CreateRGBSurface(0, imageSurface->w, imageSurface->h, imageSurface->format->BitsPerPixel, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+	SDL_BlitSurface(imageSurface, 0, newSurface, 0);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, newSurface->w, newSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, newSurface->pixels);
+	std::cout << glGetError() << std::endl;
+
+	std::vector<float> vertices;
+	vertices.push_back(-1.f);
+	vertices.push_back(-1.f);
+	vertices.push_back(1.f);
+	vertices.push_back(-1.f);
+	vertices.push_back(1.f);
+	vertices.push_back(1.f);
+	vertices.push_back(1.f);
+	vertices.push_back(1.f);
+	vertices.push_back(-1.f);
+	vertices.push_back(1.f);
+	vertices.push_back(-1.f);
+	vertices.push_back(-1.f);
+
+	std::vector<float> texCoords;
+	texCoords.push_back(0.f);
+	texCoords.push_back(1.f);
+	texCoords.push_back(1.f);
+	texCoords.push_back(1.f);
+	texCoords.push_back(1.f);
+	texCoords.push_back(0.f);
+	texCoords.push_back(1.f);
+	texCoords.push_back(0.f);
+	texCoords.push_back(0.f);
+	texCoords.push_back(0.f);
+	texCoords.push_back(0.f);
+	texCoords.push_back(1.f);
+
+	vertexBuffer.setData(vertices);
+	texCoordBuffer.setData(texCoords);
+
+	vertexBuffer.bind();
+	ShaderManager::getInstance().getShader("Texture")->bind();
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ProjectionMatrix", glm::mat4(1.f));
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ViewMatrix", glm::mat4(1.f));
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ModelMatrix", glm::scale(glm::mat4(1.f), glm::vec3(0.5f, 0.5f, 1.f)));
+	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_Position");
+	texCoordBuffer.bind();
+	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_TexCoords");
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Texture", 0);
 
 	gameLoop();
 

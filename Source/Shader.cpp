@@ -18,6 +18,32 @@ Shader::~Shader()
 	glDeleteProgram(m_Program);
 }
 
+void Shader::setupVertexAttribPointer(const std::string& name, int size, GLenum type, int stride, const GLvoid* pointer)
+{
+	auto attribLocation = getAttribLocation(name);
+
+	glVertexAttribPointer(attribLocation, size, type, GL_FALSE, stride, pointer);
+	glEnableVertexAttribArray(attribLocation);
+}
+
+GLint Shader::getAttribLocation(const std::string& name)
+{
+	if (m_AttribLocations.find(name) == m_AttribLocations.end())
+	{
+		auto location = glGetAttribLocation(m_Program, name.c_str());
+		m_AttribLocations[name] = location;
+	}
+
+	return m_AttribLocations[name];
+}
+
+void Shader::setUniform(const std::string& uniformName, int value)
+{
+	std::cout << "Setting uniform " << uniformName << " to " << value << std::endl;
+	auto location = getUniformLocation(uniformName);
+	glUniform1i(location, value);
+}
+
 void Shader::setUniform(const std::string& uniformName, float value)
 {
 	auto location = getUniformLocation(uniformName);

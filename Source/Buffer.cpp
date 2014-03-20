@@ -2,7 +2,7 @@
 
 Buffer::Buffer()
 {
-	init();
+	
 }
 
 void Buffer::init()

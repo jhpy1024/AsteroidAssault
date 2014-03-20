@@ -18,11 +18,14 @@ public:
 
 	void bind();
 
+	void setUniform(const std::string& uniformName, int value);
 	void setUniform(const std::string& uniformName, float value);
 	void setUniform(const std::string& uniformName, const glm::mat4& matrix);
 	void setUniform(const std::string& uniformName, const glm::vec2& vector);
 	void setUniform(const std::string& uniformName, const glm::vec3& vector);
 	void setUniform(const std::string& uniformName, const glm::vec4& vector);
+
+	void setupVertexAttribPointer(const std::string& name, int size = 2, GLenum type = GL_FLOAT, int stride = 0, const GLvoid* pointer = 0);
 	
 private:
 	void init();
@@ -36,6 +39,7 @@ private:
 	void checkLinkStatus();
 
 	GLint getUniformLocation(const std::string& uniformName);
+	GLint getAttribLocation(const std::string& name);
 
 private:
 	std::string m_VertexFile;
@@ -44,6 +48,7 @@ private:
 	GLuint m_Program;
 
 	std::map<std::string, GLint> m_UniformLocations;
+	std::map<std::string, GLint> m_AttribLocations;
 };
 
 #endif

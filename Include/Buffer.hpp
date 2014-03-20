@@ -9,20 +9,19 @@
 class Buffer
 {
 public:
-    Buffer();
-    ~Buffer();
+	Buffer();
+	~Buffer();
 
-    void init();
+	void setData(const std::vector<float>& data);
+	int getDataSize() const;
 
-    void setData(const std::vector<float>& data);
-    int getDataSize() const;
-
-    void bind();
+	void init();
+	void bind();
 
 private:
-    GLuint m_Buffer;
+	GLuint m_Buffer;
 
-    int m_DataSize;
+	int m_DataSize;
 };
 
 #endif
