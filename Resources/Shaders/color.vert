@@ -12,7 +12,7 @@ uniform mat4 in_ModelMatrix;
 void main()
 {
 	mat4 mvpMatrix = in_ProjectionMatrix * in_ViewMatrix * in_ModelMatrix;
-	vec2 newPosition = mvpMatrix * in_Position;
+	vec4 newPosition = mvpMatrix * vec4(in_Position, 0.0, 1.0);
 	gl_Position = newPosition;
 
 	color = in_Color;

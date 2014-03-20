@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+#include "ShaderManager.hpp"
+
 SDL_Window* window;
 SDL_GLContext glContext;
 
@@ -90,11 +92,20 @@ void gameLoop()
 	}
 }
 
+void initGlew()
+{
+	auto initStatus = glewInit();
+	
+	if (initStatus != GLEW_OK)
+		std::cerr << "There was an error initializing GLEW:\n-> " << glewGetErrorString(initStatus) << std::endl;
+}
+
 int main(int argc, char* argv[])
 {
 	initSDL();
 	createWindow();
 	createGLContext();
+	initGlew();
 
 	gameLoop();
 
