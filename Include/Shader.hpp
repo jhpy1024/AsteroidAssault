@@ -13,9 +13,8 @@
 class Shader
 {
 public:
+	Shader(const std::string& vertexFile, const std::string& fragmentFile);
 	~Shader();
-
-	static Shader& getInstance();
 
 	void bind();
 
@@ -25,12 +24,9 @@ public:
 	void setUniform(const std::string& uniformName, const glm::vec3& vector);
 	void setUniform(const std::string& uniformName, const glm::vec4& vector);
 	
-protected:
-	Shader(const std::string& vertexFile, const std::string& fragmentFile);
-
+private:
 	void init();
 
-private:
 	std::string getShaderSource(const std::string& fileName) const;
 	
 	GLuint createShader(GLenum shaderType, const std::string& source);
@@ -42,8 +38,6 @@ private:
 	GLint getUniformLocation(const std::string& uniformName);
 
 private:
-	static std::unique_ptr<Shader> m_Instance;
-
 	std::string m_VertexFile;
 	std::string m_FragmentFile;
 

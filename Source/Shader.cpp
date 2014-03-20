@@ -6,13 +6,11 @@
 #include <iostream>
 #include <fstream>
 
-std::unique_ptr<Shader> Shader::m_Instance;
-
 Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile)
 	: m_VertexFile(vertexFile)
 	, m_FragmentFile(fragmentFile)
 {
-	
+	init();
 }
 
 Shader::~Shader()
@@ -171,12 +169,4 @@ std::string Shader::getShaderSource(const std::string& fileName) const
 void Shader::bind()
 {
 	glUseProgram(m_Program);
-}
-
-Shader& Shader::getInstance()
-{
-	if (m_Instance == nullptr)
-		m_Instance = std::unique_ptr<Shader>(new Shader("", ""));
-
-	return *m_Instance;
 }
