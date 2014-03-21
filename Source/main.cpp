@@ -1,5 +1,4 @@
 #include <SDL.h>
-#include <SDL_image.h>
 
 #include <GL/glew.h>
 #include <GL/GL.h>
@@ -129,17 +128,7 @@ int main(int argc, char* argv[])
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	auto imageSurface = IMG_Load("Resources/Textures/TestTexture.png");
-
-	if (!imageSurface)
-		std::cerr << "Error loading image" << std::endl;
-
-	//SDL_Surface* newSurface = SDL_CreateRGBSurface(0, imageSurface->w, imageSurface->h, imageSurface->format->BitsPerPixel, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-	SDL_Surface* newSurface = SDL_CreateRGBSurface(0, imageSurface->w, imageSurface->h, imageSurface->format->BitsPerPixel, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-	SDL_BlitSurface(imageSurface, 0, newSurface, 0);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, newSurface->w, newSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, newSurface->pixels);
-	std::cout << glGetError() << std::endl;
+	
 
 	std::vector<float> vertices;
 	vertices.push_back(-1.f);
