@@ -3,6 +3,8 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
+#include <SOIL.h>
+
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
@@ -128,7 +130,11 @@ int main(int argc, char* argv[])
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	
+	int textureWidth;
+	int textureHeight;
+	auto textureData = SOIL_load_image("Resources/Textures/TestTexture.png", &textureWidth, &textureHeight, 0, SOIL_LOAD_RGBA);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
 
 	std::vector<float> vertices;
 	vertices.push_back(-1.f);
