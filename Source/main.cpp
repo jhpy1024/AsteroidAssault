@@ -13,6 +13,7 @@
 #include "ShaderManager.hpp"
 #include "Buffer.hpp"
 #include "Texture.hpp"
+#include "Transform.hpp"
 
 SDL_Window* window;
 SDL_GLContext glContext;
@@ -125,6 +126,10 @@ int main(int argc, char* argv[])
 	Texture texture("Resources/Textures/TestTexture.png");
 	texture.bind();
 
+	Transform transform;
+	transform.setRotationDegs(180.f);
+	transform.setScale(glm::vec2(0.8f));
+
 	std::vector<float> vertices;
 	vertices.push_back(-1.f);
 	vertices.push_back(-1.f);
@@ -160,7 +165,8 @@ int main(int argc, char* argv[])
 	ShaderManager::getInstance().getShader("Texture")->bind();
 	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ProjectionMatrix", glm::mat4(1.f));
 	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ViewMatrix", glm::mat4(1.f));
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ModelMatrix", glm::scale(glm::mat4(1.f), glm::vec3(0.5f, 0.5f, 1.f)));
+	//ShaderManager::getInstance().getShader("Texture")->setUniform("in_ModelMatrix", glm::scale(glm::mat4(1.f), glm::vec3(0.5f, 0.5f, 1.f)));
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ModelMatrix", transform.getModelMatrix());
 	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_Position");
 	texCoordBuffer.bind();
 	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_TexCoords");
