@@ -39,7 +39,6 @@ GLint Shader::getAttribLocation(const std::string& name)
 
 void Shader::setUniform(const std::string& uniformName, int value)
 {
-	std::cout << "Setting uniform " << uniformName << " to " << value << std::endl;
 	auto location = getUniformLocation(uniformName);
 	glUniform1i(location, value);
 }
