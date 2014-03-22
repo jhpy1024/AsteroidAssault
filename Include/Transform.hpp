@@ -19,6 +19,9 @@ public:
 	void scale(const glm::vec2& scale);
 	void setScale(const glm::vec2& scale);
 
+	glm::mat4 getTranslationMatrix() const;
+	glm::mat4 getRotationMatrix() const;
+	glm::mat4 getScaleMatrix() const;
 	glm::mat4 getModelMatrix() const;
 	
 private:

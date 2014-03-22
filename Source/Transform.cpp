@@ -15,6 +15,21 @@ glm::mat4 Transform::getModelMatrix() const
 	return m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
 }
 
+glm::mat4 Transform::getTranslationMatrix() const
+{
+	return m_TranslationMatrix;
+}
+
+glm::mat4 Transform::getRotationMatrix() const
+{
+	return m_RotationMatrix;
+}
+
+glm::mat4 Transform::getScaleMatrix() const
+{
+	return m_ScaleMatrix;
+}
+
 void Transform::move(const glm::vec2& offset)
 {
 	m_TranslationMatrix = glm::translate(m_TranslationMatrix, glm::vec3(offset, 0.f));
