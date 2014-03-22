@@ -50,3 +50,18 @@ glm::mat4 Sprite::getModelMatrix() const
 {
 	return m_Transform.getModelMatrix();
 }
+
+glm::mat4 Sprite::getTranslationMatrix() const
+{
+	return m_Transform.getTranslationMatrix();
+}
+
+glm::mat4 Sprite::getRotationMatrix() const
+{
+	return m_Transform.getRotationMatrix();
+}
+
+glm::mat4 Sprite::getScaleMatrix() const
+{
+	return m_Transform.getScaleMatrix();
+}
