@@ -46,6 +46,11 @@ void Sprite::setScale(const glm::vec2& scale)
 	m_Transform.setScale(scale);
 }
 
+glm::vec2 Sprite::getPosition() const
+{
+	return m_Transform.getPosition();	
+}
+
 glm::mat4 Sprite::getModelMatrix() const
 {
 	return m_Transform.getModelMatrix();

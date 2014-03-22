@@ -26,6 +26,7 @@ public:
 	glm::mat4 getRotationMatrix() const;
 	glm::mat4 getScaleMatrix() const;
 	glm::mat4 getModelMatrix() const;
+	glm::vec2 getPosition() const;
 
 private:
 	Texture m_Texture;
