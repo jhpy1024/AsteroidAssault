@@ -128,7 +128,8 @@ int main(int argc, char* argv[])
 
 	Transform transform;
 	transform.setRotationDegs(180.f);
-	transform.setScale(glm::vec2(0.8f));
+	transform.setScale(glm::vec2(0.5f));
+	transform.setPosition(glm::vec2(0.f, 0.f));
 
 	std::vector<float> vertices;
 	vertices.push_back(-1.f);

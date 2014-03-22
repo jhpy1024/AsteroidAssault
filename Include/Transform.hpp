@@ -23,6 +23,8 @@ public:
 	glm::mat4 getRotationMatrix() const;
 	glm::mat4 getScaleMatrix() const;
 	glm::mat4 getModelMatrix() const;
+
+	glm::vec2 getPosition() const;
 	
 private:
 	glm::mat4 m_TranslationMatrix;

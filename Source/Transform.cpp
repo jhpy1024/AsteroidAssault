@@ -10,6 +10,16 @@ Transform::Transform()
 
 }
 
+glm::vec2 Transform::getPosition() const
+{
+	glm::vec2 position;
+
+	position.x = m_TranslationMatrix[3][0];
+	position.y = m_TranslationMatrix[3][1];
+
+	return position;
+}
+
 glm::mat4 Transform::getModelMatrix() const
 {
 	return m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
