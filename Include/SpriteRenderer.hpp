@@ -3,6 +3,7 @@
 
 #include "Buffer.hpp"
 #include "Sprite.hpp"
+#include "TextureBounds.hpp"
 
 class SpriteRenderer
 {
@@ -15,7 +16,7 @@ public:
 private:
 	void clearVectors();
 	void addVertices(const glm::vec2& position, const glm::vec2& size);
-	void addTexCoords();
+	void addTexCoords(const TextureBounds& textureBounds, const glm::vec2& textureSize);
 	void passDataToBuffers();
 
 private:

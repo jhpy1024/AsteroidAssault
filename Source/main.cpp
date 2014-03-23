@@ -78,7 +78,7 @@ void render()
 	for (int i = 0; i < sprites.size(); ++i)
 	{
 		if (i == 0)
-			sprites[i].move(glm::vec2(1.f, 1.f));
+			sprites[i].move(glm::vec2(1.f, 0.f));
 		else
 			sprites[i].move(glm::vec2(1.f, 0.5f));
 	}
@@ -133,12 +133,12 @@ int main(int argc, char* argv[])
 
 	Sprite sprite1("Resources/Textures/TestTexture.png");
 	sprite1.setPosition(glm::vec2(10.f));
-	sprite1.setScale(glm::vec2(0.10f));
+	sprite1.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f, 0.f), glm::vec2(0.f, 64.f), glm::vec2(64.f, 64.f));
 	sprites.push_back(sprite1);
 
 	Sprite sprite2("Resources/Textures/TestTexture.png");
 	sprite2.setPosition(glm::vec2(300.f));
-	sprite2.setScale(glm::vec2(0.10f));
+	sprite2.setTextureBounds(glm::vec2(64.f), glm::vec2(128.f, 64.f), glm::vec2(64.f, 128.f), glm::vec2(128.f));
 	sprites.push_back(sprite2);
 
 	spriteRenderer.init();

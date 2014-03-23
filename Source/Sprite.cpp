@@ -2,9 +2,32 @@
 
 Sprite::Sprite(const std::string& textureFile)
 	: m_Texture(textureFile)
-	, m_Size(m_Texture.width, m_Texture.height)
+	, m_TextureBounds(getDefaultTextureBounds())
+	, m_Size(getDefaultSize())
 {
+	
+}
 
+TextureBounds Sprite::getDefaultTextureBounds() const
+{
+	TextureBounds texBounds;
+
+	texBounds.bottomLeft = glm::vec2(0.f, 0.f);
+	texBounds.bottomRight = glm::vec2(m_Texture.width, 0.f);
+	texBounds.topLeft = glm::vec2(0.f, m_Texture.height);
+	texBounds.topRight = glm::vec2(m_Texture.width, m_Texture.height);
+
+	return texBounds;
+}
+
+glm::vec2 Sprite::getDefaultSize() const
+{
+	glm::vec2 size;
+
+	size.x = m_TextureBounds.bottomRight.x - m_TextureBounds.bottomLeft.x;
+	size.y = m_TextureBounds.topRight.y - m_TextureBounds.bottomRight.y;
+
+	return size;
 }
 
 void Sprite::bindTexture()
@@ -56,7 +79,7 @@ void Sprite::scale(const glm::vec2& scale)
 
 void Sprite::setScale(const glm::vec2& scale)
 {
-	auto originalSize = glm::vec2(m_Texture.width, m_Texture.height);
+	auto originalSize = getTextureSize();
 	m_Size = originalSize * scale;
 	m_Transform.setScale(scale);
 }
@@ -64,6 +87,8 @@ void Sprite::setScale(const glm::vec2& scale)
 void Sprite::setTextureBounds(const TextureBounds& textureBounds)
 {
 	m_TextureBounds = textureBounds;
+	m_Size.x = m_TextureBounds.bottomRight.x - m_TextureBounds.bottomLeft.x;
+	m_Size.y = m_TextureBounds.topRight.y - m_TextureBounds.bottomRight.y;
 }
 
 void Sprite::setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& bottomRight, const glm::vec2& topLeft, const glm::vec2& topRight)
@@ -72,6 +97,14 @@ void Sprite::setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& bott
 	m_TextureBounds.bottomRight = bottomRight;
 	m_TextureBounds.topLeft = topLeft;
 	m_TextureBounds.topRight = topRight;
+
+	m_Size.x = m_TextureBounds.bottomRight.x - m_TextureBounds.bottomLeft.x;
+	m_Size.y = m_TextureBounds.topRight.y - m_TextureBounds.bottomRight.y;
+}
+
+glm::vec2 Sprite::getTextureSize() const
+{
+	return glm::vec2(m_Texture.width, m_Texture.height);
 }
 
 TextureBounds Sprite::getTextureBounds() const

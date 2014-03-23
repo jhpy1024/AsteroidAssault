@@ -18,11 +18,8 @@ void SpriteRenderer::render(std::vector<Sprite>& sprites)
 
 	for (auto& sprite : sprites)
 	{
-		auto position = sprite.getPosition();
-		auto size = sprite.getSize();
-
-		addVertices(position, size);
-		addTexCoords();
+		addVertices(sprite.getPosition(), sprite.getSize());
+		addTexCoords(sprite.getTextureBounds(), sprite.getTextureSize());
 
 		sprite.bindTexture();
 	}
@@ -45,31 +42,31 @@ void SpriteRenderer::passDataToBuffers()
 	m_TexCoordBuffer.setData(m_TexCoords);
 }
 
-void SpriteRenderer::addTexCoords()
+void SpriteRenderer::addTexCoords(const TextureBounds& textureBounds, const glm::vec2& textureSize)
 {
 	// Bottom Left
-	m_TexCoords.push_back(0.f);
-	m_TexCoords.push_back(1.f);
+	m_TexCoords.push_back(textureBounds.bottomLeft.x / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - textureBounds.bottomLeft.y) / textureSize.y);
 
 	// Bottom Right
-	m_TexCoords.push_back(1.f);
-	m_TexCoords.push_back(1.f);
+	m_TexCoords.push_back(textureBounds.bottomRight.x / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - textureBounds.bottomRight.y) / textureSize.y);
 
 	// Top Right
-	m_TexCoords.push_back(1.f);
-	m_TexCoords.push_back(0.f);
+	m_TexCoords.push_back(textureBounds.topRight.x / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - textureBounds.topRight.y) / textureSize.y);
 
 	// Top Right (2)
-	m_TexCoords.push_back(1.f);
-	m_TexCoords.push_back(0.f);
+	m_TexCoords.push_back(textureBounds.topRight.x / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - textureBounds.topRight.y) / textureSize.y);
 
 	// Top Left
-	m_TexCoords.push_back(0.f);
-	m_TexCoords.push_back(0.f);
+	m_TexCoords.push_back(textureBounds.topLeft.x / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - textureBounds.topLeft.y) / textureSize.y);
 
 	// Bottom Left (2)
-	m_TexCoords.push_back(0.f);
-	m_TexCoords.push_back(1.f);
+	m_TexCoords.push_back(textureBounds.bottomLeft.x / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - textureBounds.bottomLeft.y) / textureSize.y);
 }
 
 void SpriteRenderer::addVertices(const glm::vec2& position, const glm::vec2& size)
