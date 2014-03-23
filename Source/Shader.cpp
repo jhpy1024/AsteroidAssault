@@ -49,10 +49,10 @@ void Shader::setUniform(const std::string& uniformName, float value)
 	glUniform1f(location, value);
 }
 
-void Shader::setUniform(const std::string& uniformName, const glm::mat4& matrix)
+void Shader::setUniform(const std::string& uniformName, const glm::mat4& matrix, GLboolean transpose)
 {
 	auto location = getUniformLocation(uniformName);
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	glUniformMatrix4fv(location, 1, transpose, glm::value_ptr(matrix));
 }
 
 void Shader::setUniform(const std::string& uniformName, const glm::vec2& vector)

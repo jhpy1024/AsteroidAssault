@@ -11,9 +11,8 @@
 #include <string>
 
 #include "ShaderManager.hpp"
-#include "Buffer.hpp"
-#include "Texture.hpp"
-#include "Transform.hpp"
+#include "SpriteRenderer.hpp"
+#include "Sprite.hpp"
 
 SDL_Window* window;
 SDL_GLContext glContext;
@@ -26,9 +25,8 @@ const int WINDOW_HEIGHT = 640;
 
 Uint32 oldElapsedTime;
 
-Buffer vertexBuffer;
-Buffer texCoordBuffer;
-GLuint texture;
+SpriteRenderer spriteRenderer;
+std::vector<Sprite> sprites;
 
 void initSDL()
 {
@@ -77,7 +75,15 @@ void render()
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.getDataSize());
+	for (int i = 0; i < sprites.size(); ++i)
+	{
+		if (i == 0)
+			sprites[i].move(glm::vec2(1.f, 1.f));
+		else
+			sprites[i].move(glm::vec2(1.f, 0.5f));
+	}
+
+	spriteRenderer.render(sprites);
 
 	SDL_GL_SwapWindow(window);
 }
@@ -117,61 +123,25 @@ int main(int argc, char* argv[])
 	createWindow();
 	createGLContext();
 	initGlew();
-
-	vertexBuffer.init();
-	texCoordBuffer.init();
-
+	
 	ShaderManager::getInstance().addShader("Texture", "Resources/Shaders/texture.vert", "Resources/Shaders/texture.frag");
 
-	Texture texture("Resources/Textures/TestTexture.png");
-	texture.bind();
-
-	Transform transform;
-	transform.setRotationDegs(180.f);
-	transform.setScale(glm::vec2(0.5f));
-	transform.setPosition(glm::vec2(0.f, 0.f));
-
-	std::vector<float> vertices;
-	vertices.push_back(-1.f);
-	vertices.push_back(-1.f);
-	vertices.push_back(1.f);
-	vertices.push_back(-1.f);
-	vertices.push_back(1.f);
-	vertices.push_back(1.f);
-	vertices.push_back(1.f);
-	vertices.push_back(1.f);
-	vertices.push_back(-1.f);
-	vertices.push_back(1.f);
-	vertices.push_back(-1.f);
-	vertices.push_back(-1.f);
-
-	std::vector<float> texCoords;
-	texCoords.push_back(0.f);
-	texCoords.push_back(1.f);
-	texCoords.push_back(1.f);
-	texCoords.push_back(1.f);
-	texCoords.push_back(1.f);
-	texCoords.push_back(0.f);
-	texCoords.push_back(1.f);
-	texCoords.push_back(0.f);
-	texCoords.push_back(0.f);
-	texCoords.push_back(0.f);
-	texCoords.push_back(0.f);
-	texCoords.push_back(1.f);
-
-	vertexBuffer.setData(vertices);
-	texCoordBuffer.setData(texCoords);
-
-	vertexBuffer.bind();
 	ShaderManager::getInstance().getShader("Texture")->bind();
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ProjectionMatrix", glm::mat4(1.f));
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ProjectionMatrix", glm::ortho(0.f, (float)WINDOW_WIDTH, 0.f, (float)WINDOW_HEIGHT), GL_FALSE);
 	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ViewMatrix", glm::mat4(1.f));
-	//ShaderManager::getInstance().getShader("Texture")->setUniform("in_ModelMatrix", glm::scale(glm::mat4(1.f), glm::vec3(0.5f, 0.5f, 1.f)));
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ModelMatrix", transform.getModelMatrix());
-	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_Position");
-	texCoordBuffer.bind();
-	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_TexCoords");
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Texture", 0);
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ModelMatrix", glm::mat4(1.f));
+
+	Sprite sprite1("Resources/Textures/TestTexture.png");
+	sprite1.setPosition(glm::vec2(10.f));
+	sprite1.setScale(glm::vec2(0.10f));
+	sprites.push_back(sprite1);
+
+	Sprite sprite2("Resources/Textures/TestTexture.png");
+	sprite2.setPosition(glm::vec2(300.f));
+	sprite2.setScale(glm::vec2(0.10f));
+	sprites.push_back(sprite2);
+
+	spriteRenderer.init();
 
 	gameLoop();
 

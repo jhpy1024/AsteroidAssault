@@ -7,6 +7,11 @@ Sprite::Sprite(const std::string& textureFile)
 
 }
 
+void Sprite::bindTexture()
+{
+	m_Texture.bind();
+}
+
 void Sprite::move(const glm::vec2& offset)
 {
 	m_Position += offset;

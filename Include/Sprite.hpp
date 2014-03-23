@@ -31,6 +31,8 @@ public:
 	float getRotationDegs() const;
 	float getRotationRads() const;
 
+	void bindTexture();
+
 private:
 	Texture m_Texture;
 	Transform m_Transform;

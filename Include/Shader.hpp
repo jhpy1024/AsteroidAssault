@@ -20,7 +20,7 @@ public:
 
 	void setUniform(const std::string& uniformName, int value);
 	void setUniform(const std::string& uniformName, float value);
-	void setUniform(const std::string& uniformName, const glm::mat4& matrix);
+	void setUniform(const std::string& uniformName, const glm::mat4& matrix, GLboolean transpose = GL_FALSE);
 	void setUniform(const std::string& uniformName, const glm::vec2& vector);
 	void setUniform(const std::string& uniformName, const glm::vec3& vector);
 	void setUniform(const std::string& uniformName, const glm::vec4& vector);
