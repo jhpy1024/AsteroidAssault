@@ -27,10 +27,15 @@ public:
 	glm::mat4 getScaleMatrix() const;
 	glm::mat4 getModelMatrix() const;
 	glm::vec2 getPosition() const;
+	float getRotationDegs() const;
+	float getRotationRads() const;
 
 private:
 	Texture m_Texture;
 	Transform m_Transform;
+
+	glm::vec2 m_Position;
+	float m_Rotation;
 };
 
 #endif

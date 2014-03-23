@@ -25,6 +25,7 @@ public:
 	glm::mat4 getModelMatrix() const;
 
 	glm::vec2 getPosition() const;
+	glm::vec2 getScale() const;
 	
 private:
 	glm::mat4 m_TranslationMatrix;
