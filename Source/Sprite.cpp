@@ -66,7 +66,7 @@ void Sprite::setTextureBounds(const TextureBounds& textureBounds)
 	m_TextureBounds = textureBounds;
 }
 
-void Sprite::setTextureBounds(float bottomLeft, float bottomRight, float topLeft, float topRight)
+void Sprite::setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& bottomRight, const glm::vec2& topLeft, const glm::vec2& topRight)
 {
 	m_TextureBounds.bottomLeft = bottomLeft;
 	m_TextureBounds.bottomRight = bottomRight;
