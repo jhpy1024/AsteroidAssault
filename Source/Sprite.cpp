@@ -2,6 +2,7 @@
 
 Sprite::Sprite(const std::string& textureFile)
 	: m_Texture(textureFile)
+	, m_Size(m_Texture.width, m_Texture.height)
 {
 
 }
@@ -44,12 +45,20 @@ void Sprite::setRotationDegs(float rotation)
 
 void Sprite::scale(const glm::vec2& scale)
 {
+	m_Size *= scale;
 	m_Transform.scale(scale);
 }
 
 void Sprite::setScale(const glm::vec2& scale)
 {
+	auto originalSize = glm::vec2(m_Texture.width, m_Texture.height);
+	m_Size = originalSize * scale;
 	m_Transform.setScale(scale);
+}
+
+glm::vec2 Sprite::getSize() const
+{
+	return m_Size;
 }
 
 float Sprite::getRotationDegs() const
