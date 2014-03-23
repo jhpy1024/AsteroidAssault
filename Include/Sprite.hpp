@@ -5,6 +5,7 @@
 
 #include "Transform.hpp"
 #include "Texture.hpp"
+#include "TextureBounds.hpp"
 
 class Sprite
 {
@@ -31,10 +32,16 @@ public:
 	float getRotationDegs() const;
 	float getRotationRads() const;
 
+	void setTextureBounds(const TextureBounds& textureBounds);
+	void setTextureBounds(float bottomLeft, float bottomRight, float topLeft, float topRight);
+	TextureBounds getTextureBounds() const;
+
 	void bindTexture();
 
 private:
 	Texture m_Texture;
+	TextureBounds m_TextureBounds;
+
 	Transform m_Transform;
 
 	glm::vec2 m_Position;

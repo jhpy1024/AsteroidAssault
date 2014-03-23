@@ -61,6 +61,24 @@ void Sprite::setScale(const glm::vec2& scale)
 	m_Transform.setScale(scale);
 }
 
+void Sprite::setTextureBounds(const TextureBounds& textureBounds)
+{
+	m_TextureBounds = textureBounds;
+}
+
+void Sprite::setTextureBounds(float bottomLeft, float bottomRight, float topLeft, float topRight)
+{
+	m_TextureBounds.bottomLeft = bottomLeft;
+	m_TextureBounds.bottomRight = bottomRight;
+	m_TextureBounds.topLeft = topLeft;
+	m_TextureBounds.topRight = topRight;
+}
+
+TextureBounds Sprite::getTextureBounds() const
+{
+	return m_TextureBounds;
+}
+
 glm::vec2 Sprite::getSize() const
 {
 	return m_Size;
