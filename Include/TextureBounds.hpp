@@ -6,9 +6,7 @@
 struct TextureBounds
 {
 	glm::vec2 bottomLeft;
-	glm::vec2 bottomRight;
-	glm::vec2 topLeft;
-	glm::vec2 topRight;
+	glm::vec2 size;
 };
 
 #endif

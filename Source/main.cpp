@@ -143,12 +143,12 @@ int main(int argc, char* argv[])
 
 	Sprite sprite1;
 	sprite1.setPosition(glm::vec2(10.f));
-	sprite1.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f, 0.f), glm::vec2(0.f, 64.f), glm::vec2(64.f, 64.f));
+	sprite1.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f));
 	sprites1.push_back(sprite1);
 
 	Sprite sprite2;
 	sprite2.setPosition(glm::vec2(300.f));
-	sprite2.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f, 0.f), glm::vec2(0.f, 64.f), glm::vec2(64.f, 64.f));
+	sprite2.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f));
 	sprites2.push_back(sprite2);
 
 	spriteRenderer.init();

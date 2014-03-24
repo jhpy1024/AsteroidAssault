@@ -33,7 +33,7 @@ public:
 	float getRotationRads() const;
 
 	void setTextureBounds(const TextureBounds& textureBounds);
-	void setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& bottomRight, const glm::vec2& topLeft, const glm::vec2& topRight);
+	void setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& size);
 	TextureBounds getTextureBounds() const;
 
 	void bindTexture();

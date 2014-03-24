@@ -15,9 +15,7 @@ TextureBounds Sprite::getDefaultTextureBounds() const
 	TextureBounds texBounds;
 
 	texBounds.bottomLeft = glm::vec2(0.f, 0.f);
-	texBounds.bottomRight = glm::vec2(SPRITESHEET_WIDTH, 0.f);
-	texBounds.topLeft = glm::vec2(0.f, SPRITESHEET_HEIGHT);
-	texBounds.topRight = glm::vec2(SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+	texBounds.size = glm::vec2(SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
 
 	return texBounds;
 }
@@ -26,8 +24,7 @@ glm::vec2 Sprite::getDefaultSize() const
 {
 	glm::vec2 size;
 
-	size.x = m_TextureBounds.bottomRight.x - m_TextureBounds.bottomLeft.x;
-	size.y = m_TextureBounds.topRight.y - m_TextureBounds.bottomRight.y;
+	size = m_TextureBounds.size;
 
 	return size;
 }
@@ -84,19 +81,14 @@ void Sprite::setScale(const glm::vec2& scale)
 void Sprite::setTextureBounds(const TextureBounds& textureBounds)
 {
 	m_TextureBounds = textureBounds;
-	m_Size.x = m_TextureBounds.bottomRight.x - m_TextureBounds.bottomLeft.x;
-	m_Size.y = m_TextureBounds.topRight.y - m_TextureBounds.bottomRight.y;
+	m_Size = m_TextureBounds.size;
 }
 
-void Sprite::setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& bottomRight, const glm::vec2& topLeft, const glm::vec2& topRight)
+void Sprite::setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& size)
 {
 	m_TextureBounds.bottomLeft = bottomLeft;
-	m_TextureBounds.bottomRight = bottomRight;
-	m_TextureBounds.topLeft = topLeft;
-	m_TextureBounds.topRight = topRight;
-
-	m_Size.x = m_TextureBounds.bottomRight.x - m_TextureBounds.bottomLeft.x;
-	m_Size.y = m_TextureBounds.topRight.y - m_TextureBounds.bottomRight.y;
+	m_TextureBounds.size = size;
+	m_Size = m_TextureBounds.size;
 }
 
 TextureBounds Sprite::getTextureBounds() const

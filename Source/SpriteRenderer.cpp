@@ -51,20 +51,20 @@ void SpriteRenderer::addTexCoords(const TextureBounds& textureBounds, const glm:
 	m_TexCoords.push_back((textureSize.y - textureBounds.bottomLeft.y) / textureSize.y);
 
 	// Bottom Right
-	m_TexCoords.push_back(textureBounds.bottomRight.x / textureSize.x);
-	m_TexCoords.push_back((textureSize.y - textureBounds.bottomRight.y) / textureSize.y);
+	m_TexCoords.push_back((textureBounds.bottomLeft.x + textureBounds.size.x) / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - textureBounds.bottomLeft.y) / textureSize.y);
 
 	// Top Right
-	m_TexCoords.push_back(textureBounds.topRight.x / textureSize.x);
-	m_TexCoords.push_back((textureSize.y - textureBounds.topRight.y) / textureSize.y);
+	m_TexCoords.push_back((textureBounds.bottomLeft.x + textureBounds.size.x) / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - (textureBounds.bottomLeft.y + textureBounds.size.y)) / textureSize.y);
 
 	// Top Right (2)
-	m_TexCoords.push_back(textureBounds.topRight.x / textureSize.x);
-	m_TexCoords.push_back((textureSize.y - textureBounds.topRight.y) / textureSize.y);
+	m_TexCoords.push_back((textureBounds.bottomLeft.x + textureBounds.size.x) / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - (textureBounds.bottomLeft.y + textureBounds.size.y)) / textureSize.y);
 
 	// Top Left
-	m_TexCoords.push_back(textureBounds.topLeft.x / textureSize.x);
-	m_TexCoords.push_back((textureSize.y - textureBounds.topLeft.y) / textureSize.y);
+	m_TexCoords.push_back(textureBounds.bottomLeft.x / textureSize.x);
+	m_TexCoords.push_back((textureSize.y - (textureBounds.bottomLeft.y + textureBounds.size.y)) / textureSize.y);
 
 	// Bottom Left (2)
 	m_TexCoords.push_back(textureBounds.bottomLeft.x / textureSize.x);
