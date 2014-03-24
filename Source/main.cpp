@@ -85,11 +85,13 @@ void render()
 	for (std::size_t i = 0; i < sprites1.size(); ++i)
 	{
 		sprites1[i].move(glm::vec2(1.f, 0.5f));
+		sprites1[i].rotateDegs(1.f);
 	}
 
 	for (std::size_t i = 0; i < sprites2.size(); ++i)
 	{
 		sprites2[i].move(glm::vec2(1.f, 0.f));
+		sprites2[i].rotateDegs(-1.f);
 	}
 
 	spriteRenderer.render(sprites1, *texture1);

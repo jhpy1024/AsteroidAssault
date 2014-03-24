@@ -6,6 +6,7 @@ const int Sprite::SPRITESHEET_HEIGHT = 1024;
 Sprite::Sprite()
 	: m_TextureBounds(getDefaultTextureBounds())
 	, m_Size(getDefaultSize())
+	, m_Rotation(0.f)
 {
 	
 }

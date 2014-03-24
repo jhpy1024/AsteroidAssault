@@ -20,7 +20,7 @@ void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 
 	for (auto& sprite : sprites)
 	{
-		addVertices(sprite.getPosition(), sprite.getSize());
+		addVertices(sprite.getPosition(), sprite.getSize(), sprite.getRotationRads());
 		addTexCoords(sprite.getTextureBounds(), glm::vec2(texture.width, texture.height));
 	}
 	
@@ -71,31 +71,50 @@ void SpriteRenderer::addTexCoords(const TextureBounds& textureBounds, const glm:
 	m_TexCoords.push_back((textureSize.y - textureBounds.bottomLeft.y) / textureSize.y);
 }
 
-void SpriteRenderer::addVertices(const glm::vec2& position, const glm::vec2& size)
+void SpriteRenderer::addVertices(const glm::vec2& position, const glm::vec2& size, float rotationRads)
 {
+	auto sinAngle = glm::sin(rotationRads);
+	auto cosAngle = glm::cos(rotationRads);
+
+	auto offsetFromCenter = glm::vec2(-size.x / 2.f, -size.y / 2.f);
+	auto bottomLeft = glm::vec2(position.x + (offsetFromCenter.x * cosAngle - offsetFromCenter.y * sinAngle),
+								position.y - (-offsetFromCenter.y * cosAngle - offsetFromCenter.x * sinAngle));
+
+	offsetFromCenter = glm::vec2(size.x / 2.f, -size.y / 2.f);
+	auto bottomRight = glm::vec2(position.x + (offsetFromCenter.x * cosAngle - offsetFromCenter.y * sinAngle),
+								 position.y - (-offsetFromCenter.y * cosAngle - offsetFromCenter.x * sinAngle));
+
+	offsetFromCenter = glm::vec2(size.x / 2.f, size.y / 2.f);
+	auto topRight = glm::vec2(position.x + (offsetFromCenter.x * cosAngle - offsetFromCenter.y * sinAngle),
+							  position.y - (-offsetFromCenter.y * cosAngle - offsetFromCenter.x * sinAngle));
+
+	offsetFromCenter = glm::vec2(-size.x / 2.f, size.y / 2.f);
+	auto topLeft = glm::vec2(position.x + (offsetFromCenter.x * cosAngle - offsetFromCenter.y * sinAngle),
+							 position.y - (-offsetFromCenter.y * cosAngle - offsetFromCenter.x * sinAngle));
+
 	// Bottom Left
-	m_Vertices.push_back(position.x - size.x / 2.f);
-	m_Vertices.push_back(position.y - size.y / 2.f);
+	m_Vertices.push_back(bottomLeft.x);
+	m_Vertices.push_back(bottomLeft.y);
 
 	// Bottom Right
-	m_Vertices.push_back(position.x + size.x / 2.f);
-	m_Vertices.push_back(position.y - size.y / 2.f);
+	m_Vertices.push_back(bottomRight.x);
+	m_Vertices.push_back(bottomRight.y);
 
 	// Top Right
-	m_Vertices.push_back(position.x + size.x / 2.f);
-	m_Vertices.push_back(position.y + size.y / 2.f);
+	m_Vertices.push_back(topRight.x);
+	m_Vertices.push_back(topRight.y);
 
 	// Top Right (2)
-	m_Vertices.push_back(position.x + size.x / 2.f);
-	m_Vertices.push_back(position.y + size.y / 2.f);
+	m_Vertices.push_back(topRight.x);
+	m_Vertices.push_back(topRight.y);
 
 	// Top Left
-	m_Vertices.push_back(position.x - size.x / 2.f);
-	m_Vertices.push_back(position.y + size.y / 2.f);
+	m_Vertices.push_back(topLeft.x);
+	m_Vertices.push_back(topLeft.y);
 
 	// Bottom Left (2)
-	m_Vertices.push_back(position.x - size.x / 2.f);
-	m_Vertices.push_back(position.y - size.y / 2.f);
+	m_Vertices.push_back(bottomLeft.x);
+	m_Vertices.push_back(bottomLeft.y);
 }
 
 void SpriteRenderer::clearVectors()

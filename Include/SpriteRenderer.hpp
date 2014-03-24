@@ -16,7 +16,7 @@ public:
 
 private:
 	void clearVectors();
-	void addVertices(const glm::vec2& position, const glm::vec2& size);
+	void addVertices(const glm::vec2& position, const glm::vec2& size, float rotationRads);
 	void addTexCoords(const TextureBounds& textureBounds, const glm::vec2& textureSize);
 	void passDataToBuffers();
 
