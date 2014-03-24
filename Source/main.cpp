@@ -28,9 +28,12 @@ const int WINDOW_HEIGHT = 640;
 Uint32 oldElapsedTime;
 
 SpriteRenderer spriteRenderer;
-std::vector<Sprite> sprites;
+
+std::vector<Sprite> sprites1;
+std::vector<Sprite> sprites2;
 
 std::unique_ptr<Texture> texture1;
+std::unique_ptr<Texture> texture2;
 
 void initSDL()
 {
@@ -79,15 +82,18 @@ void render()
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	for (std::size_t i = 0; i < sprites.size(); ++i)
+	for (std::size_t i = 0; i < sprites1.size(); ++i)
 	{
-		if (i == 0)
-			sprites[i].move(glm::vec2(1.f, 0.f));
-		else
-			sprites[i].move(glm::vec2(1.f, 0.5f));
+		sprites1[i].move(glm::vec2(1.f, 0.5f));
 	}
 
-	spriteRenderer.render(sprites, *texture1);
+	for (std::size_t i = 0; i < sprites2.size(); ++i)
+	{
+		sprites2[i].move(glm::vec2(1.f, 0.f));
+	}
+
+	spriteRenderer.render(sprites1, *texture1);
+	spriteRenderer.render(sprites2, *texture2);
 
 	SDL_GL_SwapWindow(window);
 }
@@ -138,16 +144,17 @@ int main(int argc, char* argv[])
 	Sprite sprite1;
 	sprite1.setPosition(glm::vec2(10.f));
 	sprite1.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f, 0.f), glm::vec2(0.f, 64.f), glm::vec2(64.f, 64.f));
-	sprites.push_back(sprite1);
+	sprites1.push_back(sprite1);
 
 	Sprite sprite2;
 	sprite2.setPosition(glm::vec2(300.f));
-	sprite2.setTextureBounds(glm::vec2(64.f), glm::vec2(128.f, 64.f), glm::vec2(64.f, 128.f), glm::vec2(128.f));
-	sprites.push_back(sprite2);
+	sprite2.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f, 0.f), glm::vec2(0.f, 64.f), glm::vec2(64.f, 64.f));
+	sprites2.push_back(sprite2);
 
 	spriteRenderer.init();
 
 	texture1 = std::unique_ptr<Texture>(new Texture("Resources/Textures/TestTexture.png"));
+	texture2 = std::unique_ptr<Texture>(new Texture("Resources/Textures/TestTexture2.png"));
 
 	gameLoop();
 

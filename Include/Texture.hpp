@@ -14,6 +14,8 @@ public:
 
 	void bind();
 
+	int getId() const;
+
 public:
 	int width;
 	int height;
@@ -30,6 +32,9 @@ private:
 	std::string m_FileName;
 
 	GLuint m_Texture;
+
+	static int ID;
+	int m_Id;
 };
 
 #endif

@@ -1,6 +1,8 @@
 #include "SpriteRenderer.hpp"
 #include "ShaderManager.hpp"
 
+#include <iostream>
+
 SpriteRenderer::SpriteRenderer()
 {
 	
@@ -23,6 +25,7 @@ void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 	}
 	
 	texture.bind();
+	glActiveTexture(GL_TEXTURE0 + texture.getId());
 
 	passDataToBuffers();
 	
@@ -31,8 +34,7 @@ void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_Position");
 	m_TexCoordBuffer.bind();
 	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_TexCoords");
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Texture", 0);
-
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Texture", texture.getId());
 	glDrawArrays(GL_TRIANGLES, 0, m_VertexBuffer.getDataSize());
 }
 

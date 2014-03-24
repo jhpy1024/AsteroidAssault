@@ -2,8 +2,11 @@
 
 #include <SOIL.h>
 
+int Texture::ID = 0;
+
 Texture::Texture(const std::string& fileName)
 	: m_FileName(fileName)
+	, m_Id(ID)
 {
 	generateTexture();
 	bind();
@@ -14,6 +17,8 @@ Texture::Texture(const std::string& fileName)
 	auto textureData = loadTextureData();
 	createTexture(textureData);
 	SOIL_free_image_data(textureData);
+
+	++ID;
 }
 
 Texture::~Texture()
@@ -23,7 +28,7 @@ Texture::~Texture()
 
 void Texture::generateTexture()
 {
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + m_Id);
 	glGenTextures(1, &m_Texture);
 }
 
@@ -51,10 +56,15 @@ void Texture::createTexture(unsigned char* textureData)
 
 unsigned char* Texture::loadTextureData()
 {
-	return SOIL_load_image("Resources/Textures/TestTexture.png", &width, &height, 0, SOIL_LOAD_RGBA);
+	return SOIL_load_image(m_FileName.c_str(), &width, &height, 0, SOIL_LOAD_RGBA);
 }
 
 void Texture::bind()
 {
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
+}
+
+int Texture::getId() const
+{
+	return m_Id;
 }
