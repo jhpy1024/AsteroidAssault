@@ -1,8 +1,10 @@
 #include "Sprite.hpp"
 
-Sprite::Sprite(const std::string& textureFile)
-	: m_Texture(textureFile)
-	, m_TextureBounds(getDefaultTextureBounds())
+const int Sprite::SPRITESHEET_WIDTH = 1024;
+const int Sprite::SPRITESHEET_HEIGHT = 1024;
+
+Sprite::Sprite()
+	: m_TextureBounds(getDefaultTextureBounds())
 	, m_Size(getDefaultSize())
 {
 	
@@ -13,9 +15,9 @@ TextureBounds Sprite::getDefaultTextureBounds() const
 	TextureBounds texBounds;
 
 	texBounds.bottomLeft = glm::vec2(0.f, 0.f);
-	texBounds.bottomRight = glm::vec2(m_Texture.width, 0.f);
-	texBounds.topLeft = glm::vec2(0.f, m_Texture.height);
-	texBounds.topRight = glm::vec2(m_Texture.width, m_Texture.height);
+	texBounds.bottomRight = glm::vec2(SPRITESHEET_WIDTH, 0.f);
+	texBounds.topLeft = glm::vec2(0.f, SPRITESHEET_HEIGHT);
+	texBounds.topRight = glm::vec2(SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
 
 	return texBounds;
 }
@@ -28,11 +30,6 @@ glm::vec2 Sprite::getDefaultSize() const
 	size.y = m_TextureBounds.topRight.y - m_TextureBounds.bottomRight.y;
 
 	return size;
-}
-
-void Sprite::bindTexture()
-{
-	m_Texture.bind();
 }
 
 void Sprite::move(const glm::vec2& offset)
@@ -79,7 +76,7 @@ void Sprite::scale(const glm::vec2& scale)
 
 void Sprite::setScale(const glm::vec2& scale)
 {
-	auto originalSize = getTextureSize();
+	auto originalSize = getDefaultSize();
 	m_Size = originalSize * scale;
 	m_Transform.setScale(scale);
 }
@@ -100,11 +97,6 @@ void Sprite::setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& bott
 
 	m_Size.x = m_TextureBounds.bottomRight.x - m_TextureBounds.bottomLeft.x;
 	m_Size.y = m_TextureBounds.topRight.y - m_TextureBounds.bottomRight.y;
-}
-
-glm::vec2 Sprite::getTextureSize() const
-{
-	return glm::vec2(m_Texture.width, m_Texture.height);
 }
 
 TextureBounds Sprite::getTextureBounds() const

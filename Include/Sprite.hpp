@@ -10,7 +10,7 @@
 class Sprite
 {
 public:
-	Sprite(const std::string& textureFile);
+	Sprite();
 
 	void move(const glm::vec2& offset);
 	void setPosition(const glm::vec2& position);
@@ -35,16 +35,18 @@ public:
 	void setTextureBounds(const TextureBounds& textureBounds);
 	void setTextureBounds(const glm::vec2& bottomLeft, const glm::vec2& bottomRight, const glm::vec2& topLeft, const glm::vec2& topRight);
 	TextureBounds getTextureBounds() const;
-	glm::vec2 getTextureSize() const;
 
 	void bindTexture();
+
+public:
+	static const int SPRITESHEET_WIDTH;
+	static const int SPRITESHEET_HEIGHT;
 
 private:
 	TextureBounds getDefaultTextureBounds() const;
 	glm::vec2 getDefaultSize() const;
 
 private:
-	Texture m_Texture;
 	TextureBounds m_TextureBounds;
 
 	Transform m_Transform;

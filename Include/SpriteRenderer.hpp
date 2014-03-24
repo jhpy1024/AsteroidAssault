@@ -4,6 +4,7 @@
 #include "Buffer.hpp"
 #include "Sprite.hpp"
 #include "TextureBounds.hpp"
+#include "Texture.hpp"
 
 class SpriteRenderer
 {
@@ -11,7 +12,7 @@ public:
 	SpriteRenderer();
 
 	void init();
-	void render(std::vector<Sprite>& sprites);
+	void render(std::vector<Sprite>& sprites, Texture& texture);
 
 private:
 	void clearVectors();

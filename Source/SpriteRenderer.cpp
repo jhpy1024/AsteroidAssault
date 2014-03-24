@@ -12,17 +12,17 @@ void SpriteRenderer::init()
 	m_TexCoordBuffer.init();
 }
 
-void SpriteRenderer::render(std::vector<Sprite>& sprites)
+void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 {
 	clearVectors();
 
 	for (auto& sprite : sprites)
 	{
 		addVertices(sprite.getPosition(), sprite.getSize());
-		addTexCoords(sprite.getTextureBounds(), sprite.getTextureSize());
-
-		sprite.bindTexture();
+		addTexCoords(sprite.getTextureBounds(), glm::vec2(texture.width, texture.height));
 	}
+	
+	texture.bind();
 
 	passDataToBuffers();
 	
