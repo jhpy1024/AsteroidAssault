@@ -79,7 +79,7 @@ void update(Uint32 delta)
 
 void render()
 {
-	glClearColor(0.f, 0.f, 0.f, 1.f);
+	glClearColor(0.f, 1.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	for (std::size_t i = 0; i < sprites1.size(); ++i)
@@ -135,6 +135,9 @@ int main(int argc, char* argv[])
 	createWindow();
 	createGLContext();
 	initGlew();
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	ShaderManager::getInstance().addShader("Texture", "Resources/Shaders/texture.vert", "Resources/Shaders/texture.frag");
 
