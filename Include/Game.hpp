@@ -14,6 +14,10 @@ public:
 	void update(Uint32 delta);
 	void render();
 
+private:
+	void loadShaders();
+	void setupDefaultMatrices();
+
 public:
 	static int WIDTH;
 	static int HEIGHT;
