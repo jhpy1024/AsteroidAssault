@@ -3,37 +3,24 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
-#include <SOIL.h>
-
-#include <glm/gtc/matrix_transform.hpp>
-
-#include <iostream>
 #include <string>
+#include <iostream>
 #include <memory>
 
-#include "ShaderManager.hpp"
-#include "SpriteRenderer.hpp"
-#include "Sprite.hpp"
-#include "Texture.hpp"
+#include "Game.hpp"
 
 SDL_Window* window;
 SDL_GLContext glContext;
 
 bool isRunning = true;
 
+Uint32 oldElapsedTime;
+
 const std::string WINDOW_TITLE = "Asteroid Assault";
 const int WINDOW_WIDTH = 700;
 const int WINDOW_HEIGHT = 640;
 
-Uint32 oldElapsedTime;
-
-SpriteRenderer spriteRenderer;
-
-std::vector<Sprite> sprites1;
-std::vector<Sprite> sprites2;
-
-std::unique_ptr<Texture> texture1;
-std::unique_ptr<Texture> texture2;
+std::unique_ptr<Game> game;
 
 void initSDL()
 {
@@ -69,33 +56,22 @@ void handleInput()
 	{
 		if (event.type == SDL_QUIT)
 			isRunning = false;
+
+		game->handleEvent(event);
 	}
 }
 
 void update(Uint32 delta)
 {
-	
+	game->update(delta);
 }
 
 void render()
 {
-	glClearColor(0.f, 1.f, 0.f, 1.f);
+	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	for (std::size_t i = 0; i < sprites1.size(); ++i)
-	{
-		sprites1[i].move(glm::vec2(1.f, 0.5f));
-		sprites1[i].rotateDegs(1.f);
-	}
-
-	for (std::size_t i = 0; i < sprites2.size(); ++i)
-	{
-		sprites2[i].move(glm::vec2(1.f, 0.f));
-		sprites2[i].rotateDegs(-1.f);
-	}
-
-	spriteRenderer.render(sprites1, *texture1);
-	spriteRenderer.render(sprites2, *texture2);
+	game->render();
 
 	SDL_GL_SwapWindow(window);
 }
@@ -109,18 +85,6 @@ Uint32 calculateDelta()
 	return delta;
 }
 
-void gameLoop()
-{
-	while (isRunning)
-	{
-		auto delta = calculateDelta();
-
-		handleInput();
-		update(delta);
-		render();
-	}
-}
-
 void initGlew()
 {
 	auto initStatus = glewInit();
@@ -129,39 +93,31 @@ void initGlew()
 		std::cerr << "There was an error initializing GLEW:\n-> " << glewGetErrorString(initStatus) << std::endl;
 }
 
+void setupGL()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
 int main(int argc, char* argv[])
 {
 	initSDL();
 	createWindow();
 	createGLContext();
 	initGlew();
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	setupGL();
 	
-	ShaderManager::getInstance().addShader("Texture", "Resources/Shaders/texture.vert", "Resources/Shaders/texture.frag");
+	game = std::unique_ptr<Game>(new Game(WINDOW_WIDTH, WINDOW_HEIGHT));
+	game->init();
 
-	ShaderManager::getInstance().getShader("Texture")->bind();
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ProjectionMatrix", glm::ortho(0.f, (float)WINDOW_WIDTH, 0.f, (float)WINDOW_HEIGHT), GL_FALSE);
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ViewMatrix", glm::mat4(1.f));
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_ModelMatrix", glm::mat4(1.f));
+	while (isRunning)
+	{
+		auto delta = calculateDelta();
 
-	Sprite sprite1;
-	sprite1.setPosition(glm::vec2(10.f));
-	sprite1.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f));
-	sprites1.push_back(sprite1);
-
-	Sprite sprite2;
-	sprite2.setPosition(glm::vec2(300.f));
-	sprite2.setTextureBounds(glm::vec2(0.f), glm::vec2(64.f));
-	sprites2.push_back(sprite2);
-
-	spriteRenderer.init();
-
-	texture1 = std::unique_ptr<Texture>(new Texture("Resources/Textures/TestTexture.png"));
-	texture2 = std::unique_ptr<Texture>(new Texture("Resources/Textures/TestTexture2.png"));
-
-	gameLoop();
+		handleInput();
+		update(delta);
+		render();
+	}
 
 	SDL_Quit();
 	return 0;
