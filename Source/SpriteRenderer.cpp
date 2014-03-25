@@ -5,7 +5,7 @@
 
 SpriteRenderer::SpriteRenderer()
 {
-	
+	init();
 }
 
 void SpriteRenderer::init()

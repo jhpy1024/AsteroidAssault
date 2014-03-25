@@ -11,10 +11,10 @@ class SpriteRenderer
 public:
 	SpriteRenderer();
 
-	void init();
 	void render(std::vector<Sprite>& sprites, Texture& texture);
 
 private:
+	void init();
 	void clearVectors();
 	void addVertices(const glm::vec2& position, const glm::vec2& size, float rotationRads);
 	void addTexCoords(const TextureBounds& textureBounds, const glm::vec2& textureSize);
