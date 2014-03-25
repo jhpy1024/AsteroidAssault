@@ -3,6 +3,10 @@
 
 #include <SDL.h>
 
+#include "Player.hpp"
+#include "Texture.hpp"
+#include "SpriteRenderer.hpp"
+
 class Game
 {
 public:
@@ -21,6 +25,12 @@ private:
 public:
 	static int WIDTH;
 	static int HEIGHT;
+
+private:
+	Player m_Player;
+	Texture m_PlayerTexture;
+
+	SpriteRenderer m_SpriteRenderer;
 };
 
 #endif

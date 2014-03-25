@@ -14,6 +14,14 @@ void SpriteRenderer::init()
 	m_TexCoordBuffer.init();
 }
 
+void SpriteRenderer::render(Sprite& sprite, Texture& texture)
+{
+	std::vector<Sprite> sprites;
+	sprites.push_back(sprite);
+
+	render(sprites, texture);
+}
+
 void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 {
 	clearVectors();

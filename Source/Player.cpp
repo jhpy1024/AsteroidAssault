@@ -29,35 +29,35 @@ void Player::setTexCoords()
 
 	switch (m_ShipType)
 	{
-	case PlayerShipType::BluePointed:
+	case PlayerShipType::BlueRectangular:
 		textureBounds.bottomLeft = glm::vec2(0.f, 0.f);
 		textureBounds.size = glm::vec2(99.f, 75.f);
 		break;
-	case PlayerShipType::GreenPointed:
+	case PlayerShipType::GreenRectangular:
 		textureBounds.bottomLeft = glm::vec2(101.f, 0.f);
 		textureBounds.size = glm::vec2(99.f, 75.f);
 		break;
-	case PlayerShipType::OrangePointed:
+	case PlayerShipType::OrangeRectangular:
 		textureBounds.bottomLeft = glm::vec2(202.f, 0.f);
 		textureBounds.size = glm::vec2(99.f, 75.f);
 		break;
-	case PlayerShipType::RedPointed:
+	case PlayerShipType::RedRectangular:
 		textureBounds.bottomLeft = glm::vec2(302.f, 0.f);
 		textureBounds.size = glm::vec2(99.f, 75.f);
 		break;
-	case PlayerShipType::BlueRectangular:
+	case PlayerShipType::BluePointed:
 		textureBounds.bottomLeft = glm::vec2(0.f, 77.f);
 		textureBounds.size = glm::vec2(112.f, 75.f);
 		break;
-	case PlayerShipType::GreenRectangular:
+	case PlayerShipType::GreenPointed:
 		textureBounds.bottomLeft = glm::vec2(114.f, 77.f);
 		textureBounds.size = glm::vec2(112.f, 75.f);
 		break;
-	case PlayerShipType::OrangeRectangular:
+	case PlayerShipType::OrangePointed:
 		textureBounds.bottomLeft = glm::vec2(228.f, 77.f);
 		textureBounds.size = glm::vec2(112.f, 75.f);
 		break;
-	case PlayerShipType::RedRectangular:
+	case PlayerShipType::RedPointed:
 		textureBounds.bottomLeft = glm::vec2(342.f, 77.f);
 		textureBounds.size = glm::vec2(112.f, 75.f);
 		break;

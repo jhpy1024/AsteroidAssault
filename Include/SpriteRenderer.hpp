@@ -11,6 +11,7 @@ class SpriteRenderer
 public:
 	SpriteRenderer();
 
+	void render(Sprite& sprite, Texture& texture);
 	void render(std::vector<Sprite>& sprites, Texture& texture);
 
 private:

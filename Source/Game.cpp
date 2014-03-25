@@ -8,6 +8,8 @@ int Game::WIDTH;
 int Game::HEIGHT;
 
 Game::Game(int width, int height)
+	: m_Player(glm::vec2(width / 2.f, 100.f), PlayerShipType::RedPointed)
+	, m_PlayerTexture("Resources/Textures/PlayerSheet.png")
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -26,12 +28,12 @@ void Game::handleEvent(const SDL_Event& event)
 
 void Game::update(Uint32 delta)
 {
-
+	m_Player.update(delta);
 }
 
 void Game::render()
 {
-
+	m_SpriteRenderer.render(m_Player.getSprite(), m_PlayerTexture);
 }
 
 void Game::loadShaders()
