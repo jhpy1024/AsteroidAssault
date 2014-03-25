@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <iostream>
+
 int Game::WIDTH;
 int Game::HEIGHT;
 
@@ -23,7 +25,30 @@ void Game::init()
 
 void Game::handleEvent(const SDL_Event& event)
 {
+	switch (event.type)
+	{
+	case SDL_KEYDOWN:
+		handleKeyPress(event.key.keysym.sym);
+		break;
+	case SDL_KEYUP:
+		handleKeyRelease(event.key.keysym.sym);
+	default:
+		break;
+	}
+}
 
+void Game::handleKeyPress(SDL_Keycode key)
+{
+	if (key == SDLK_LEFT)
+		m_Player.moveLeft();
+	else if (key == SDLK_RIGHT)
+		m_Player.moveRight();
+}
+
+void Game::handleKeyRelease(SDL_Keycode key)
+{
+	if (key == SDLK_LEFT || key == SDLK_RIGHT)
+		m_Player.stopMoving();
 }
 
 void Game::update(Uint32 delta)

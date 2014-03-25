@@ -28,6 +28,11 @@ public:
 
 	Sprite& getSprite();
 
+	void moveLeft();
+	void moveRight();
+	void stopMoving();
+	void decelerate();
+
 private:
 	void init();
 	void setTexCoords();
@@ -39,7 +44,12 @@ private:
 	glm::vec2 m_StartPosition;
 	glm::vec2 m_Velocity;
 
+	const float SPEED;
+
+	bool m_Moving;
+
 	PlayerShipType m_ShipType;
+	
 };
 
 #endif

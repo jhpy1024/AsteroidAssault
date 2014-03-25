@@ -3,6 +3,8 @@
 Player::Player(const glm::vec2& startPosition, PlayerShipType shipType)
 	: m_StartPosition(startPosition)
 	, m_ShipType(shipType)
+	, m_Moving(false)
+	, SPEED(500.f / 1000.f)
 {
 	init();
 }
@@ -15,7 +17,32 @@ void Player::init()
 
 void Player::update(Uint32 delta)
 {
+	if (!m_Moving)
+		decelerate();
 
+	m_Sprite.move(m_Velocity * SPEED * static_cast<float>(delta));
+}
+
+void Player::moveLeft()
+{
+	m_Moving = true;
+	m_Velocity.x = -1.f;
+}
+
+void Player::moveRight()
+{
+	m_Moving = true;
+	m_Velocity.x = 1.f;
+}
+
+void Player::stopMoving()
+{
+	m_Moving = false;
+}
+
+void Player::decelerate()
+{
+	m_Velocity *= 0.95f;
 }
 
 void Player::setToStartPosition()

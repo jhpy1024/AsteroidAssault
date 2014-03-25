@@ -22,6 +22,9 @@ private:
 	void loadShaders();
 	void setupDefaultMatrices();
 
+	void handleKeyPress(SDL_Keycode key);
+	void handleKeyRelease(SDL_Keycode key);
+
 public:
 	static int WIDTH;
 	static int HEIGHT;
