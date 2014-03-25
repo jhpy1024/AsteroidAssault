@@ -20,6 +20,7 @@ public:
 
 private:
 	void loadShaders();
+	void loadTextures();
 	void setupDefaultMatrices();
 
 	void handleKeyPress(SDL_Keycode key);
@@ -31,7 +32,6 @@ public:
 
 private:
 	Player m_Player;
-	Texture m_PlayerTexture;
 
 	SpriteRenderer m_SpriteRenderer;
 };

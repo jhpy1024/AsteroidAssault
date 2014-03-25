@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "ShaderManager.hpp"
+#include "TextureManager.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -10,8 +11,7 @@ int Game::WIDTH;
 int Game::HEIGHT;
 
 Game::Game(int width, int height)
-	: m_Player(glm::vec2(width / 2.f, 100.f), PlayerShipType::RedPointed)
-	, m_PlayerTexture("Resources/Textures/PlayerSheet.png")
+	: m_Player(glm::vec2(width / 2.f, 100.f), PlayerShipType::GreenRectangular)
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -20,6 +20,7 @@ Game::Game(int width, int height)
 void Game::init()
 {
 	loadShaders();
+	loadTextures();
 	setupDefaultMatrices();
 }
 
@@ -58,7 +59,12 @@ void Game::update(Uint32 delta)
 
 void Game::render()
 {
-	m_SpriteRenderer.render(m_Player.getSprite(), m_PlayerTexture);
+	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
+}
+
+void Game::loadTextures()
+{
+	TextureManager::getInstance().addTexture("Player", "Resources/Textures/PlayerSheet.png");
 }
 
 void Game::loadShaders()
