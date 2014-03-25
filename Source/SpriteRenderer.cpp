@@ -25,7 +25,6 @@ void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 	}
 	
 	texture.bind();
-	glActiveTexture(GL_TEXTURE0 + texture.getId());
 
 	passDataToBuffers();
 	
