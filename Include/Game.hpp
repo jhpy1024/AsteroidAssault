@@ -5,6 +5,7 @@
 
 #include "Player.hpp"
 #include "Texture.hpp"
+#include "Sprite.hpp"
 #include "SpriteRenderer.hpp"
 
 class Game
@@ -21,6 +22,7 @@ public:
 private:
 	void loadShaders();
 	void loadTextures();
+	void setupSprites();
 	void setupDefaultMatrices();
 
 	void handleKeyPress(SDL_Keycode key);
@@ -32,6 +34,8 @@ public:
 
 private:
 	Player m_Player;
+	
+	Sprite m_Background;
 
 	SpriteRenderer m_SpriteRenderer;
 };

@@ -21,6 +21,7 @@ void Game::init()
 {
 	loadShaders();
 	loadTextures();
+	setupSprites();
 	setupDefaultMatrices();
 }
 
@@ -59,17 +60,27 @@ void Game::update(Uint32 delta)
 
 void Game::render()
 {
+	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 }
 
 void Game::loadTextures()
 {
-	TextureManager::getInstance().addTexture("Player", "Resources/Textures/PlayerSheet.png");
-}
+	auto& textureManager = TextureManager::getInstance();
+
+	textureManager.addTexture("Player", "Resources/Textures/PlayerSheet.png");
+	textureManager.addTexture("Background", "Resources/Textures/Background.png");
+} 
 
 void Game::loadShaders()
 {
 	ShaderManager::getInstance().addShader("Texture", "Resources/Shaders/texture.vert", "Resources/Shaders/texture.frag");
+}
+
+void Game::setupSprites()
+{
+	m_Background.setPosition(glm::vec2(WIDTH / 2.f, HEIGHT / 2.f));
+	m_Background.setTextureBounds(glm::vec2(0.f), glm::vec2(WIDTH, HEIGHT));
 }
 
 void Game::setupDefaultMatrices()
