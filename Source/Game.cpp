@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
+#include <algorithm>
 
 int Game::WIDTH;
 int Game::HEIGHT;
@@ -15,6 +16,9 @@ Game::Game(int width, int height)
 	, ASTEROID_CREATION_COUNT(5)
 	, ASTEROID_CREATION_DELAY(2000)
 	, m_LastTimeAsteroidsCreated(0)
+	, RIGHT_BOUND(width * 1.1f)
+	, LEFT_BOUND(-(RIGHT_BOUND - width))
+	, BOTTOM_BOUND(LEFT_BOUND)
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -61,6 +65,7 @@ void Game::update(Uint32 delta)
 	updatePlayer(delta);
 	updateAsteroids(delta);
 	createAsteroidsIfNeeded();
+	removeOutOfBoundAsteroids();
 }
 
 void Game::render()
@@ -69,7 +74,24 @@ void Game::render()
 
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
-	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));
+	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));	
+}
+
+void Game::removeOutOfBoundAsteroids()
+{
+	if (m_Asteroids.size() == 0) return;
+
+	auto itr = m_Asteroids.begin();
+	
+	while (itr != m_Asteroids.end())
+	{
+		auto position = itr->getSprite().getPosition();
+
+		if ((position.x <= LEFT_BOUND) || (position.x >= RIGHT_BOUND) || (position.y <= BOTTOM_BOUND))
+			itr = m_Asteroids.erase(itr);
+		else
+			++itr;
+	}
 }
 
 void Game::createAsteroidsIfNeeded()
@@ -129,8 +151,6 @@ void Game::setupSprites()
 {
 	m_Background.setPosition(glm::vec2(WIDTH / 2.f, HEIGHT / 2.f));
 	m_Background.setTextureBounds(glm::vec2(0.f), glm::vec2(WIDTH, HEIGHT));
-
-	createAsteroids();
 }
 
 void Game::setupDefaultMatrices()

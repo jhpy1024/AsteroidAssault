@@ -33,6 +33,7 @@ private:
 
 	void createAsteroidsIfNeeded();
 	void createAsteroids();
+	void removeOutOfBoundAsteroids();
 
 	void handleKeyPress(SDL_Keycode key);
 	void handleKeyRelease(SDL_Keycode key);
@@ -54,6 +55,10 @@ private:
 	const Uint32 ASTEROID_CREATION_COUNT;
 	const Uint32 ASTEROID_CREATION_DELAY;
 	Uint32 m_LastTimeAsteroidsCreated;
+
+	const float RIGHT_BOUND;
+	const float LEFT_BOUND;
+	const float BOTTOM_BOUND;
 };
 
 #endif

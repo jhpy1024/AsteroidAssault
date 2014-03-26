@@ -24,6 +24,8 @@ void SpriteRenderer::render(Sprite& sprite, Texture& texture)
 
 void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 {
+	if (sprites.empty()) return;
+
 	clearVectors();
 
 	for (auto& sprite : sprites)
