@@ -56,12 +56,20 @@ void Game::handleKeyRelease(SDL_Keycode key)
 void Game::update(Uint32 delta)
 {
 	m_Player.update(delta);
+
+	for (auto& asteroid : m_Asteroids)
+		asteroid.update(delta);
 }
 
 void Game::render()
 {
+	std::vector<Sprite> asteroidSprites;
+	for (auto& asteroid : m_Asteroids)
+		asteroidSprites.push_back(asteroid.getSprite());
+
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
+	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));
 }
 
 void Game::loadTextures()
@@ -70,6 +78,7 @@ void Game::loadTextures()
 
 	textureManager.addTexture("Player", "Resources/Textures/PlayerSheet.png");
 	textureManager.addTexture("Background", "Resources/Textures/Background.png");
+	textureManager.addTexture("Asteroid", "Resources/Textures/AsteroidSheet.png");
 } 
 
 void Game::loadShaders()
@@ -81,6 +90,9 @@ void Game::setupSprites()
 {
 	m_Background.setPosition(glm::vec2(WIDTH / 2.f, HEIGHT / 2.f));
 	m_Background.setTextureBounds(glm::vec2(0.f), glm::vec2(WIDTH, HEIGHT));
+
+	for (int i = 0; i < 5; ++i)
+		m_Asteroids.push_back(Asteroid());
 }
 
 void Game::setupDefaultMatrices()

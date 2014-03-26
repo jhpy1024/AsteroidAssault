@@ -6,6 +6,7 @@
 #include <SDL.h>
 
 #include "Sprite.hpp"
+#include "TextureBounds.hpp"
 
 namespace AsteroidType
 {
@@ -19,6 +20,7 @@ namespace AsteroidType
 		BrownMed2,
 		BrownSmall1,
 		BrownSmall2,
+		Last,
 	};
 }
 
@@ -29,6 +31,8 @@ public:
 
 	void update(Uint32 delta);
 
+	Sprite& getSprite();
+
 private:
 	AsteroidType::Type getRandomType() const;
 	glm::vec2 getRandomPosition() const;
@@ -37,6 +41,8 @@ private:
 	float getRandomSpeed() const;
 
 	void setupSprite();
+
+	TextureBounds getTextureBounds() const;
 
 private:
 	Sprite m_Sprite;

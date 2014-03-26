@@ -3,10 +3,13 @@
 
 #include <SDL.h>
 
+#include <vector>
+
 #include "Player.hpp"
 #include "Texture.hpp"
 #include "Sprite.hpp"
 #include "SpriteRenderer.hpp"
+#include "Asteroid.hpp"
 
 class Game
 {
@@ -34,9 +37,10 @@ public:
 
 private:
 	Player m_Player;
+
+	std::vector<Asteroid> m_Asteroids;
 	
 	Sprite m_Background;
-
 	SpriteRenderer m_SpriteRenderer;
 };
 
