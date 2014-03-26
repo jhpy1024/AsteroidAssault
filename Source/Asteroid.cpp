@@ -86,7 +86,7 @@ glm::vec2 Asteroid::getRandomPosition() const
 	glm::vec2 position;
 
 	position.x = Random::genFloat(0.f, Game::WIDTH);
-	position.y = Game::HEIGHT;
+	position.y = Game::HEIGHT * 1.2f;
 
 	return position;
 }
@@ -101,7 +101,7 @@ glm::vec2 Asteroid::getRandomVelocity() const
 
 float Asteroid::getRandomRotationSpeed() const
 {
-	return Random::genFloat(-10.f, 10.f) / 1000.f;
+	return Random::genFloat(-15.f, 15.f) / 1000.f;
 }
 
 float Asteroid::getRandomSpeed() const

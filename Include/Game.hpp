@@ -28,8 +28,16 @@ private:
 	void setupSprites();
 	void setupDefaultMatrices();
 
+	void updatePlayer(Uint32 delta);
+	void updateAsteroids(Uint32 delta);
+
+	void createAsteroidsIfNeeded();
+	void createAsteroids();
+
 	void handleKeyPress(SDL_Keycode key);
 	void handleKeyRelease(SDL_Keycode key);
+
+	std::vector<Sprite> getAsteroidSprites();
 
 public:
 	static int WIDTH;
@@ -42,6 +50,10 @@ private:
 	
 	Sprite m_Background;
 	SpriteRenderer m_SpriteRenderer;
+
+	const Uint32 ASTEROID_CREATION_COUNT;
+	const Uint32 ASTEROID_CREATION_DELAY;
+	Uint32 m_LastTimeAsteroidsCreated;
 };
 
 #endif

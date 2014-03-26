@@ -12,6 +12,9 @@ int Game::HEIGHT;
 
 Game::Game(int width, int height)
 	: m_Player(glm::vec2(width / 2.f, 100.f), PlayerShipType::GreenRectangular)
+	, ASTEROID_CREATION_COUNT(5)
+	, ASTEROID_CREATION_DELAY(2000)
+	, m_LastTimeAsteroidsCreated(0)
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -55,21 +58,57 @@ void Game::handleKeyRelease(SDL_Keycode key)
 
 void Game::update(Uint32 delta)
 {
-	m_Player.update(delta);
-
-	for (auto& asteroid : m_Asteroids)
-		asteroid.update(delta);
+	updatePlayer(delta);
+	updateAsteroids(delta);
+	createAsteroidsIfNeeded();
 }
 
 void Game::render()
 {
-	std::vector<Sprite> asteroidSprites;
-	for (auto& asteroid : m_Asteroids)
-		asteroidSprites.push_back(asteroid.getSprite());
+	auto asteroidSprites = getAsteroidSprites();	
 
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));
+}
+
+void Game::createAsteroidsIfNeeded()
+{
+	auto currentTime = SDL_GetTicks();
+	auto elapsedTime = currentTime - m_LastTimeAsteroidsCreated;
+
+	if (elapsedTime >= ASTEROID_CREATION_DELAY)
+	{
+		createAsteroids();
+		m_LastTimeAsteroidsCreated = currentTime;
+	}
+}
+
+void Game::createAsteroids()
+{
+	for (int i = 0; i < ASTEROID_CREATION_COUNT; ++i)
+		m_Asteroids.push_back(Asteroid());
+}
+
+void Game::updatePlayer(Uint32 delta)
+{
+	m_Player.update(delta);
+}
+
+void Game::updateAsteroids(Uint32 delta)
+{
+	for (auto& asteroid : m_Asteroids)
+		asteroid.update(delta);
+}
+
+std::vector<Sprite> Game::getAsteroidSprites()
+{
+	std::vector<Sprite> sprites;
+
+	for (auto& asteroid : m_Asteroids)
+		sprites.push_back(asteroid.getSprite());
+
+	return sprites;
 }
 
 void Game::loadTextures()
@@ -91,8 +130,7 @@ void Game::setupSprites()
 	m_Background.setPosition(glm::vec2(WIDTH / 2.f, HEIGHT / 2.f));
 	m_Background.setTextureBounds(glm::vec2(0.f), glm::vec2(WIDTH, HEIGHT));
 
-	for (int i = 0; i < 5; ++i)
-		m_Asteroids.push_back(Asteroid());
+	createAsteroids();
 }
 
 void Game::setupDefaultMatrices()
