@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 	
 	game = std::unique_ptr<Game>(new Game(WINDOW_WIDTH, WINDOW_HEIGHT));
 	game->init();
-
+		
 	while (isRunning)
 	{
 		auto delta = calculateDelta();
