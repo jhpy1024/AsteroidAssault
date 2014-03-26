@@ -50,6 +50,22 @@ TextureBounds Asteroid::getTextureBounds() const
 		textureBounds.bottomLeft = glm::vec2(316.f, 0.f);
 		textureBounds.size = glm::vec2(98.f, 96.f);
 		break;
+	case AsteroidType::GreyBig1:
+		textureBounds.bottomLeft = glm::vec2(0.f, 135.f);
+		textureBounds.size = glm::vec2(101.f, 84.f);
+		break;
+	case AsteroidType::GreyBig2:
+		textureBounds.bottomLeft = glm::vec2(103.f, 135.f);
+		textureBounds.size = glm::vec2(120.f, 98.f);
+		break;
+	case AsteroidType::GreyBig3:
+		textureBounds.bottomLeft = glm::vec2(225.f, 135.f);
+		textureBounds.size = glm::vec2(89.f, 82.f);
+		break;
+	case AsteroidType::GreyBig4:
+		textureBounds.bottomLeft = glm::vec2(316.f, 135.f);
+		textureBounds.size = glm::vec2(98.f, 96.f);
+		break;
 	case AsteroidType::BrownMed1:
 		textureBounds.bottomLeft = glm::vec2(416.f, 0.f);
 		textureBounds.size = glm::vec2(43.f, 43.f);
@@ -58,12 +74,28 @@ TextureBounds Asteroid::getTextureBounds() const
 		textureBounds.bottomLeft = glm::vec2(461.f, 0.f);
 		textureBounds.size = glm::vec2(45.f, 40.f);
 		break;
+	case AsteroidType::GreyMed1:
+		textureBounds.bottomLeft = glm::vec2(416.f, 135.f);
+		textureBounds.size = glm::vec2(43.f, 43.f);
+		break;
+	case AsteroidType::GreyMed2:
+		textureBounds.bottomLeft = glm::vec2(461.f, 135.f);
+		textureBounds.size = glm::vec2(45.f, 40.f);
+		break;
 	case AsteroidType::BrownSmall1:
 		textureBounds.bottomLeft = glm::vec2(508.f, 0.f);
 		textureBounds.size = glm::vec2(28.f, 28.f);
 		break;
 	case AsteroidType::BrownSmall2:
 		textureBounds.bottomLeft = glm::vec2(538.f, 0.f);
+		textureBounds.size = glm::vec2(29.f, 26.f);
+		break;
+	case AsteroidType::GreySmall1:
+		textureBounds.bottomLeft = glm::vec2(508.f, 135.f);
+		textureBounds.size = glm::vec2(28.f, 28.f);
+		break;
+	case AsteroidType::GreySmall2:
+		textureBounds.bottomLeft = glm::vec2(538.f, 135.f);
 		textureBounds.size = glm::vec2(29.f, 26.f);
 		break;
 	default:

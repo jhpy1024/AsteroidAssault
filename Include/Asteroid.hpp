@@ -16,10 +16,18 @@ namespace AsteroidType
 		BrownBig2,
 		BrownBig3,
 		BrownBig4,
+		GreyBig1,
+		GreyBig2,
+		GreyBig3,
+		GreyBig4,
 		BrownMed1,
 		BrownMed2,
+		GreyMed1,
+		GreyMed2,
 		BrownSmall1,
 		BrownSmall2,
+		GreySmall1,
+		GreySmall2,
 		Last,
 	};
 }
