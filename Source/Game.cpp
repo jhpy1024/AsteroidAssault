@@ -21,6 +21,7 @@ Game::Game(int width, int height)
 	, RIGHT_BOUND(width * 1.1f)
 	, LEFT_BOUND(-(RIGHT_BOUND - width))
 	, BOTTOM_BOUND(LEFT_BOUND)
+	, TOP_BOUND(height)
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -72,6 +73,7 @@ void Game::update(Uint32 delta)
 	updateLasers(delta);
 	createAsteroidsIfNeeded();
 	removeOutOfBoundAsteroids();
+	removeOutOfBoundLasers();
 }
 
 void Game::render()
@@ -85,15 +87,32 @@ void Game::render()
 	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
 }
 
+void Game::removeOutOfBoundLasers()
+{
+	if (m_Lasers.empty()) return;
+
+	auto itr = m_Lasers.begin();
+
+	while (itr != m_Lasers.end())
+	{
+		auto position = (*itr)->getSprite().getPosition();
+
+		if ((position.x <= LEFT_BOUND) || (position.x >= RIGHT_BOUND) || (position.y <= BOTTOM_BOUND) || (position.y >= TOP_BOUND))
+			itr = m_Lasers.erase(itr);
+		else
+			++itr;
+	}
+}
+
 void Game::removeOutOfBoundAsteroids()
 {
-	if (m_Asteroids.size() == 0) return;
+	if (m_Asteroids.empty()) return;
 
 	auto itr = m_Asteroids.begin();
 	
 	while (itr != m_Asteroids.end())
 	{
-		auto position = itr->getSprite().getPosition();
+		auto position = (*itr)->getSprite().getPosition();
 
 		if ((position.x <= LEFT_BOUND) || (position.x >= RIGHT_BOUND) || (position.y <= BOTTOM_BOUND))
 			itr = m_Asteroids.erase(itr);
@@ -117,7 +136,7 @@ void Game::createAsteroidsIfNeeded()
 void Game::createAsteroids()
 {
 	for (int i = 0; i < ASTEROID_CREATION_COUNT; ++i)
-		m_Asteroids.push_back(Asteroid());
+		m_Asteroids.push_back(std::make_shared<Asteroid>());
 }
 
 void Game::fireLaser()
@@ -127,7 +146,7 @@ void Game::fireLaser()
 		auto position = m_Player.getSprite().getPosition();
 		auto rotation = m_Player.getSprite().getRotationDegs();
 
-		m_Lasers.push_back(Laser(position, rotation, LaserType::Red));
+		m_Lasers.push_back(std::make_shared<Laser>(position, rotation, LaserType::Red));
 
 		m_LastTimeFiredLaser = SDL_GetTicks();
 	}
@@ -144,7 +163,7 @@ bool Game::isFireDelayOver() const
 void Game::updateLasers(Uint32 delta)
 {
 	for (auto& laser : m_Lasers)
-		laser.update(delta);
+		laser->update(delta);
 }
 
 void Game::updatePlayer(Uint32 delta)
@@ -155,7 +174,7 @@ void Game::updatePlayer(Uint32 delta)
 void Game::updateAsteroids(Uint32 delta)
 {
 	for (auto& asteroid : m_Asteroids)
-		asteroid.update(delta);
+		asteroid->update(delta);
 }
 
 std::vector<Sprite> Game::getLaserSprites()
@@ -163,7 +182,7 @@ std::vector<Sprite> Game::getLaserSprites()
 	std::vector<Sprite> sprites;
 
 	for (auto& laser : m_Lasers)
-		sprites.push_back(laser.getSprite());
+		sprites.push_back(laser->getSprite());
 
 	return sprites;
 }
@@ -173,7 +192,7 @@ std::vector<Sprite> Game::getAsteroidSprites()
 	std::vector<Sprite> sprites;
 
 	for (auto& asteroid : m_Asteroids)
-		sprites.push_back(asteroid.getSprite());
+		sprites.push_back(asteroid->getSprite());
 
 	return sprites;
 }

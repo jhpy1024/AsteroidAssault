@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 #include <vector>
+#include <memory>
 
 #include "Player.hpp"
 #include "Texture.hpp"
@@ -39,6 +40,7 @@ private:
 	void createAsteroidsIfNeeded();
 	void createAsteroids();
 	void removeOutOfBoundAsteroids();
+	void removeOutOfBoundLasers();
 
 	void handleKeyPress(SDL_Keycode key);
 	void handleKeyRelease(SDL_Keycode key);
@@ -53,8 +55,8 @@ public:
 private:
 	Player m_Player;
 
-	std::vector<Asteroid> m_Asteroids;
-	std::vector<Laser> m_Lasers;
+	std::vector<std::shared_ptr<Asteroid>> m_Asteroids;
+	std::vector<std::shared_ptr<Laser>> m_Lasers;
 	
 	Sprite m_Background;
 	SpriteRenderer m_SpriteRenderer;
@@ -69,6 +71,7 @@ private:
 	const float RIGHT_BOUND;
 	const float LEFT_BOUND;
 	const float BOTTOM_BOUND;
+	const float TOP_BOUND;
 };
 
 #endif
