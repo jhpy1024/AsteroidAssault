@@ -78,8 +78,8 @@ void Game::update(Uint32 delta)
 
 void Game::render()
 {
-	auto asteroidSprites = getAsteroidSprites();	
-	auto laserSprites = getLaserSprites();
+	auto asteroidSprites = getSpritesFromCollection(m_Asteroids);	
+	auto laserSprites = getSpritesFromCollection(m_Lasers);
 
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
@@ -175,26 +175,6 @@ void Game::updateAsteroids(Uint32 delta)
 {
 	for (auto& asteroid : m_Asteroids)
 		asteroid->update(delta);
-}
-
-std::vector<Sprite> Game::getLaserSprites()
-{
-	std::vector<Sprite> sprites;
-
-	for (auto& laser : m_Lasers)
-		sprites.push_back(laser->getSprite());
-
-	return sprites;
-}
-
-std::vector<Sprite> Game::getAsteroidSprites()
-{
-	std::vector<Sprite> sprites;
-
-	for (auto& asteroid : m_Asteroids)
-		sprites.push_back(asteroid->getSprite());
-
-	return sprites;
 }
 
 void Game::loadTextures()

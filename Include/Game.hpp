@@ -45,8 +45,16 @@ private:
 	void handleKeyPress(SDL_Keycode key);
 	void handleKeyRelease(SDL_Keycode key);
 
-	std::vector<Sprite> getAsteroidSprites();
-	std::vector<Sprite> getLaserSprites();
+	template <typename T>
+	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection)
+	{
+		std::vector<Sprite> sprites;
+
+		for (auto& element : collection)
+			sprites.push_back(element->getSprite());
+
+		return sprites;
+	}
 
 public:
 	static int WIDTH;
