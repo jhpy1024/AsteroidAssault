@@ -33,6 +33,7 @@ private:
 	void updateAsteroids(Uint32 delta);
 	void updateLasers(Uint32 delta);
 
+	bool isFireDelayOver() const;
 	void fireLaser();
 
 	void createAsteroidsIfNeeded();
@@ -61,6 +62,9 @@ private:
 	const Uint32 ASTEROID_CREATION_COUNT;
 	const Uint32 ASTEROID_CREATION_DELAY;
 	Uint32 m_LastTimeAsteroidsCreated;
+
+	Uint32 m_LastTimeFiredLaser;
+	const Uint32 LASER_FIRE_DELAY;
 
 	const float RIGHT_BOUND;
 	const float LEFT_BOUND;

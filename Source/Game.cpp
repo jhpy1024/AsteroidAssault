@@ -16,6 +16,8 @@ Game::Game(int width, int height)
 	, ASTEROID_CREATION_COUNT(5)
 	, ASTEROID_CREATION_DELAY(2000)
 	, m_LastTimeAsteroidsCreated(0)
+	, m_LastTimeFiredLaser(0)
+	, LASER_FIRE_DELAY(200)
 	, RIGHT_BOUND(width * 1.1f)
 	, LEFT_BOUND(-(RIGHT_BOUND - width))
 	, BOTTOM_BOUND(LEFT_BOUND)
@@ -120,10 +122,23 @@ void Game::createAsteroids()
 
 void Game::fireLaser()
 {
-	auto position = m_Player.getSprite().getPosition();
-	auto rotation = m_Player.getSprite().getRotationDegs();
+	if (isFireDelayOver())
+	{
+		auto position = m_Player.getSprite().getPosition();
+		auto rotation = m_Player.getSprite().getRotationDegs();
 
-	m_Lasers.push_back(Laser(position, rotation, LaserType::Red));
+		m_Lasers.push_back(Laser(position, rotation, LaserType::Red));
+
+		m_LastTimeFiredLaser = SDL_GetTicks();
+	}
+}
+
+bool Game::isFireDelayOver() const
+{
+	auto currentTime = SDL_GetTicks();
+	auto elapsedTime = currentTime - m_LastTimeFiredLaser;
+
+	return elapsedTime >= LASER_FIRE_DELAY;
 }
 
 void Game::updateLasers(Uint32 delta)
