@@ -10,6 +10,7 @@
 #include "Sprite.hpp"
 #include "SpriteRenderer.hpp"
 #include "Asteroid.hpp"
+#include "Laser.hpp"
 
 class Game
 {
@@ -30,6 +31,9 @@ private:
 
 	void updatePlayer(Uint32 delta);
 	void updateAsteroids(Uint32 delta);
+	void updateLasers(Uint32 delta);
+
+	void fireLaser();
 
 	void createAsteroidsIfNeeded();
 	void createAsteroids();
@@ -39,6 +43,7 @@ private:
 	void handleKeyRelease(SDL_Keycode key);
 
 	std::vector<Sprite> getAsteroidSprites();
+	std::vector<Sprite> getLaserSprites();
 
 public:
 	static int WIDTH;
@@ -48,6 +53,7 @@ private:
 	Player m_Player;
 
 	std::vector<Asteroid> m_Asteroids;
+	std::vector<Laser> m_Lasers;
 	
 	Sprite m_Background;
 	SpriteRenderer m_SpriteRenderer;

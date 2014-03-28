@@ -52,6 +52,9 @@ void Game::handleKeyPress(SDL_Keycode key)
 		m_Player.moveLeft();
 	else if (key == SDLK_RIGHT)
 		m_Player.moveRight();
+
+	if (key == SDLK_SPACE)
+		fireLaser();
 }
 
 void Game::handleKeyRelease(SDL_Keycode key)
@@ -64,6 +67,7 @@ void Game::update(Uint32 delta)
 {
 	updatePlayer(delta);
 	updateAsteroids(delta);
+	updateLasers(delta);
 	createAsteroidsIfNeeded();
 	removeOutOfBoundAsteroids();
 }
@@ -71,10 +75,12 @@ void Game::update(Uint32 delta)
 void Game::render()
 {
 	auto asteroidSprites = getAsteroidSprites();	
+	auto laserSprites = getLaserSprites();
 
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));	
+	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
 }
 
 void Game::removeOutOfBoundAsteroids()
@@ -112,6 +118,20 @@ void Game::createAsteroids()
 		m_Asteroids.push_back(Asteroid());
 }
 
+void Game::fireLaser()
+{
+	auto position = m_Player.getSprite().getPosition();
+	auto rotation = m_Player.getSprite().getRotationDegs();
+
+	m_Lasers.push_back(Laser(position, rotation, LaserType::Red));
+}
+
+void Game::updateLasers(Uint32 delta)
+{
+	for (auto& laser : m_Lasers)
+		laser.update(delta);
+}
+
 void Game::updatePlayer(Uint32 delta)
 {
 	m_Player.update(delta);
@@ -121,6 +141,16 @@ void Game::updateAsteroids(Uint32 delta)
 {
 	for (auto& asteroid : m_Asteroids)
 		asteroid.update(delta);
+}
+
+std::vector<Sprite> Game::getLaserSprites()
+{
+	std::vector<Sprite> sprites;
+
+	for (auto& laser : m_Lasers)
+		sprites.push_back(laser.getSprite());
+
+	return sprites;
 }
 
 std::vector<Sprite> Game::getAsteroidSprites()
@@ -140,6 +170,7 @@ void Game::loadTextures()
 	textureManager.addTexture("Player", "Resources/Textures/PlayerSheet.png");
 	textureManager.addTexture("Background", "Resources/Textures/Background.png");
 	textureManager.addTexture("Asteroid", "Resources/Textures/AsteroidSheet.png");
+	textureManager.addTexture("Laser", "Resources/Textures/LaserSheet.png");
 } 
 
 void Game::loadShaders()
