@@ -58,8 +58,3 @@ TextureBounds Laser::getTextureBounds() const
 
 	return textureBounds;
 }
-
-Sprite& Laser::getSprite()
-{
-	return m_Sprite;
-}

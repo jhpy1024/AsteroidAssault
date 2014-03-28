@@ -23,11 +23,6 @@ void Asteroid::setupSprite()
 	m_Sprite.setTextureBounds(getTextureBounds());
 }
 
-Sprite& Asteroid::getSprite()
-{
-	return m_Sprite;
-}
-
 TextureBounds Asteroid::getTextureBounds() const
 {
 	TextureBounds textureBounds;

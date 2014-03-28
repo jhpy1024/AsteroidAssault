@@ -5,7 +5,7 @@
 
 #include <SDL.h>
 
-#include "Sprite.hpp"
+#include "GameObject.hpp"
 #include "TextureBounds.hpp"
 
 namespace AsteroidType
@@ -32,14 +32,12 @@ namespace AsteroidType
 	};
 }
 
-class Asteroid
+class Asteroid : public GameObject
 {
 public:
 	Asteroid();
 
 	void update(Uint32 delta);
-
-	Sprite& getSprite();
 
 private:
 	AsteroidType::Type getRandomType() const;
@@ -53,8 +51,6 @@ private:
 	TextureBounds getTextureBounds() const;
 
 private:
-	Sprite m_Sprite;
-
 	glm::vec2 m_Velocity;
 	float m_RotationSpeed;
 	float m_Speed;

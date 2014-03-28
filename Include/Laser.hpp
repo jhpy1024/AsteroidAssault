@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 
-#include "Sprite.hpp"
+#include "GameObject.hpp"
 
 enum class LaserType
 {
@@ -14,14 +14,12 @@ enum class LaserType
 	Pink,
 };
 
-class Laser
+class Laser : public GameObject
 {
 public:
 	Laser(const glm::vec2& position, float angleDegs, LaserType type);
 
 	void update(Uint32 delta);
-
-	Sprite& getSprite();
 
 private:
 	void setVelocity();
@@ -29,8 +27,6 @@ private:
 	TextureBounds getTextureBounds() const;
 
 private:
-	Sprite m_Sprite;
-
 	glm::vec2 m_StartPosition;
 	glm::vec2 m_Velocity;
 	float m_Angle;

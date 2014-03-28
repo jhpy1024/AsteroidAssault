@@ -94,8 +94,3 @@ void Player::setTexCoords()
 
 	m_Sprite.setTextureBounds(textureBounds);
 }
-
-Sprite& Player::getSprite()
-{
-	return m_Sprite;
-}

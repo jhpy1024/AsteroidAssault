@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "Sprite.hpp"
+#include "GameObject.hpp"
 
 enum class PlayerShipType
 {
@@ -19,14 +20,12 @@ enum class PlayerShipType
 	RedRectangular,
 };
 
-class Player
+class Player : public GameObject
 {
 public:
 	Player(const glm::vec2& startPosition, PlayerShipType shipType);
 
 	void update(Uint32 delta);
-
-	Sprite& getSprite();
 
 	void moveLeft();
 	void moveRight();
@@ -39,8 +38,6 @@ private:
 	void setToStartPosition();
 
 private:
-	Sprite m_Sprite;
-
 	glm::vec2 m_StartPosition;
 	glm::vec2 m_Velocity;
 
