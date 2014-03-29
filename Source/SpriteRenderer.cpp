@@ -44,7 +44,7 @@ void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 	m_TexCoordBuffer.bind();
 	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_TexCoords");
 	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Texture", texture.getId());
-	glDrawArrays(GL_TRIANGLES, 0, m_VertexBuffer.getDataSize());
+	glDrawArrays(GL_TRIANGLES, 0, m_VertexBuffer.getDataSize() / 2);
 }
 
 void SpriteRenderer::passDataToBuffers()
