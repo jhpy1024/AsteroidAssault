@@ -23,17 +23,13 @@ bool Collision::rectangleVsRectangle(const Shape& shape1, const Shape& shape2)
 	auto rect1 = static_cast<const RectangleShape&>(shape1);
 	auto rect2 = static_cast<const RectangleShape&>(shape2);
 
-	auto rect1Top = rect1.position.y + rect1.height / 2.f;
-	auto rect1Bottom = rect1.position.y - rect1.height / 2.f;
-	auto rect1Left = rect1.position.x - rect1.width / 2.f;
-	auto rect1Right = rect1.position.x + rect1.width / 2.f;
+	if (std::abs(rect1.position.x - rect2.position.x) <= rect1.width / 2.f + rect2.width / 2.f)
+	{
+		if (std::abs(rect1.position.y - rect2.position.y) <= rect1.height / 2.f + rect2.height / 2.f)
+			return true;
+	}
 
-	auto rect2Top = rect2.position.y + rect2.height / 2.f;
-	auto rect2Bottom = rect2.position.y - rect2.height / 2.f;
-	auto rect2Left = rect2.position.x - rect2.width / 2.f;
-	auto rect2Right = rect2.position.x + rect2.width / 2.f;
-
-	return !((rect1Bottom < rect2Top) || (rect1Top > rect2Bottom) || (rect1Left > rect2Right) || (rect1Right < rect2Left));
+	return false;
 }
 
 bool Collision::circleVsCircle(const Shape& shape1, const Shape& shape2)

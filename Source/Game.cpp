@@ -5,6 +5,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "RectangleShape.hpp"
+#include "Collision.hpp"
+
 #include <iostream>
 #include <algorithm>
 
@@ -33,6 +36,14 @@ void Game::init()
 	loadTextures();
 	setupSprites();
 	setupDefaultMatrices();
+
+	RectangleShape r1, r2;
+	r1.width = r2.width = 100.f;
+	r1.height = r2.height = 10.f;
+	r1.position = glm::vec2(0.f, 0.f);
+	r2.position = glm::vec2(100.f, 0.f);
+
+	std::cout << Collision::isColliding(r1, r2) << std::endl;
 }
 
 void Game::handleEvent(const SDL_Event& event)
