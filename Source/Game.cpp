@@ -5,9 +5,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "RectangleShape.hpp"
-#include "Collision.hpp"
-
 #include <iostream>
 #include <algorithm>
 
@@ -21,6 +18,7 @@ Game::Game(int width, int height)
 	, m_LastTimeAsteroidsCreated(0)
 	, m_LastTimeFiredLaser(0)
 	, LASER_FIRE_DELAY(200)
+	, m_IsShooting(false)
 	, RIGHT_BOUND(width * 1.1f)
 	, LEFT_BOUND(-(RIGHT_BOUND - width))
 	, BOTTOM_BOUND(LEFT_BOUND)
@@ -36,14 +34,6 @@ void Game::init()
 	loadTextures();
 	setupSprites();
 	setupDefaultMatrices();
-
-	RectangleShape r1, r2;
-	r1.width = r2.width = 100.f;
-	r1.height = r2.height = 10.f;
-	r1.position = glm::vec2(0.f, 0.f);
-	r2.position = glm::vec2(100.f, 0.f);
-
-	std::cout << Collision::isColliding(r1, r2) << std::endl;
 }
 
 void Game::handleEvent(const SDL_Event& event)
@@ -68,13 +58,16 @@ void Game::handleKeyPress(SDL_Keycode key)
 		m_Player.moveRight();
 
 	if (key == SDLK_SPACE)
-		fireLaser();
+		m_IsShooting = true;
 }
 
 void Game::handleKeyRelease(SDL_Keycode key)
 {
 	if (key == SDLK_LEFT || key == SDLK_RIGHT)
 		m_Player.stopMoving();
+	
+	if (key == SDLK_SPACE)
+		m_IsShooting = false;
 }
 
 void Game::update(Uint32 delta)
@@ -82,6 +75,7 @@ void Game::update(Uint32 delta)
 	updatePlayer(delta);
 	updateAsteroids(delta);
 	updateLasers(delta);
+	fireLasersIfNeeded();
 	createAsteroidsIfNeeded();
 	removeOutOfBoundAsteroids();
 	removeOutOfBoundLasers();
@@ -96,6 +90,12 @@ void Game::render()
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));	
 	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
+}
+
+void Game::fireLasersIfNeeded()
+{
+	if (m_IsShooting)
+		fireLaser();
 }
 
 void Game::removeOutOfBoundLasers()

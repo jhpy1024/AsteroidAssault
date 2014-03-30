@@ -36,6 +36,7 @@ private:
 
 	bool isFireDelayOver() const;
 	void fireLaser();
+	void fireLasersIfNeeded();
 
 	void createAsteroidsIfNeeded();
 	void createAsteroids();
@@ -75,6 +76,7 @@ private:
 
 	Uint32 m_LastTimeFiredLaser;
 	const Uint32 LASER_FIRE_DELAY;
+	bool m_IsShooting;
 
 	const float RIGHT_BOUND;
 	const float LEFT_BOUND;
