@@ -28,4 +28,11 @@ bool Collision::circleVsCircle(const Shape& shape1, const Shape& shape2)
 {
 	auto circle1 = static_cast<const CircleShape&>(shape1);
 	auto circle2 = static_cast<const CircleShape&>(shape2);
+
+	auto pos1 = shape1.position;
+	auto pos2 = shape2.position;
+	auto distanceSquared = ((pos1.x + pos2.x) * (pos1.x + pos2.x)) * ((pos1.y + pos2.y) * (pos1.y + pos2.y));
+	auto sumRadiusSquared = (circle1.radius + circle2.radius) * (circle1.radius + circle2.radius);
+
+	return distanceSquared <= sumRadiusSquared;
 }

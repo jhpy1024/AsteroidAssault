@@ -1,6 +1,8 @@
 #ifndef SHAPE_HPP
 #define SHAPE_HPP
 
+#include <glm/glm.hpp>
+
 enum class ShapeType
 {
 	Circle,
@@ -11,6 +13,8 @@ class Shape
 {
 public:
 	ShapeType getType() const;
+
+	glm::vec2 position;
 
 protected:
 	Shape(ShapeType type);
