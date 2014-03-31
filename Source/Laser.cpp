@@ -6,6 +6,7 @@ Laser::Laser(const glm::vec2& position, float angleDegs, LaserType type)
 	, m_Angle(angleDegs)
 	, m_Type(type)
 	, SPEED(Game::HEIGHT / 1000.f)
+	, m_ShouldRemove(false)
 {
 	setVelocity();
 	setupSprite();
@@ -21,6 +22,16 @@ void Laser::update(Uint32 delta)
 {
 	m_Sprite.move(m_Velocity * SPEED * static_cast<float>(delta));
 	m_Rectangle.position = m_Sprite.getPosition();
+}
+
+bool Laser::shouldRemove()
+{
+	return m_ShouldRemove;
+}
+
+void Laser::flagForRemoval()
+{
+	m_ShouldRemove = true;
 }
 
 void Laser::setVelocity()

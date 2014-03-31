@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "ShaderManager.hpp"
 #include "TextureManager.hpp"
+#include "Collision.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -77,8 +78,28 @@ void Game::update(Uint32 delta)
 	updateLasers(delta);
 	fireLasersIfNeeded();
 	createAsteroidsIfNeeded();
-	removeOutOfBoundAsteroids();
-	removeOutOfBoundLasers();
+	checkCollisions();
+	
+	removeLasers();
+	removeAsteroids();
+}
+
+
+void Game::checkCollisions()
+{
+	checkLaserAsteroidCollisions();
+}
+
+void Game::checkLaserAsteroidCollisions()
+{
+	for (auto& asteroid : m_Asteroids)
+	{
+		for (auto& laser : m_Lasers)
+		{
+			if (Collision::isColliding(laser->getShape(), asteroid->getShape()))
+				laser->flagForRemoval();
+		}
+	}
 }
 
 void Game::render()
@@ -96,6 +117,32 @@ void Game::fireLasersIfNeeded()
 {
 	if (m_IsShooting)
 		fireLaser();
+}
+
+void Game::removeLasers()
+{
+	removeOutOfBoundLasers();
+	removeFlaggedLasers();
+}
+
+void Game::removeAsteroids()
+{
+	removeOutOfBoundAsteroids();
+}
+
+void Game::removeFlaggedLasers()
+{
+	if (m_Lasers.empty()) return;
+
+	auto itr = m_Lasers.begin();
+
+	while (itr != m_Lasers.end())
+	{
+		if ((*itr)->shouldRemove())
+			itr = m_Lasers.erase(itr);
+		else
+			++itr;
+	}
 }
 
 void Game::removeOutOfBoundLasers()

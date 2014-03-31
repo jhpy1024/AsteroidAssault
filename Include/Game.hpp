@@ -40,11 +40,19 @@ private:
 
 	void createAsteroidsIfNeeded();
 	void createAsteroids();
-	void removeOutOfBoundAsteroids();
+
+	void removeLasers();
 	void removeOutOfBoundLasers();
+	void removeFlaggedLasers();
+
+	void removeAsteroids();
+	void removeOutOfBoundAsteroids();
 
 	void handleKeyPress(SDL_Keycode key);
 	void handleKeyRelease(SDL_Keycode key);
+
+	void checkCollisions();
+	void checkLaserAsteroidCollisions();
 
 	template <typename T>
 	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection)
