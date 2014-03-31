@@ -7,6 +7,7 @@ class RectangleShape : public Shape
 {
 public:
 	RectangleShape();
+	RectangleShape(const glm::vec2& size);
 	RectangleShape(float width, float height);
 
 public:

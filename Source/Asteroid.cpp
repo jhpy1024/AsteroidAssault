@@ -9,6 +9,8 @@ Asteroid::Asteroid()
 	, m_Type(getRandomType())
 {
 	setupSprite();
+
+	m_Rectangle = RectangleShape(m_Sprite.getSize());
 }
 
 void Asteroid::update(Uint32 delta)

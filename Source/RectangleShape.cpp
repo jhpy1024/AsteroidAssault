@@ -8,6 +8,14 @@ RectangleShape::RectangleShape()
 
 }
 
+RectangleShape::RectangleShape(const glm::vec2& size)
+	: Shape(ShapeType::Rectangle)
+	, width(size.x)
+	, height(size.y)
+{
+	
+}
+
 RectangleShape::RectangleShape(float width, float height)
 	: Shape(ShapeType::Rectangle)
 	, width(width)
