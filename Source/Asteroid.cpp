@@ -9,7 +9,11 @@ Asteroid::Asteroid()
 	, m_Type(getRandomType())
 {
 	setupSprite();
+	setupShape();
+}
 
+void Asteroid::setupShape()
+{
 	m_Rectangle = RectangleShape(m_Sprite.getSize());
 }
 
@@ -17,6 +21,7 @@ void Asteroid::update(Uint32 delta)
 {
 	m_Sprite.move(m_Velocity * m_Speed * static_cast<float>(delta));
 	m_Sprite.rotateDegs(m_RotationSpeed * static_cast<float>(delta));
+	m_Rectangle.position = m_Sprite.getPosition();
 }
 
 void Asteroid::setupSprite()

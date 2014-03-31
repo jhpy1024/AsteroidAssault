@@ -24,6 +24,7 @@ public:
 private:
 	void setVelocity();
 	void setupSprite();
+	void setupShape();
 	TextureBounds getTextureBounds() const;
 
 private:

@@ -9,11 +9,18 @@ Laser::Laser(const glm::vec2& position, float angleDegs, LaserType type)
 {
 	setVelocity();
 	setupSprite();
+	setupShape();
+}
+
+void Laser::setupShape()
+{
+	m_Rectangle = RectangleShape(m_Sprite.getSize());
 }
 
 void Laser::update(Uint32 delta)
 {
 	m_Sprite.move(m_Velocity * SPEED * static_cast<float>(delta));
+	m_Rectangle.position = m_Sprite.getPosition();
 }
 
 void Laser::setVelocity()

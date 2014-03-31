@@ -47,6 +47,7 @@ private:
 	float getRandomSpeed() const;
 
 	void setupSprite();
+	void setupShape();
 
 	TextureBounds getTextureBounds() const;
 
