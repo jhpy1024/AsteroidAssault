@@ -21,9 +21,6 @@ public:
 
 	void update(Uint32 delta);
 
-	void flagForRemoval();
-	bool shouldRemove();
-
 private:
 	void setVelocity();
 	void setupSprite();
@@ -38,8 +35,6 @@ private:
 	const float SPEED;
 
 	LaserType m_Type;
-
-	bool m_ShouldRemove;
 };
 
 #endif

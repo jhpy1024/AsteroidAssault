@@ -39,9 +39,6 @@ public:
 
 	void update(Uint32 delta);
 
-	void flagForRemoval();
-	bool shouldRemove() const;
-
 	AsteroidType::Type getType() const;
 
 private:
@@ -62,8 +59,6 @@ private:
 	float m_Speed;
 
 	AsteroidType::Type m_Type;
-
-	bool m_ShouldRemove;
 };
 
 #endif
