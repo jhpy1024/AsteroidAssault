@@ -7,6 +7,7 @@ Asteroid::Asteroid()
 	, m_RotationSpeed(getRandomRotationSpeed())
 	, m_Speed(getRandomSpeed())
 	, m_Type(getRandomType())
+	, m_ShouldRemove(false)
 {
 	setupSprite();
 	setupShape();
@@ -28,6 +29,21 @@ void Asteroid::setupSprite()
 {
 	m_Sprite.setPosition(getRandomPosition());
 	m_Sprite.setTextureBounds(getTextureBounds());
+}
+
+void Asteroid::flagForRemoval()
+{
+	m_ShouldRemove = true;
+}
+
+bool Asteroid::shouldRemove() const
+{
+	return m_ShouldRemove;
+}
+
+AsteroidType::Type Asteroid::getType() const
+{
+	return m_Type;
 }
 
 TextureBounds Asteroid::getTextureBounds() const

@@ -47,6 +47,7 @@ private:
 
 	void removeAsteroids();
 	void removeOutOfBoundAsteroids();
+	void removeFlaggedAsteroids();
 
 	void handleKeyPress(SDL_Keycode key);
 	void handleKeyRelease(SDL_Keycode key);

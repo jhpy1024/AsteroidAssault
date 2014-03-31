@@ -39,6 +39,11 @@ public:
 
 	void update(Uint32 delta);
 
+	void flagForRemoval();
+	bool shouldRemove() const;
+
+	AsteroidType::Type getType() const;
+
 private:
 	AsteroidType::Type getRandomType() const;
 	glm::vec2 getRandomPosition() const;
@@ -57,6 +62,8 @@ private:
 	float m_Speed;
 
 	AsteroidType::Type m_Type;
+
+	bool m_ShouldRemove;
 };
 
 #endif

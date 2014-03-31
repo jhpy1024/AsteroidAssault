@@ -97,7 +97,10 @@ void Game::checkLaserAsteroidCollisions()
 		for (auto& laser : m_Lasers)
 		{
 			if (Collision::isColliding(laser->getShape(), asteroid->getShape()))
+			{
 				laser->flagForRemoval();
+				asteroid->flagForRemoval();
+			}
 		}
 	}
 }
@@ -128,6 +131,22 @@ void Game::removeLasers()
 void Game::removeAsteroids()
 {
 	removeOutOfBoundAsteroids();
+	removeFlaggedAsteroids();
+}
+
+void Game::removeFlaggedAsteroids()
+{
+	if (m_Asteroids.empty()) return;
+
+	auto itr = m_Asteroids.begin();
+
+	while (itr != m_Asteroids.end())
+	{
+		if ((*itr)->shouldRemove())
+			itr = m_Asteroids.erase(itr);
+		else
+			++itr;
+	}
 }
 
 void Game::removeFlaggedLasers()
