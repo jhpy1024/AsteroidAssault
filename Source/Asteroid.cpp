@@ -3,10 +3,22 @@
 #include "Game.hpp"
 
 Asteroid::Asteroid()
-	: m_Velocity(getRandomVelocity())
+	: m_StartPosition(getRandomPosition())
+	, m_Velocity(getRandomVelocity())
 	, m_RotationSpeed(getRandomRotationSpeed())
 	, m_Speed(getRandomSpeed())
 	, m_Type(getRandomType())
+{
+	setupSprite();
+	setupShape();
+}
+
+Asteroid::Asteroid(const glm::vec2& position, AsteroidType::Type type)
+	: m_StartPosition(position)
+	, m_Velocity(getRandomVelocity() * 2.f)
+	, m_RotationSpeed(getRandomRotationSpeed() * 2.f)
+	, m_Speed(getRandomSpeed() * 2.f)
+	, m_Type(type)
 {
 	setupSprite();
 	setupShape();
@@ -26,7 +38,7 @@ void Asteroid::update(Uint32 delta)
 
 void Asteroid::setupSprite()
 {
-	m_Sprite.setPosition(getRandomPosition());
+	m_Sprite.setPosition(m_StartPosition);
 	m_Sprite.setTextureBounds(getTextureBounds());
 }
 

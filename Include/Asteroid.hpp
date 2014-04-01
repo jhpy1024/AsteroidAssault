@@ -36,6 +36,7 @@ class Asteroid : public GameObject
 {
 public:
 	Asteroid();
+	Asteroid(const glm::vec2& position, AsteroidType::Type type);
 
 	void update(Uint32 delta);
 
@@ -54,6 +55,7 @@ private:
 	TextureBounds getTextureBounds() const;
 
 private:
+	glm::vec2 m_StartPosition;
 	glm::vec2 m_Velocity;
 	float m_RotationSpeed;
 	float m_Speed;
