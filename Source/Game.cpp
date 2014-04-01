@@ -64,8 +64,10 @@ void Game::handleKeyPress(SDL_Keycode key)
 
 void Game::handleKeyRelease(SDL_Keycode key)
 {
-	if (key == SDLK_LEFT || key == SDLK_RIGHT)
-		m_Player.stopMoving();
+	if (key == SDLK_LEFT)
+		m_Player.stopMovingLeft();
+	else if (key == SDLK_RIGHT)
+		m_Player.stopMovingRight();
 	
 	if (key == SDLK_SPACE)
 		m_IsShooting = false;

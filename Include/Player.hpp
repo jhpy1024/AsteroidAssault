@@ -29,7 +29,8 @@ public:
 
 	void moveLeft();
 	void moveRight();
-	void stopMoving();
+	void stopMovingLeft();
+	void stopMovingRight();
 	void decelerate();
 
 private:
@@ -43,7 +44,8 @@ private:
 
 	const float SPEED;
 
-	bool m_Moving;
+	bool m_MovingLeft;
+	bool m_MovingRight;
 
 	PlayerShipType m_ShipType;
 	
