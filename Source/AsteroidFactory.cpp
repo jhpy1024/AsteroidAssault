@@ -14,8 +14,9 @@ std::vector<std::shared_ptr<Asteroid>> AsteroidFactory::createSubAsteroids(Aster
 	auto position = asteroid.getSprite().getPosition();
 	auto type = asteroid.getType();
 	auto subType = getSubType(type);
-
-	createAsteroids(subAsteroids, position, subType);
+	
+	if (subType != AsteroidType::Last)
+		createAsteroids(subAsteroids, position, subType);
 
 	return subAsteroids;
 }
@@ -63,13 +64,8 @@ AsteroidType::Type AsteroidFactory::getSubType(AsteroidType::Type type)
 	case AsteroidType::GreyMed2:
 		subType = getRandomSmallGrey();
 		break;
-	case AsteroidType::BrownSmall1:
-	case AsteroidType::BrownSmall2:
-	case AsteroidType::GreySmall1:
-	case AsteroidType::GreySmall2:
-		subType = AsteroidType::Last;
-		break;
 	default:
+		subType = AsteroidType::Last;
 		break;
 	}
 

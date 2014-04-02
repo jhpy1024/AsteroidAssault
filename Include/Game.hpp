@@ -56,10 +56,6 @@ private:
 	void checkCollisions();
 	void checkLaserAsteroidCollisions();
 
-	// TODO
-	// ========================================================
-	// Move the implementation of this function to an .inl file
-	// ========================================================
 	template <typename T>
 	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection);
 
