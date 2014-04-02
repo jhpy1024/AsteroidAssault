@@ -61,15 +61,7 @@ private:
 	// Move the implementation of this function to an .inl file
 	// ========================================================
 	template <typename T>
-	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection)
-	{
-		std::vector<Sprite> sprites;
-
-		for (auto& element : collection)
-			sprites.push_back(element->getSprite());
-
-		return sprites;
-	}
+	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection);
 
 public:
 	static int WIDTH;
@@ -99,5 +91,7 @@ private:
 
 	std::vector<std::shared_ptr<Asteroid>> m_AsteroidsToAdd;
 };
+
+#include "Game.inl"
 
 #endif
