@@ -2,6 +2,11 @@
 
 std::unique_ptr<ShaderManager> ShaderManager::m_Instance;
 
+
+// TODO
+// =================================
+// Make this constructor "= default"
+// =================================
 ShaderManager::ShaderManager()
 {
 
