@@ -2,6 +2,10 @@
 #include "Random.hpp"
 #include "Game.hpp"
 
+const float Asteroid::SUB_ASTEROID_SPEED_FACTOR = 2.5f;
+const float Asteroid::SUB_ASTEROID_VELOCITY_FACTOR = 2.f;
+const float Asteroid::SUB_ASTEROID_ROTATION_SPEED_FACTOR = 8.f;
+
 Asteroid::Asteroid()
 	: m_StartPosition(getRandomPosition())
 	, m_Velocity(getRandomVelocity())
@@ -15,9 +19,9 @@ Asteroid::Asteroid()
 
 Asteroid::Asteroid(const glm::vec2& position, AsteroidType::Type type)
 	: m_StartPosition(position)
-	, m_Velocity(getRandomVelocity() * 2.f)
-	, m_RotationSpeed(getRandomRotationSpeed() * 2.f)
-	, m_Speed(getRandomSpeed() * 2.f)
+	, m_Velocity(getRandomVelocity() * SUB_ASTEROID_VELOCITY_FACTOR)
+	, m_RotationSpeed(getRandomRotationSpeed() * SUB_ASTEROID_ROTATION_SPEED_FACTOR)
+	, m_Speed(getRandomSpeed() * SUB_ASTEROID_SPEED_FACTOR)
 	, m_Type(type)
 {
 	setupSprite();

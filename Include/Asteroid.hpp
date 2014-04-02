@@ -61,6 +61,11 @@ private:
 	float m_Speed;
 
 	AsteroidType::Type m_Type;
+
+	static const float SUB_ASTEROID_SPEED_FACTOR;
+	static const float SUB_ASTEROID_VELOCITY_FACTOR;
+	static const float SUB_ASTEROID_ROTATION_SPEED_FACTOR;
+
 };
 
 #endif
