@@ -45,6 +45,7 @@ private:
 	void removeOutOfBoundLasers();
 	void removeFlaggedLasers();
 
+	void addNewAsteroids();
 	void removeAsteroids();
 	void removeOutOfBoundAsteroids();
 	void removeFlaggedAsteroids();
@@ -55,6 +56,10 @@ private:
 	void checkCollisions();
 	void checkLaserAsteroidCollisions();
 
+	// TODO
+	// ========================================================
+	// Move the implementation of this function to an .inl file
+	// ========================================================
 	template <typename T>
 	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection)
 	{
@@ -91,6 +96,8 @@ private:
 	const float LEFT_BOUND;
 	const float BOTTOM_BOUND;
 	const float TOP_BOUND;
+
+	std::vector<std::shared_ptr<Asteroid>> m_AsteroidsToAdd;
 };
 
 #endif

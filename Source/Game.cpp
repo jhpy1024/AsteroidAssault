@@ -2,6 +2,7 @@
 #include "ShaderManager.hpp"
 #include "TextureManager.hpp"
 #include "Collision.hpp"
+#include "AsteroidFactory.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -84,8 +85,15 @@ void Game::update(Uint32 delta)
 	
 	removeLasers();
 	removeAsteroids();
+	addNewAsteroids();
 }
 
+void Game::addNewAsteroids()
+{
+	if (m_AsteroidsToAdd.empty()) return;
+	m_Asteroids.insert(m_Asteroids.end(), m_AsteroidsToAdd.begin(), m_AsteroidsToAdd.end());
+	m_AsteroidsToAdd.clear();
+}
 
 void Game::checkCollisions()
 {
@@ -101,6 +109,11 @@ void Game::checkLaserAsteroidCollisions()
 			if (Collision::isColliding(laser->getShape(), asteroid->getShape()))
 			{
 				laser->flagForRemoval();
+
+				auto subAsteroids = AsteroidFactory::createSubAsteroids(*asteroid);
+				for (auto& newAsteroid : subAsteroids)
+					m_AsteroidsToAdd.push_back(newAsteroid);
+
 				asteroid->flagForRemoval();
 			}
 		}
