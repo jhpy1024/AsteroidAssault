@@ -35,10 +35,14 @@ void Game::init()
 {
 	loadShaders();
 	loadTextures();
+	loadAudio();
 	setupSprites();
 	setupDefaultMatrices();
+}
 
-	AudioManager::getInstance().loadSound("laser", "Resources/Sounds/laser.aiff");
+void Game::loadAudio()
+{
+	AudioManager::getInstance().loadSound("laser", "Resources/Sounds/laser.wav");
 }
 
 void Game::handleEvent(const SDL_Event& event)

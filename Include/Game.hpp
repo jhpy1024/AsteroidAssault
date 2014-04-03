@@ -27,6 +27,7 @@ public:
 private:
 	void loadShaders();
 	void loadTextures();
+	void loadAudio();
 	void setupSprites();
 	void setupDefaultMatrices();
 
