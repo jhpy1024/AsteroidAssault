@@ -16,10 +16,10 @@ public:
 	static AudioManager& getInstance();
 
 	void loadSound(const std::string& id, const std::string& fileName);
-	void playSound(const std::string& id);
+	void playSound(const std::string& id, int loops = 0);
 
 	void loadMusic(const std::string& id, const std::string& fileName);
-	void playMusic(const std::string& id);
+	void playMusic(const std::string& id, int loops = 0);
 
 private:
 	AudioManager();

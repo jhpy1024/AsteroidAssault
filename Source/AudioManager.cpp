@@ -61,22 +61,14 @@ void AudioManager::freeAllMusic()
 	m_Music.clear();
 }
 
-// TODO
-// ===================
-// Allow looping sound
-// ===================
-void AudioManager::playSound(const std::string& id)
+void AudioManager::playSound(const std::string& id, int loops)
 {
-	Mix_PlayChannel(-1, m_Sounds[id], 0);
+	Mix_PlayChannel(-1, m_Sounds[id], loops);
 }
 
-// TODO
-// ===================
-// Allow looping music
-// ===================
-void AudioManager::playMusic(const std::string& id)
+void AudioManager::playMusic(const std::string& id, int loops)
 {
-	Mix_PlayMusic(m_Music[id], 0);
+	Mix_PlayMusic(m_Music[id], loops);
 }
 
 AudioManager& AudioManager::getInstance()
