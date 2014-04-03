@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cassert>
 
+std::unique_ptr<AudioManager> AudioManager::m_Instance;
+
 AudioManager::AudioManager()
 {
 	// TODO
@@ -15,32 +17,48 @@ AudioManager::AudioManager()
 		std::cerr << "SDL_mixer failed to initialize:\n" << Mix_GetError() << std::endl;
 }
 
+AudioManager::~AudioManager()
+{
+	freeAllSounds();
+	freeAllMusic();
+}
+
 void AudioManager::loadSound(const std::string& id, const std::string& fileName)
 {
-	auto sound = std::unique_ptr<Mix_Chunk, decltype(freeSound)>(Mix_LoadWAV(fileName.c_str()), &AudioManager::freeSound);
+	auto sound = Mix_LoadWAV(fileName.c_str());
 
 	assert(sound != nullptr);
 	 
-	m_Sounds[id] = std::move(sound);
+	m_Sounds[id] = sound;
 }
 
 void AudioManager::loadMusic(const std::string& id, const std::string& fileName)
 {
-	auto music = std::unique_ptr<Mix_Music, decltype(freeMusic)>(Mix_LoadMUS(fileName.c_str()), &AudioManager::freeMusic);
+	auto music = Mix_LoadMUS(fileName.c_str());
 
 	assert(music != nullptr);
 
-	m_Music[id] = std::move(music);
+	m_Music[id] = music;
 }
 
-void AudioManager::freeSound(Mix_Chunk* chunk)
+void AudioManager::freeAllSounds()
 {
-	Mix_FreeChunk(chunk);
+	for (auto& pair : m_Sounds)
+	{
+		Mix_FreeChunk(pair.second);
+	}
+
+	m_Sounds.clear();
 }
 
-void AudioManager::freeMusic(Mix_Music* music)
+void AudioManager::freeAllMusic()
 {
-	Mix_FreeMusic(music);
+	for (auto& pair : m_Music)
+	{
+		Mix_FreeMusic(pair.second);
+	}
+
+	m_Music.clear();
 }
 
 // TODO
@@ -49,7 +67,7 @@ void AudioManager::freeMusic(Mix_Music* music)
 // ===================
 void AudioManager::playSound(const std::string& id)
 {
-	Mix_PlayChannel(-1, m_Sounds[id].get(), 0);
+	Mix_PlayChannel(-1, m_Sounds[id], 0);
 }
 
 // TODO
@@ -58,7 +76,7 @@ void AudioManager::playSound(const std::string& id)
 // ===================
 void AudioManager::playMusic(const std::string& id)
 {
-	Mix_PlayMusic(m_Music[id].get(), 0);
+	Mix_PlayMusic(m_Music[id], 0);
 }
 
 AudioManager& AudioManager::getInstance()

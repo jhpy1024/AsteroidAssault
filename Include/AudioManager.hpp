@@ -5,11 +5,14 @@
 #include <map>
 #include <string>
 
+#include <SDL.h>
 #include <SDL_mixer.h>
 
 class AudioManager
 {
 public:
+	~AudioManager();
+
 	static AudioManager& getInstance();
 
 	void loadSound(const std::string& id, const std::string& fileName);
@@ -21,14 +24,14 @@ public:
 private:
 	AudioManager();
 
-	void freeSound(Mix_Chunk* chunk);
-	void freeMusic(Mix_Music* music);
+	void freeAllSounds();
+	void freeAllMusic();
 
 private:
 	static std::unique_ptr<AudioManager> m_Instance;
 
-	std::map<std::string, std::unique_ptr<Mix_Chunk, decltype(freeSound)>> m_Sounds;
-	std::map<std::string, std::unique_ptr<Mix_Music, decltype(freeMusic)>> m_Music;
+	std::map<std::string, Mix_Chunk*> m_Sounds;
+	std::map<std::string, Mix_Music*> m_Music;
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include "TextureManager.hpp"
 #include "Collision.hpp"
 #include "AsteroidFactory.hpp"
+#include "AudioManager.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -36,6 +37,8 @@ void Game::init()
 	loadTextures();
 	setupSprites();
 	setupDefaultMatrices();
+
+	AudioManager::getInstance().loadSound("laser", "Resources/Sounds/laser.aiff");
 }
 
 void Game::handleEvent(const SDL_Event& event)
@@ -239,6 +242,8 @@ void Game::fireLaser()
 		auto rotation = m_Player.getSprite().getRotationDegs();
 
 		m_Lasers.push_back(std::make_shared<Laser>(position, rotation, LaserType::Red));
+
+		AudioManager::getInstance().playSound("laser");
 
 		m_LastTimeFiredLaser = SDL_GetTicks();
 	}
