@@ -42,7 +42,8 @@ void Game::init()
 
 void Game::loadAudio()
 {
-	AudioManager::getInstance().loadSound("laser", "Resources/Sounds/laser.wav");
+	AudioManager::getInstance().loadSound("Laser", "Resources/Sounds/laser.wav");
+	AudioManager::getInstance().loadSound("Explosion", "Resources/Sounds/explosion.wav");
 }
 
 void Game::handleEvent(const SDL_Event& event)
@@ -122,6 +123,7 @@ void Game::checkLaserAsteroidCollisions()
 					m_AsteroidsToAdd.push_back(newAsteroid);
 
 				asteroid->flagForRemoval();
+				AudioManager::getInstance().playSound("Explosion");
 			}
 		}
 	}
@@ -247,7 +249,7 @@ void Game::fireLaser()
 
 		m_Lasers.push_back(std::make_shared<Laser>(position, rotation, LaserType::Red));
 
-		AudioManager::getInstance().playSound("laser");
+		AudioManager::getInstance().playSound("Laser");
 
 		m_LastTimeFiredLaser = SDL_GetTicks();
 	}
