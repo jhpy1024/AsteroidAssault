@@ -6,13 +6,15 @@
 #include <vector>
 
 #include "Particle.hpp"
+#include "Texture.hpp"
+#include "TextureBounds.hpp"
 
 class ParticleSystem
 {
+	friend class ParticleRenderer;
+
 public:
 	virtual void update(Uint32 delta);
-
-	void render();
 
 protected:
 	virtual Particle genParticle() = 0;
@@ -20,6 +22,9 @@ protected:
 	
 protected:
 	std::vector<Particle> m_Particles;
+
+	Texture m_Texture;
+	TextureBounds m_TextureBounds;
 };
 
 #endif
