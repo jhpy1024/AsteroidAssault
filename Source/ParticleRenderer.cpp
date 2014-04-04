@@ -1,6 +1,12 @@
 #include "ParticleRenderer.hpp"
 #include "ShaderManager.hpp"
 
+void ParticleRenderer::init()
+{
+	m_VertexBuffer.init();
+	m_TexCoordBuffer.init();
+}
+
 void ParticleRenderer::render(ParticleSystem& particleSystem)
 {
 	auto& particles = particleSystem.m_Particles;

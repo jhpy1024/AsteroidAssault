@@ -12,6 +12,8 @@
 #include "SpriteRenderer.hpp"
 #include "Asteroid.hpp"
 #include "Laser.hpp"
+#include "ParticleRenderer.hpp"
+#include "TestParticleSystem.hpp"
 
 class Game
 {
@@ -72,6 +74,9 @@ private:
 	
 	Sprite m_Background;
 	SpriteRenderer m_SpriteRenderer;
+
+	ParticleRenderer m_ParticleRenderer;
+	TestParticleSystem m_TestParticleSystem;
 
 	const Uint32 ASTEROID_CREATION_COUNT;
 	const Uint32 ASTEROID_CREATION_DELAY;

@@ -94,6 +94,8 @@ void Game::update(Uint32 delta)
 	removeLasers();
 	removeAsteroids();
 	addNewAsteroids();
+
+	m_TestParticleSystem.update(delta);
 }
 
 void Game::addNewAsteroids()
@@ -138,6 +140,8 @@ void Game::render()
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));	
 	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
+
+	m_ParticleRenderer.render(m_TestParticleSystem);
 }
 
 void Game::fireLasersIfNeeded()
@@ -288,6 +292,7 @@ void Game::loadTextures()
 	textureManager.addTexture("Background", "Resources/Textures/Background.png");
 	textureManager.addTexture("Asteroid", "Resources/Textures/AsteroidSheet.png");
 	textureManager.addTexture("Laser", "Resources/Textures/LaserSheet.png");
+	textureManager.addTexture("Particle", "Resources/Textures/Particle.png");
 } 
 
 void Game::loadShaders()
