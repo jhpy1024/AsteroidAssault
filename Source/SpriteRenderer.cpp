@@ -44,13 +44,13 @@ void SpriteRenderer::render(std::vector<Sprite>& sprites, Texture& texture)
 	m_TexCoordBuffer.bind();
 	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_TexCoords");
 	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Texture", texture.getId());
-	glDrawArrays(GL_TRIANGLES, 0, m_VertexBuffer.getDataSize() / 2);
+	glDrawArrays(GL_TRIANGLES, 0, m_VertexBuffer.getNumVertices());
 }
 
 void SpriteRenderer::passDataToBuffers()
 {
-	m_VertexBuffer.setData(m_Vertices);
-	m_TexCoordBuffer.setData(m_TexCoords);
+	m_VertexBuffer.setVertices(m_Vertices);
+	m_TexCoordBuffer.setVertices(m_TexCoords);
 }
 
 void SpriteRenderer::addTexCoords(const TextureBounds& textureBounds, const glm::vec2& textureSize)

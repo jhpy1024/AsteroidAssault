@@ -12,8 +12,8 @@ public:
 	Buffer();
 	~Buffer();
 
-	void setData(const std::vector<float>& data);
-	int getDataSize() const;
+	void setVertices(const std::vector<float>& vertices);
+	int getNumVertices() const;
 
 	void init();
 	void bind();
@@ -21,7 +21,7 @@ public:
 private:
 	GLuint m_Buffer;
 
-	int m_DataSize;
+	int m_NumVertices;
 };
 
 #endif

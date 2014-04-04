@@ -20,16 +20,16 @@ void Buffer::bind()
 	glBindBuffer(GL_ARRAY_BUFFER, m_Buffer);
 }
 
-void Buffer::setData(const std::vector<float>& data)
+void Buffer::setVertices(const std::vector<float>& vertices)
 {
 	bind();
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * data.size(), &data[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
-	m_DataSize = data.size();
+	m_NumVertices = vertices.size() / 2;
 }
 
-int Buffer::getDataSize() const
+int Buffer::getNumVertices() const
 {
-	return m_DataSize;
+	return m_NumVertices;
 }
