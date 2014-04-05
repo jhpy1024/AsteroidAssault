@@ -3,11 +3,13 @@
 #include "Game.hpp"
 #include "TextureManager.hpp"
 
+#include <iostream>
+
 TestParticleSystem::TestParticleSystem()
-	: m_LastTimeGenerated(0)
-	, m_EmissionDelay(50)
+	: ParticleSystem("Particle")
+	, m_LastTimeGenerated(0)
+	, m_EmissionDelay(0)
 {
-	m_Texture = TextureManager::getInstance().getTexture("Particle");
 	m_TextureBounds.bottomLeft = glm::vec2(0.f);
 	m_TextureBounds.size = glm::vec2(5.f);
 }
@@ -15,7 +17,10 @@ TestParticleSystem::TestParticleSystem()
 void TestParticleSystem::update(Uint32 delta)
 {
 	if (SDL_GetTicks() - m_LastTimeGenerated >= m_EmissionDelay)
-		genParticle();
+	{
+		for (int i = 0; i < 5; ++i)
+			m_Particles.push_back(genParticle());
+	}
 
 	for (auto& particle : m_Particles)
 		particle.update(delta);
@@ -23,13 +28,14 @@ void TestParticleSystem::update(Uint32 delta)
 
 Particle TestParticleSystem::genParticle()
 {
+	std::cout << "Number of particles = " << m_Particles.size() << std::endl;
 	auto position = glm::vec2(Random::genFloat(0.f, Game::WIDTH), Random::genFloat(0.f, Game::HEIGHT));
-	auto velX = glm::sin(Random::genFloat(0.f, 3.14159f));
-	auto velY = glm::cos(Random::genFloat(0.f, 3.14159f));
+	auto velX = glm::sin(Random::genFloat(0.f, 2.f * 3.14159f));
+	auto velY = glm::cos(Random::genFloat(0.f, 2.f * 3.14159f));
 	auto velocity = glm::vec2(velX, velY);
 	auto lifetime = Random::genInt(100, 500);
 
 	m_LastTimeGenerated = SDL_GetTicks();
 
-	return Particle(position, velocity, lifetime);
+	return Particle(glm::vec2(Game::WIDTH / 2.f, Game::HEIGHT / 2.f), velocity, lifetime);
 }

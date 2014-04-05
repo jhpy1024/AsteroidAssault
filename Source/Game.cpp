@@ -38,6 +38,9 @@ void Game::init()
 	loadAudio();
 	setupSprites();
 	setupDefaultMatrices();
+
+	m_TestParticleSystem = std::unique_ptr<TestParticleSystem>(new TestParticleSystem);
+	m_ParticleRenderer.init();
 }
 
 void Game::loadAudio()
@@ -95,7 +98,7 @@ void Game::update(Uint32 delta)
 	removeAsteroids();
 	addNewAsteroids();
 
-	m_TestParticleSystem.update(delta);
+	m_TestParticleSystem->update(delta);
 }
 
 void Game::addNewAsteroids()
@@ -141,7 +144,7 @@ void Game::render()
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));	
 	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
 
-	m_ParticleRenderer.render(m_TestParticleSystem);
+	m_ParticleRenderer.render(*m_TestParticleSystem);
 }
 
 void Game::fireLasersIfNeeded()

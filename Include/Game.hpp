@@ -76,7 +76,7 @@ private:
 	SpriteRenderer m_SpriteRenderer;
 
 	ParticleRenderer m_ParticleRenderer;
-	TestParticleSystem m_TestParticleSystem;
+	std::unique_ptr<TestParticleSystem> m_TestParticleSystem;
 
 	const Uint32 ASTEROID_CREATION_COUNT;
 	const Uint32 ASTEROID_CREATION_DELAY;

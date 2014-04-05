@@ -1,6 +1,8 @@
 #include "ParticleRenderer.hpp"
 #include "ShaderManager.hpp"
 
+#include <iostream>
+
 void ParticleRenderer::init()
 {
 	m_VertexBuffer.init();
