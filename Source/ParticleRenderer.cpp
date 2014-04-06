@@ -7,6 +7,7 @@ void ParticleRenderer::init()
 {
 	m_VertexBuffer.init();
 	m_TexCoordBuffer.init();
+	m_ColorBuffer.init();
 }
 
 void ParticleRenderer::render(ParticleSystem& particleSystem)
@@ -25,18 +26,26 @@ void ParticleRenderer::render(ParticleSystem& particleSystem)
 	{
 		addVertices(particle.position, textureSize, particle.getRotationRads());
 		addTexCoords(textureBounds, textureSize);
+		addColors(particle);
 	}
 
 	texture.bind();
 
 	passDataToBuffers();
 
+	auto particleShader = ShaderManager::getInstance().getShader("Particle");
+
 	m_VertexBuffer.bind();
-	ShaderManager::getInstance().getShader("Texture")->bind();
-	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_Position");
+	particleShader->bind();
+	particleShader->setupVertexAttribPointer("in_Position");
+
 	m_TexCoordBuffer.bind();
-	ShaderManager::getInstance().getShader("Texture")->setupVertexAttribPointer("in_TexCoords");
-	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Texture", texture.getId());
+	particleShader->setupVertexAttribPointer("in_TexCoords");
+	particleShader->setUniform("in_Texture", texture.getId());
+
+	m_ColorBuffer.bind();
+	particleShader->setupVertexAttribPointer("in_Color", 4);
+
 	glDrawArrays(GL_TRIANGLES, 0, m_VertexBuffer.getNumVertices());
 }
 
@@ -113,14 +122,27 @@ void ParticleRenderer::addTexCoords(const TextureBounds& textureBounds, const gl
 	m_TexCoords.push_back((textureSize.y - textureBounds.bottomLeft.y) / textureSize.y);
 }
 
+void ParticleRenderer::addColors(const Particle& particle)
+{
+	for (int i = 0; i < 6; ++i)
+	{
+		m_Colors.push_back(particle.color.x);
+		m_Colors.push_back(particle.color.y);
+		m_Colors.push_back(particle.color.z);
+		m_Colors.push_back(particle.color.w);
+	}
+}
+
 void ParticleRenderer::passDataToBuffers()
 {
 	m_VertexBuffer.setVertices(m_Vertices);
 	m_TexCoordBuffer.setVertices(m_TexCoords);
+	m_ColorBuffer.setColor(m_Colors);
 }
 
 void ParticleRenderer::clearVectors()
 {
 	m_Vertices.clear();
 	m_TexCoords.clear();
+	m_Colors.clear();
 }

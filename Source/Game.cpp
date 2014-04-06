@@ -303,6 +303,7 @@ void Game::loadTextures()
 void Game::loadShaders()
 {
 	ShaderManager::getInstance().addShader("Texture", "Resources/Shaders/texture.vert", "Resources/Shaders/texture.frag");
+	ShaderManager::getInstance().addShader("Particle", "Resources/Shaders/particle.vert", "Resources/Shaders/particle.frag");
 }
 
 void Game::setupSprites()
@@ -314,6 +315,7 @@ void Game::setupSprites()
 void Game::setupDefaultMatrices()
 {
 	auto textureShader = ShaderManager::getInstance().getShader("Texture");
+	auto particleShader = ShaderManager::getInstance().getShader("Particle");
 	auto projectionMatrix = glm::ortho(0.f, static_cast<float>(WIDTH), 0.f, static_cast<float>(HEIGHT));
 	auto viewMatrix = glm::mat4(1.f);
 	auto modelMatrix = glm::mat4(1.f);
@@ -322,4 +324,8 @@ void Game::setupDefaultMatrices()
 	textureShader->setUniform("in_ProjectionMatrix", projectionMatrix);
 	textureShader->setUniform("in_ViewMatrix", viewMatrix);
 	textureShader->setUniform("in_ModelMatrix", modelMatrix);
+	particleShader->bind();
+	particleShader->setUniform("in_ProjectionMatrix", projectionMatrix);
+	particleShader->setUniform("in_ViewMatrix", viewMatrix);
+	particleShader->setUniform("in_ModelMatrix", modelMatrix);
 }

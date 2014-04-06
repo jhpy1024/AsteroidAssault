@@ -29,6 +29,15 @@ void Buffer::setVertices(const std::vector<float>& vertices)
 	m_NumVertices = vertices.size() / 2;
 }
 
+void Buffer::setColor(const std::vector<float>& colors)
+{
+	bind();
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)* colors.size(), &colors[0], GL_STATIC_DRAW);
+
+	m_NumVertices = colors.size() / 4.f;
+}
+
 int Buffer::getNumVertices() const
 {
 	return m_NumVertices;

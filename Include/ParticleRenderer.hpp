@@ -17,15 +17,18 @@ private:
 
 	void addVertices(const glm::vec2& position, const glm::vec2& size, float rotationRads);
 	void addTexCoords(const TextureBounds& textureBounds, const glm::vec2& textureSize);
+	void addColors(const Particle& particle);
 
 	void passDataToBuffers();
 
 private:
 	Buffer m_VertexBuffer;
 	Buffer m_TexCoordBuffer;
+	Buffer m_ColorBuffer;
 
 	std::vector<float> m_Vertices;
 	std::vector<float> m_TexCoords;
+	std::vector<float> m_Colors;
 };
 
 #endif

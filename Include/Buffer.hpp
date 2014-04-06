@@ -13,6 +13,8 @@ public:
 	~Buffer();
 
 	void setVertices(const std::vector<float>& vertices);
+	void setColor(const std::vector<float>& colors);
+
 	int getNumVertices() const;
 
 	void init();

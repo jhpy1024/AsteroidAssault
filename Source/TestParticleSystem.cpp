@@ -27,7 +27,6 @@ void TestParticleSystem::update(Uint32 delta)
 
 Particle TestParticleSystem::genParticle()
 {
-	std::cout << "Number of particles = " << m_Particles.size() << std::endl;
 	auto position = glm::vec2(Random::genFloat(0.f, Game::WIDTH), Random::genFloat(0.f, Game::HEIGHT));
 	auto velX = glm::sin(Random::genFloat(0.f, 2.f * 3.14159f));
 	auto velY = glm::cos(Random::genFloat(0.f, 2.f * 3.14159f));
@@ -36,5 +35,8 @@ Particle TestParticleSystem::genParticle()
 
 	m_LastTimeGenerated = SDL_GetTicks();
 
-	return Particle(m_Position, velocity, lifetime);
+	Particle particle(m_Position, velocity, lifetime);
+	particle.color = glm::vec4(Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), 1.f);
+
+	return particle;
 }
