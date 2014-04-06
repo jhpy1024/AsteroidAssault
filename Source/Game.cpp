@@ -99,7 +99,7 @@ void Game::update(Uint32 delta)
 	removeAsteroids();
 	addNewAsteroids();
 
-	m_TestParticleSystem->setPosition(Mouse::getPosition());
+	m_TestParticleSystem->setPosition(m_Player.getSprite().getPosition());
 	m_TestParticleSystem->update(delta);
 }
 

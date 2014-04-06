@@ -50,5 +50,5 @@ bool Particle::isAlive() const
 	auto currentTime = SDL_GetTicks();
 	auto elapsedTime = currentTime - m_TimeCreated;
 
-	return elapsedTime <= m_Lifetime;
+	return elapsedTime >= m_Lifetime;
 }

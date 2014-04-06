@@ -26,6 +26,7 @@ public:
 protected:
 	virtual Particle genParticle() = 0;
 	void updateParticles(Uint32 delta);
+	void removeDeadParticles();
 	
 protected:
 	std::vector<Particle> m_Particles;

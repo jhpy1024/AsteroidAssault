@@ -16,14 +16,13 @@ TestParticleSystem::TestParticleSystem()
 
 void TestParticleSystem::update(Uint32 delta)
 {
+	ParticleSystem::update(delta);
+
 	if (SDL_GetTicks() - m_LastTimeGenerated >= m_EmissionDelay)
 	{
 		for (int i = 0; i < 5; ++i)
 			m_Particles.push_back(genParticle());
 	}
-
-	for (auto& particle : m_Particles)
-		particle.update(delta);
 }
 
 Particle TestParticleSystem::genParticle()
