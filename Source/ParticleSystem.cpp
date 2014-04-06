@@ -7,6 +7,16 @@ ParticleSystem::ParticleSystem(const std::string& textureId)
 
 }
 
+void ParticleSystem::move(const glm::vec2& offset)
+{
+	m_Position += offset;
+}
+
+void ParticleSystem::setPosition(const glm::vec2& position)
+{
+	m_Position = position;
+}
+
 void ParticleSystem::update(Uint32 delta)
 {
 	updateParticles(delta);

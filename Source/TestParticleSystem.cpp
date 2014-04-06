@@ -37,5 +37,5 @@ Particle TestParticleSystem::genParticle()
 
 	m_LastTimeGenerated = SDL_GetTicks();
 
-	return Particle(glm::vec2(Game::WIDTH / 2.f, Game::HEIGHT / 2.f), velocity, lifetime);
+	return Particle(m_Position, velocity, lifetime);
 }

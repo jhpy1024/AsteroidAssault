@@ -98,6 +98,10 @@ void Game::update(Uint32 delta)
 	removeAsteroids();
 	addNewAsteroids();
 
+	int mouseX, mouseY;
+	SDL_GetMouseState(&mouseX, &mouseY);
+
+	m_TestParticleSystem->setPosition({ mouseX, HEIGHT - mouseY });
 	m_TestParticleSystem->update(delta);
 }
 

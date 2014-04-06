@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 
+#include <glm/glm.hpp>
+
 #include <vector>
 
 #include "Particle.hpp"
@@ -18,6 +20,9 @@ public:
 
 	virtual void update(Uint32 delta);
 
+	void move(const glm::vec2& offset);
+	void setPosition(const glm::vec2& position);
+
 protected:
 	virtual Particle genParticle() = 0;
 	void updateParticles(Uint32 delta);
@@ -27,6 +32,8 @@ protected:
 
 	Texture& m_Texture;
 	TextureBounds m_TextureBounds;
+
+	glm::vec2 m_Position;
 };
 
 #endif
