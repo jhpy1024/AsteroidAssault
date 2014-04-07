@@ -41,6 +41,7 @@ void Game::init()
 	setupDefaultMatrices();
 
 	m_TestParticleSystem = std::unique_ptr<TestParticleSystem>(new TestParticleSystem);
+	m_TestParticleSystem->setEmissionCount(50);
 	m_ParticleRenderer.init();
 }
 
@@ -99,7 +100,6 @@ void Game::update(Uint32 delta)
 	removeAsteroids();
 	addNewAsteroids();
 
-	m_TestParticleSystem->setPosition(m_Player.getSprite().getPosition());
 	m_TestParticleSystem->update(delta);
 }
 
@@ -130,6 +130,10 @@ void Game::checkLaserAsteroidCollisions()
 					m_AsteroidsToAdd.push_back(newAsteroid);
 
 				asteroid->flagForRemoval();
+
+				m_TestParticleSystem->setPosition(asteroid->getSprite().getPosition());
+				m_TestParticleSystem->emitParticles();
+
 				AudioManager::getInstance().playSound("Explosion");
 			}
 		}

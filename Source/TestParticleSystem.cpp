@@ -9,20 +9,34 @@ TestParticleSystem::TestParticleSystem()
 	: ParticleSystem("Particle")
 	, m_LastTimeGenerated(0)
 	, m_EmissionDelay(0)
+	, m_EmissionCount(10)
 {
 	m_TextureBounds.bottomLeft = glm::vec2(0.f);
 	m_TextureBounds.size = glm::vec2(5.f);
+}
+
+void TestParticleSystem::setEmissionCount(int count)
+{
+	m_EmissionCount = count;
+}
+
+void TestParticleSystem::emitParticles()
+{
+	for (int i = 0; i < m_EmissionCount; ++i)
+	{
+		m_Particles.push_back(genParticle());
+	}
 }
 
 void TestParticleSystem::update(Uint32 delta)
 {
 	ParticleSystem::update(delta);
 
-	if (SDL_GetTicks() - m_LastTimeGenerated >= m_EmissionDelay)
+	/*if (SDL_GetTicks() - m_LastTimeGenerated >= m_EmissionDelay)
 	{
 		for (int i = 0; i < 5; ++i)
 			m_Particles.push_back(genParticle());
-	}
+	}*/
 }
 
 Particle TestParticleSystem::genParticle()
