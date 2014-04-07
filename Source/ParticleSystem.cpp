@@ -5,8 +5,20 @@
 
 ParticleSystem::ParticleSystem(const std::string& textureId)
 	: m_Texture(TextureManager::getInstance().getTexture(textureId))
+	, m_EmissionCount(10)
 {
 
+}
+
+void ParticleSystem::setEmissionCount(int count)
+{
+	m_EmissionCount = count;
+}
+
+void ParticleSystem::emitParticles()
+{
+	for (int i = 0; i < m_EmissionCount; ++i)
+		m_Particles.push_back(genParticle());
 }
 
 void ParticleSystem::move(const glm::vec2& offset)

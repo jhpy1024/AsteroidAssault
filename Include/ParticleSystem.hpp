@@ -23,6 +23,9 @@ public:
 	void move(const glm::vec2& offset);
 	void setPosition(const glm::vec2& position);
 
+	void emitParticles();
+	void setEmissionCount(int count);
+
 protected:
 	virtual Particle genParticle() = 0;
 	void updateParticles(Uint32 delta);
@@ -35,6 +38,8 @@ protected:
 	TextureBounds m_TextureBounds;
 
 	glm::vec2 m_Position;
+
+	int m_EmissionCount;
 };
 
 #endif
