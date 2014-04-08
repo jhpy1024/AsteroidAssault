@@ -67,6 +67,8 @@ void Game::handleEvent(const SDL_Event& event)
 
 void Game::handleKeyPress(SDL_Keycode key)
 {
+	std::cout << "Key pressed: " << key << std::endl;
+
 	if (key == SDLK_LEFT)
 		m_Player.moveLeft();
 	else if (key == SDLK_RIGHT)
