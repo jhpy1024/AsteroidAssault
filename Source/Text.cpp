@@ -1,10 +1,14 @@
 #include "Text.hpp"
 
-Text::Text(const std::string& string, const glm::vec2& position, const glm::vec4& color, bool wordWrapEnabled)
+const int Text::DEFAULT_WIDTH = 10;
+const int Text::DEFAULT_HEIGHT = 10;
+
+Text::Text(const std::string& string, const glm::vec2& position, const glm::vec4& color, const glm::vec2& characterSize, bool wordWrapEnabled)
 	: m_String(string)
 	, m_Position(position)
 	, m_Color(color)
 	, m_WordWrapEnabled(wordWrapEnabled)
+	, m_CharacterSize(characterSize)
 {
 
 }
@@ -52,4 +56,14 @@ void Text::setColor(const glm::vec4& color)
 glm::vec4 Text::getColor() const
 {
 	return m_Color;
+}
+
+void Text::setCharacterSize(const glm::vec2& size)
+{
+	m_CharacterSize = size;
+}
+
+glm::vec2 Text::getCharacterSize() const
+{
+	return m_CharacterSize;
 }
