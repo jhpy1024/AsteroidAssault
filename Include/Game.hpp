@@ -14,6 +14,8 @@
 #include "Laser.hpp"
 #include "ParticleRenderer.hpp"
 #include "TestParticleSystem.hpp"
+#include "TextRenderer.hpp"
+#include "Text.hpp"
 
 class Game
 {
@@ -92,6 +94,9 @@ private:
 	const float TOP_BOUND;
 
 	std::vector<std::shared_ptr<Asteroid>> m_AsteroidsToAdd;
+
+	Text m_TestText;
+	TextRenderer m_TextRenderer;
 };
 
 #include "Game.inl"

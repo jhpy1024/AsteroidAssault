@@ -15,6 +15,7 @@ public:
 		 bool wordWrapEnabled = false);
 
 	void setString(const std::string& string);
+	std::string getString() const;
 	std::size_t getStringLength() const;
 
 	void enableWordWrap();
@@ -30,6 +31,13 @@ public:
 	void setCharacterSize(const glm::vec2& size);
 	glm::vec2 getCharacterSize() const;
 
+	void rotateRads(float rotation);
+	void rotateDegs(float rotation);
+	void setRotationRads(float rotation);
+	void setRotationDegs(float rotation);
+	float getRotationRads() const;
+	float getRotationDegs() const;
+
 public:
 	static const int DEFAULT_WIDTH;
 	static const int DEFAULT_HEIGHT;
@@ -40,6 +48,8 @@ private:
 	glm::vec2 m_Position;
 	glm::vec2 m_CharacterSize;
 	glm::vec4 m_Color;
+
+	float m_Rotation;
 
 	bool m_WordWrapEnabled;
 	int m_WrapLimit;

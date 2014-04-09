@@ -7,6 +7,7 @@ Text::Text(const std::string& string, const glm::vec2& position, const glm::vec4
 	: m_String(string)
 	, m_Position(position)
 	, m_Color(color)
+	, m_Rotation(0.f)
 	, m_WordWrapEnabled(wordWrapEnabled)
 	, m_CharacterSize(characterSize)
 {
@@ -16,6 +17,11 @@ Text::Text(const std::string& string, const glm::vec2& position, const glm::vec4
 void Text::setString(const std::string& string)
 {
 	m_String = string;
+}
+
+std::string Text::getString() const
+{
+	return m_String;
 }
 
 std::size_t Text::getStringLength() const
@@ -66,4 +72,34 @@ void Text::setCharacterSize(const glm::vec2& size)
 glm::vec2 Text::getCharacterSize() const
 {
 	return m_CharacterSize;
+}
+
+void Text::rotateRads(float rotation)
+{
+	m_Rotation += glm::degrees(rotation);
+}
+
+void Text::rotateDegs(float rotation)
+{
+	m_Rotation += rotation;
+}
+
+void Text::setRotationRads(float rotation)
+{
+	m_Rotation = glm::degrees(rotation);
+}
+
+void Text::setRotationDegs(float rotation)
+{
+	m_Rotation = rotation;
+}
+
+float Text::getRotationRads() const
+{
+	return glm::radians(m_Rotation);
+}
+
+float Text::getRotationDegs() const
+{
+	return m_Rotation;
 }

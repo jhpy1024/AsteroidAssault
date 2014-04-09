@@ -5,6 +5,7 @@
 #include "Collision.hpp"
 #include "AsteroidFactory.hpp"
 #include "AudioManager.hpp"
+#include "Random.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -27,6 +28,7 @@ Game::Game(int width, int height)
 	, LEFT_BOUND(-(RIGHT_BOUND - width))
 	, BOTTOM_BOUND(LEFT_BOUND)
 	, TOP_BOUND(height)
+	, m_TestText("Pretty awesome, huh?", { width / 2.f, height / 2.f }, { 0.f, 1.f, 0.f, 1.f })
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -43,6 +45,8 @@ void Game::init()
 	m_TestParticleSystem = std::unique_ptr<TestParticleSystem>(new TestParticleSystem);
 	m_TestParticleSystem->setEmissionCount(50);
 	m_ParticleRenderer.init();
+
+	m_TextRenderer.init();
 }
 
 void Game::loadAudio()
@@ -76,6 +80,17 @@ void Game::handleKeyPress(SDL_Keycode key)
 
 	if (key == SDLK_SPACE)
 		m_IsShooting = true;
+
+	if (key == SDLK_t)
+	{
+		m_TestText.setCharacterSize({ 10.f, 10.f });
+		m_TestText.setPosition({ WIDTH / 2.f, HEIGHT / 2.f });
+	}
+	else if (key == SDLK_u)
+	{
+		m_TestText.setCharacterSize({ 20.f, 20.f });
+		m_TestText.setPosition({ WIDTH / 2.f - 250.f, HEIGHT / 2.f });
+	}
 }
 
 void Game::handleKeyRelease(SDL_Keycode key)
@@ -103,6 +118,8 @@ void Game::update(Uint32 delta)
 	addNewAsteroids();
 
 	m_TestParticleSystem->update(delta);
+
+	m_TestText.setColor({ Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f) ,1.f });
 }
 
 void Game::addNewAsteroids()
@@ -153,6 +170,8 @@ void Game::render()
 	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
 
 	m_ParticleRenderer.render(*m_TestParticleSystem);
+
+	m_TextRenderer.render(m_TestText, TextureManager::getInstance().getTexture("TextSheet"));
 }
 
 void Game::fireLasersIfNeeded()
@@ -304,6 +323,7 @@ void Game::loadTextures()
 	textureManager.addTexture("Asteroid", "Resources/Textures/AsteroidSheet.png");
 	textureManager.addTexture("Laser", "Resources/Textures/LaserSheet.png");
 	textureManager.addTexture("Particle", "Resources/Textures/Particle.png");
+	textureManager.addTexture("TextSheet", "Resources/Textures/TextSheet.png");
 } 
 
 void Game::loadShaders()
