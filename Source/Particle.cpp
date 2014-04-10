@@ -1,5 +1,7 @@
 #include "Particle.hpp"
 
+#include <iostream>
+
 Particle::Particle(const glm::vec2& position, const glm::vec2& velocity, Uint32 lifetime, const glm::vec4& color)
 	: position(position)
 	, velocity(velocity)
@@ -12,7 +14,19 @@ Particle::Particle(const glm::vec2& position, const glm::vec2& velocity, Uint32 
 
 void Particle::update(Uint32 delta)
 {
+	updatePosition(delta);
+	updateAlpha();
+}
+
+void Particle::updatePosition(Uint32 delta)
+{
 	position += velocity * static_cast<float>(delta);
+}
+
+void Particle::updateAlpha()
+{
+	if (color.w > 0.f)
+		color.w -= 1.f / m_Lifetime;
 }
 
 void Particle::rotateRads(float rotation)

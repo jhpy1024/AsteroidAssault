@@ -25,6 +25,10 @@ struct Particle
 	float getRotationDegs() const;
 
 private:
+	void updatePosition(Uint32 delta);
+	void updateAlpha();
+
+private:
 	Uint32 m_Lifetime;
 	Uint32 m_TimeCreated;
 	
