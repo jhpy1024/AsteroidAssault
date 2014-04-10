@@ -42,17 +42,17 @@ void TextRenderer::render(std::vector<Text>& texts, Texture& texture)
 			auto texBoundX = (charIndex % numCharsHorizontal) * Text::DEFAULT_WIDTH;
 			auto texBoundY = (charIndex / numCharsVertical) * Text::DEFAULT_HEIGHT;
 
-			if (i % text.getWordWrapLimit() == 0)
+			if (text.isWordWrapEnabled() && (i % text.getWordWrapLimit() == 0))
 			{
 				xOffset = -(charSize.x * i);
-				yOffset -= charSize.y;
+				yOffset -= (charSize.y + text.getVerticalPadding());
 			}
 			
 			TextureBounds texBounds;
 			texBounds.bottomLeft = { texBoundX, texBoundY };
 			texBounds.size = { Text::DEFAULT_WIDTH, Text::DEFAULT_HEIGHT };
 
-			addVertices({ text.getPosition().x + (charSize.x * i) + xOffset, text.getPosition().y + yOffset }, charSize, text.getRotationRads());
+			addVertices({ text.getPosition().x + (charSize.x * i) + (text.getHorizontalPadding() * i) + xOffset, text.getPosition().y + yOffset }, charSize, text.getRotationRads());
 			addTexCoords(texBounds, textureSize);
 			addColors(text);
 		}

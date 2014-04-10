@@ -40,6 +40,12 @@ public:
 	float getRotationRads() const;
 	float getRotationDegs() const;
 
+	void setVerticalPadding(float padding);
+	void setHorizontalPadding(float padding);
+	void setPadding(const glm::vec2& padding);
+	float getVerticalPadding() const;
+	float getHorizontalPadding() const;
+
 public:
 	static const int DEFAULT_WIDTH;
 	static const int DEFAULT_HEIGHT;
@@ -55,6 +61,9 @@ private:
 
 	bool m_WordWrapEnabled;
 	int m_WrapLimit;
+
+	float m_VerticalPadding;
+	float m_HorizontalPadding;
 };
 
 #endif

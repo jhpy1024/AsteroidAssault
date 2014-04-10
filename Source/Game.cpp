@@ -47,8 +47,7 @@ void Game::init()
 	m_ParticleRenderer.init();
 
 	m_TextRenderer.init();
-	m_TestText.enableWordWrap();
-	m_TestText.setWordWrapLimit(3);
+	m_TestText.setPadding({ 3.f, 3.f });
 }
 
 void Game::loadAudio()

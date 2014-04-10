@@ -11,6 +11,8 @@ Text::Text(const std::string& string, const glm::vec2& position, const glm::vec4
 	, m_WordWrapEnabled(wordWrapEnabled)
 	, m_CharacterSize(characterSize)
 	, m_WrapLimit(0)
+	, m_VerticalPadding(0.f)
+	, m_HorizontalPadding(0.f)
 {
 
 }
@@ -113,4 +115,30 @@ float Text::getRotationRads() const
 float Text::getRotationDegs() const
 {
 	return m_Rotation;
+}
+
+void Text::setVerticalPadding(float padding)
+{
+	m_VerticalPadding = padding;
+}
+
+void Text::setHorizontalPadding(float padding)
+{
+	m_HorizontalPadding = padding;
+}
+
+void Text::setPadding(const glm::vec2& padding)
+{
+	m_HorizontalPadding = padding.x;
+	m_VerticalPadding = padding.y;
+}
+
+float Text::getHorizontalPadding() const
+{
+	return m_HorizontalPadding;
+}
+
+float Text::getVerticalPadding() const
+{
+	return m_VerticalPadding;
 }
