@@ -3,14 +3,14 @@
 const int Text::DEFAULT_WIDTH = 10;
 const int Text::DEFAULT_HEIGHT = 10;
 
-Text::Text(const std::string& string, const glm::vec2& position, const glm::vec4& color, const glm::vec2& characterSize, bool wordWrapEnabled)
+Text::Text(const std::string& string, const glm::vec2& position, const glm::vec4& color, const glm::vec2& characterSize, bool wordWrapEnabled, int wrapLimit)
 	: m_String(string)
 	, m_Position(position)
 	, m_Color(color)
 	, m_Rotation(0.f)
-	, m_WordWrapEnabled(wordWrapEnabled)
+	, m_CharWrapEnabled(wordWrapEnabled)
+	, m_WrapLimit(wrapLimit)
 	, m_CharacterSize(characterSize)
-	, m_WrapLimit(0)
 	, m_VerticalPadding(0.f)
 	, m_HorizontalPadding(0.f)
 {
@@ -32,27 +32,27 @@ std::size_t Text::getStringLength() const
 	return m_String.length();
 }
 
-bool Text::isWordWrapEnabled() const
+bool Text::isCharWrapEnabled() const
 {
-	return m_WordWrapEnabled;
+	return m_CharWrapEnabled;
 }
 
-int Text::getWordWrapLimit() const
+int Text::getCharWrapLimit() const
 {
 	return m_WrapLimit;
 }
 
-void Text::enableWordWrap()
+void Text::enableCharWrap()
 {
-	m_WordWrapEnabled = true;
+	m_CharWrapEnabled = true;
 }
 
-void Text::disableWordWrap()
+void Text::disableCharWrap()
 {
-	m_WordWrapEnabled = false;
+	m_CharWrapEnabled = false;
 }
 
-void Text::setWordWrapLimit(int limit)
+void Text::setCharWrapLimit(int limit)
 {
 	m_WrapLimit = limit;
 }

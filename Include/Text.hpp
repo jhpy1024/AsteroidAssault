@@ -12,17 +12,18 @@ public:
 		 const glm::vec2& position = glm::vec2(0.f),
 		 const glm::vec4& color = glm::vec4(1.f),
 		 const glm::vec2& characterSize = glm::vec2(DEFAULT_WIDTH, DEFAULT_HEIGHT),
-		 bool wordWrapEnabled = false);
+		 bool charWrapEnabled = false,
+		 int wrapLimit = 0);
 
 	void setString(const std::string& string);
 	std::string getString() const;
 	std::size_t getStringLength() const;
 
-	bool isWordWrapEnabled() const;
-	int getWordWrapLimit() const;
-	void enableWordWrap();
-	void disableWordWrap();
-	void setWordWrapLimit(int limit);
+	bool isCharWrapEnabled() const;
+	int getCharWrapLimit() const;
+	void enableCharWrap();
+	void disableCharWrap();
+	void setCharWrapLimit(int limit);
 
 	void setPosition(const glm::vec2& position);
 	glm::vec2 getPosition() const;
@@ -59,7 +60,7 @@ private:
 
 	float m_Rotation;
 
-	bool m_WordWrapEnabled;
+	bool m_CharWrapEnabled;
 	int m_WrapLimit;
 
 	float m_VerticalPadding;

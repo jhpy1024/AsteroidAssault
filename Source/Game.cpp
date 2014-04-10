@@ -48,6 +48,8 @@ void Game::init()
 
 	m_TextRenderer.init();
 	m_TestText.setPadding({ 3.f, 3.f });
+	m_TestText.setCharWrapLimit(5);
+	m_TestText.enableCharWrap();
 }
 
 void Game::loadAudio()

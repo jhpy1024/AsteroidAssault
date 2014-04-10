@@ -42,9 +42,9 @@ void TextRenderer::render(std::vector<Text>& texts, Texture& texture)
 			auto texBoundX = (charIndex % numCharsHorizontal) * Text::DEFAULT_WIDTH;
 			auto texBoundY = (charIndex / numCharsVertical) * Text::DEFAULT_HEIGHT;
 
-			if (text.isWordWrapEnabled() && (i % text.getWordWrapLimit() == 0))
+			if (text.isCharWrapEnabled() && (i % text.getCharWrapLimit() == 0))
 			{
-				xOffset = -(charSize.x * i);
+				xOffset = -(charSize.x * i) - (text.getHorizontalPadding() * i);
 				yOffset -= (charSize.y + text.getVerticalPadding());
 			}
 			
