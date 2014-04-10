@@ -28,7 +28,7 @@ Game::Game(int width, int height)
 	, LEFT_BOUND(-(RIGHT_BOUND - width))
 	, BOTTOM_BOUND(LEFT_BOUND)
 	, TOP_BOUND(height)
-	, m_TestText("Pretty awesome, huh?", { width / 2.f, height / 2.f }, { 0.f, 1.f, 0.f, 1.f })
+	, m_TestText("OMG, such pretty colors!", { width / 2.f, height / 2.f }, { 0.f, 1.f, 0.f, 1.f })
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -47,6 +47,8 @@ void Game::init()
 	m_ParticleRenderer.init();
 
 	m_TextRenderer.init();
+	m_TestText.enableWordWrap();
+	m_TestText.setWordWrapLimit(3);
 }
 
 void Game::loadAudio()

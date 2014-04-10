@@ -18,6 +18,8 @@ public:
 	std::string getString() const;
 	std::size_t getStringLength() const;
 
+	bool isWordWrapEnabled() const;
+	int getWordWrapLimit() const;
 	void enableWordWrap();
 	void disableWordWrap();
 	void setWordWrapLimit(int limit);

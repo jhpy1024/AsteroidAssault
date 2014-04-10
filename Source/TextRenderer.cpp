@@ -28,6 +28,9 @@ void TextRenderer::render(std::vector<Text>& texts, Texture& texture)
 
 	for (auto& text : texts)
 	{
+		float xOffset = 0.f;
+		float yOffset = 0.f;
+
 		for (int i = 0; i < text.getStringLength(); ++i)
 		{
 			auto character = text.getString()[i];
@@ -39,11 +42,17 @@ void TextRenderer::render(std::vector<Text>& texts, Texture& texture)
 			auto texBoundX = (charIndex % numCharsHorizontal) * Text::DEFAULT_WIDTH;
 			auto texBoundY = (charIndex / numCharsVertical) * Text::DEFAULT_HEIGHT;
 
+			if (i % text.getWordWrapLimit() == 0)
+			{
+				xOffset = -(charSize.x * i);
+				yOffset -= charSize.y;
+			}
+			
 			TextureBounds texBounds;
 			texBounds.bottomLeft = { texBoundX, texBoundY };
 			texBounds.size = { Text::DEFAULT_WIDTH, Text::DEFAULT_HEIGHT };
 
-			addVertices({ text.getPosition().x + (charSize.x * i), text.getPosition().y }, charSize, text.getRotationRads());
+			addVertices({ text.getPosition().x + (charSize.x * i) + xOffset, text.getPosition().y + yOffset }, charSize, text.getRotationRads());
 			addTexCoords(texBounds, textureSize);
 			addColors(text);
 		}

@@ -10,6 +10,7 @@ Text::Text(const std::string& string, const glm::vec2& position, const glm::vec4
 	, m_Rotation(0.f)
 	, m_WordWrapEnabled(wordWrapEnabled)
 	, m_CharacterSize(characterSize)
+	, m_WrapLimit(0)
 {
 
 }
@@ -27,6 +28,16 @@ std::string Text::getString() const
 std::size_t Text::getStringLength() const
 {
 	return m_String.length();
+}
+
+bool Text::isWordWrapEnabled() const
+{
+	return m_WordWrapEnabled;
+}
+
+int Text::getWordWrapLimit() const
+{
+	return m_WrapLimit;
 }
 
 void Text::enableWordWrap()
