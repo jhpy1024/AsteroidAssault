@@ -100,6 +100,9 @@ private:
 	int m_Score;
 	Text m_ScoreText;
 
+	int m_Lives;
+	Text m_LivesText;
+
 	TextRenderer m_TextRenderer;
 };
 

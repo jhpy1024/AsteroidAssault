@@ -30,6 +30,8 @@ Game::Game(int width, int height)
 	, TOP_BOUND(height)
 	, m_Score(0)
 	, m_ScoreText("Score: 0", { width * 0.05f, height * 0.95f }, { 0.f, 1.f, 0.f, 1.f })
+	, m_Lives(3)
+	, m_LivesText("Lives: " + std::to_string(m_Lives), { width * 0.78f, height * 0.95f }, { 0.f, 1.f, 0.f, 1.f })
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -50,6 +52,8 @@ void Game::init()
 	m_TextRenderer.init();
 	m_ScoreText.setCharacterSize({ 15.f, 15.f });
 	m_ScoreText.setPadding({ 2.f, 0.f });
+	m_LivesText.setCharacterSize({ 15.f, 15.f });
+	m_LivesText.setPadding({ 2.f, 0.f });
 }
 
 void Game::loadAudio()
@@ -164,6 +168,7 @@ void Game::render()
 	m_ParticleRenderer.render(*m_TestParticleSystem);
 
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
+	m_TextRenderer.render(m_LivesText, TextureManager::getInstance().getTexture("TextSheet"));
 }
 
 void Game::increaseScore()
