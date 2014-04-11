@@ -126,6 +126,29 @@ void Game::addNewAsteroids()
 void Game::checkCollisions()
 {
 	checkLaserAsteroidCollisions();
+	checkPlayerAsteroidCollisions();
+}
+
+void Game::checkPlayerAsteroidCollisions()
+{
+	for (auto& asteroid : m_Asteroids)
+	{
+		if (Collision::isColliding(m_Player.getShape(), asteroid->getShape()))
+		{
+			asteroid->flagForRemoval();
+			decreaseLives();
+		}
+	}
+}
+
+void Game::decreaseLives()
+{
+	if (m_Lives > 0)
+	{
+		--m_Lives;
+		m_LivesText.setString("Lives: " + std::to_string(m_Lives));
+		m_LivesText.setColor({ Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), 1.f });
+	}
 }
 
 void Game::checkLaserAsteroidCollisions()

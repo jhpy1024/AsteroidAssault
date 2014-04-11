@@ -60,11 +60,13 @@ private:
 
 	void checkCollisions();
 	void checkLaserAsteroidCollisions();
+	void checkPlayerAsteroidCollisions();
 
 	template <typename T>
 	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection);
 
 	void increaseScore();
+	void decreaseLives();
 
 public:
 	static int WIDTH;

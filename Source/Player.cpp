@@ -26,6 +26,7 @@ void Player::update(Uint32 delta)
 		decelerate();
 
 	m_Sprite.move(m_Velocity * SPEED * static_cast<float>(delta));
+	m_Rectangle.position = m_Sprite.getPosition();
 }
 
 void Player::moveLeft()
