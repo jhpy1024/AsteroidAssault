@@ -35,6 +35,7 @@ public:
 
 private:
 	void init();
+	void setupShape();
 	void setTexCoords();
 	void setToStartPosition();
 

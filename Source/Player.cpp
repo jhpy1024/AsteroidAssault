@@ -10,10 +10,16 @@ Player::Player(const glm::vec2& startPosition, PlayerShipType shipType)
 	init();
 }
 
-void Player::init()
+void Player::init() 
 {
 	setTexCoords();
 	setToStartPosition();
+	setupShape();
+}
+
+void Player::setupShape()
+{
+	m_Rectangle = RectangleShape(m_Sprite.getSize());
 }
 
 void Player::update(Uint32 delta)
