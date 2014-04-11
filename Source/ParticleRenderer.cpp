@@ -13,9 +13,9 @@ void ParticleRenderer::init()
 void ParticleRenderer::render(ParticleSystem& particleSystem)
 {
 	auto& particles = particleSystem.m_Particles;
+	
 	auto& texture = particleSystem.m_Texture;
 	auto& textureBounds = particleSystem.m_TextureBounds;
-
 	auto textureSize = glm::vec2(texture.width, texture.height);
 
 	if (particles.empty()) return;
@@ -24,7 +24,7 @@ void ParticleRenderer::render(ParticleSystem& particleSystem)
 
 	for (auto& particle : particles)
 	{
-		addVertices(particle.position, textureSize, particle.getRotationRads());
+		addVertices(particle.position, particle.size, particle.getRotationRads());
 		addTexCoords(textureBounds, textureSize);
 		addColors(particle);
 	}

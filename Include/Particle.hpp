@@ -7,7 +7,7 @@
 
 struct Particle
 {
-	Particle(const glm::vec2& position, const glm::vec2& velocity, Uint32 lifetime,	const glm::vec4& color = glm::vec4(1.f, 1.f, 1.f, 1.f));
+	Particle(const glm::vec2& position, const glm::vec2& velocity, const glm::vec2& size, Uint32 lifetime, const glm::vec4& color = glm::vec4(1.f, 1.f, 1.f, 1.f));
 
 	void update(Uint32 delta);
 
@@ -15,6 +15,7 @@ struct Particle
 
 	glm::vec2 position;
 	glm::vec2 velocity;
+	glm::vec2 size;
 	glm::vec4 color;
 
 	void rotateRads(float rotation);
@@ -23,6 +24,8 @@ struct Particle
 	void setRotationDegs(float rotation);
 	float getRotationRads() const;
 	float getRotationDegs() const;
+
+	Uint32 getLifetime() const;
 
 private:
 	void updatePosition(Uint32 delta);

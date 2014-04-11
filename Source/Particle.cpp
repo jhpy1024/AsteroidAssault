@@ -2,12 +2,14 @@
 
 #include <iostream>
 
-Particle::Particle(const glm::vec2& position, const glm::vec2& velocity, Uint32 lifetime, const glm::vec4& color)
+Particle::Particle(const glm::vec2& position, const glm::vec2& velocity, const glm::vec2& size, Uint32 lifetime, const glm::vec4& color)
 	: position(position)
 	, velocity(velocity)
+	, size(size)
 	, color(color)
 	, m_Lifetime(lifetime)
 	, m_TimeCreated(SDL_GetTicks())
+	, m_RotationRads(0.f)
 {
 
 }
@@ -16,6 +18,11 @@ void Particle::update(Uint32 delta)
 {
 	updatePosition(delta);
 	updateAlpha();
+}
+
+Uint32 Particle::getLifetime() const
+{
+	return m_Lifetime;
 }
 
 void Particle::updatePosition(Uint32 delta)
