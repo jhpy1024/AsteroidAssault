@@ -28,7 +28,8 @@ Game::Game(int width, int height)
 	, LEFT_BOUND(-(RIGHT_BOUND - width))
 	, BOTTOM_BOUND(LEFT_BOUND)
 	, TOP_BOUND(height)
-	, m_TestText("OMG, such pretty colors!", { width / 2.f, height / 2.f }, { 0.f, 1.f, 0.f, 1.f })
+	, m_Score(0)
+	, m_ScoreText("Score: 0", { width * 0.05f, height * 0.95f }, { 0.f, 1.f, 0.f, 1.f })
 {
 	WIDTH = width;
 	HEIGHT = height;
@@ -47,9 +48,8 @@ void Game::init()
 	m_ParticleRenderer.init();
 
 	m_TextRenderer.init();
-	m_TestText.setPadding({ 3.f, 3.f });
-	m_TestText.setCharWrapLimit(5);
-	m_TestText.enableCharWrap();
+	m_ScoreText.setCharacterSize({ 15.f, 15.f });
+	m_ScoreText.setPadding({ 2.f, 0.f });
 }
 
 void Game::loadAudio()
@@ -81,17 +81,6 @@ void Game::handleKeyPress(SDL_Keycode key)
 
 	if (key == SDLK_SPACE)
 		m_IsShooting = true;
-
-	if (key == SDLK_t)
-	{
-		m_TestText.setCharacterSize({ 10.f, 10.f });
-		m_TestText.setPosition({ WIDTH / 2.f, HEIGHT / 2.f });
-	}
-	else if (key == SDLK_u)
-	{
-		m_TestText.setCharacterSize({ 20.f, 20.f });
-		m_TestText.setPosition({ WIDTH / 2.f - 250.f, HEIGHT / 2.f });
-	}
 }
 
 void Game::handleKeyRelease(SDL_Keycode key)
@@ -120,7 +109,7 @@ void Game::update(Uint32 delta)
 
 	m_TestParticleSystem->update(delta);
 
-	m_TestText.setColor({ Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f) ,1.f });
+	m_ScoreText.setString("Score: " + std::to_string(m_Score));
 }
 
 void Game::addNewAsteroids()
@@ -155,6 +144,8 @@ void Game::checkLaserAsteroidCollisions()
 				m_TestParticleSystem->emitParticles();
 
 				AudioManager::getInstance().playSound("Explosion");
+
+				increaseScore();
 			}
 		}
 	}
@@ -172,7 +163,13 @@ void Game::render()
 
 	m_ParticleRenderer.render(*m_TestParticleSystem);
 
-	m_TextRenderer.render(m_TestText, TextureManager::getInstance().getTexture("TextSheet"));
+	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
+}
+
+void Game::increaseScore()
+{
+	m_Score += 100;
+	m_ScoreText.setColor({ Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), 1.f });
 }
 
 void Game::fireLasersIfNeeded()

@@ -64,6 +64,8 @@ private:
 	template <typename T>
 	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection);
 
+	void increaseScore();
+
 public:
 	static int WIDTH;
 	static int HEIGHT;
@@ -95,7 +97,9 @@ private:
 
 	std::vector<std::shared_ptr<Asteroid>> m_AsteroidsToAdd;
 
-	Text m_TestText;
+	int m_Score;
+	Text m_ScoreText;
+
 	TextRenderer m_TextRenderer;
 };
 
