@@ -29,9 +29,9 @@ Game::Game(int width, int height)
 	, BOTTOM_BOUND(LEFT_BOUND)
 	, TOP_BOUND(height)
 	, m_Score(0)
-	, m_ScoreText("Score: 0", { width * 0.05f, height * 0.95f }, { 0.f, 1.f, 0.f, 1.f })
+	, m_ScoreText("Score: 0", { width * 0.05f, height * 0.05f }, { 0.f, 1.f, 0.f, 1.f })
 	, m_Lives(3)
-	, m_LivesText("Lives: " + std::to_string(m_Lives), { width * 0.78f, height * 0.95f }, { 0.f, 1.f, 0.f, 1.f })
+	, m_LivesText("Lives: " + std::to_string(m_Lives), { width * 0.78f, height * 0.05f }, { 0.f, 1.f, 0.f, 1.f })
 {
 	WIDTH = width;
 	HEIGHT = height;
