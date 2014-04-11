@@ -36,11 +36,13 @@ Particle TestParticleSystem::genParticle()
 	auto velocity = glm::vec2(velX, velY);
 	auto lifetime = Random::genInt(100, 500);
 	auto size = glm::vec2(m_Texture.width * 1.5f, m_Texture.height * 1.5f);
+	auto rotation = Random::genFloat(0.f, 360.f);
 
 	m_LastTimeGenerated = SDL_GetTicks();
 
 	Particle particle(m_Position, velocity, size, lifetime);
 	particle.color = glm::vec4(Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), 1.f);
+	particle.setRotationDegs(rotation);
 
 	return particle;
 }

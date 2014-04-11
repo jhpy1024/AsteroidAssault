@@ -183,13 +183,16 @@ void Game::render()
 	auto asteroidSprites = getSpritesFromCollection(m_Asteroids);	
 	auto laserSprites = getSpritesFromCollection(m_Lasers);
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));	
 	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	m_ParticleRenderer.render(*m_TestParticleSystem);
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
 	m_TextRenderer.render(m_LivesText, TextureManager::getInstance().getTexture("TextSheet"));
 }
