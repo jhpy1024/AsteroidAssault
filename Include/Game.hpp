@@ -14,6 +14,7 @@
 #include "Laser.hpp"
 #include "ParticleRenderer.hpp"
 #include "ExplosionParticleSystem.hpp"
+#include "LaserParticleSystem.hpp"
 #include "TextRenderer.hpp"
 #include "Text.hpp"
 
@@ -83,6 +84,7 @@ private:
 
 	ParticleRenderer m_ParticleRenderer;
 	std::unique_ptr<ExplosionParticleSystem> m_ExplosionParticleSys;
+	std::unique_ptr<LaserParticleSystem> m_LaserParticleSys;
 
 	const Uint32 ASTEROID_CREATION_COUNT;
 	const Uint32 ASTEROID_CREATION_DELAY;

@@ -47,6 +47,8 @@ void Game::init()
 
 	m_ExplosionParticleSys = std::unique_ptr<ExplosionParticleSystem>(new ExplosionParticleSystem);
 	m_ExplosionParticleSys->setEmissionCount(100);
+	m_LaserParticleSys = std::unique_ptr<LaserParticleSystem>(new LaserParticleSystem);
+	m_LaserParticleSys->setEmissionCount(5);
 	m_ParticleRenderer.init();
 
 	m_TextRenderer.init();
@@ -112,6 +114,7 @@ void Game::update(Uint32 delta)
 	addNewAsteroids();
 
 	m_ExplosionParticleSys->update(delta);
+	m_LaserParticleSys->update(delta);
 
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
 }
@@ -191,6 +194,7 @@ void Game::render()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	m_ParticleRenderer.render(*m_ExplosionParticleSys);
+	m_ParticleRenderer.render(*m_LaserParticleSys);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
@@ -329,7 +333,11 @@ bool Game::isFireDelayOver() const
 void Game::updateLasers(Uint32 delta)
 {
 	for (auto& laser : m_Lasers)
+	{
 		laser->update(delta);
+		m_LaserParticleSys->setPosition(laser->getSprite().getPosition());
+		m_LaserParticleSys->emitParticles();
+	}
 }
 
 void Game::updatePlayer(Uint32 delta)
@@ -340,7 +348,9 @@ void Game::updatePlayer(Uint32 delta)
 void Game::updateAsteroids(Uint32 delta)
 {
 	for (auto& asteroid : m_Asteroids)
+	{
 		asteroid->update(delta);
+	}
 }
 
 void Game::loadTextures()
