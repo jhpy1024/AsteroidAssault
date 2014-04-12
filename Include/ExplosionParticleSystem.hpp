@@ -1,13 +1,13 @@
-#ifndef TEST_PARTICLE_SYSTEM_HPP
-#define TEST_PARTICLE_SYSTEM_HPP
+#ifndef EXPLOSION_PARTICLE_SYSTEM_HPP
+#define EXPLOSION_PARTICLE_SYSTEM_HPP
 
 #include "ParticleSystem.hpp"
 
-class TestParticleSystem : public ParticleSystem
+class ExplosionParticleSystem : public ParticleSystem
 {
 public:
-	TestParticleSystem();
-
+	ExplosionParticleSystem();
+	
 	void update(Uint32 delta) override;
 
 private:

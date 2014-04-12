@@ -13,7 +13,7 @@
 #include "Asteroid.hpp"
 #include "Laser.hpp"
 #include "ParticleRenderer.hpp"
-#include "TestParticleSystem.hpp"
+#include "ExplosionParticleSystem.hpp"
 #include "TextRenderer.hpp"
 #include "Text.hpp"
 
@@ -82,7 +82,7 @@ private:
 	SpriteRenderer m_SpriteRenderer;
 
 	ParticleRenderer m_ParticleRenderer;
-	std::unique_ptr<TestParticleSystem> m_TestParticleSystem;
+	std::unique_ptr<ExplosionParticleSystem> m_ExplosionParticleSys;
 
 	const Uint32 ASTEROID_CREATION_COUNT;
 	const Uint32 ASTEROID_CREATION_DELAY;

@@ -1,11 +1,11 @@
-#include "TestParticleSystem.hpp"
+#include "ExplosionParticleSystem.hpp"
 #include "Random.hpp"
 #include "Game.hpp"
 #include "TextureManager.hpp"
 
 #include <iostream>
 
-TestParticleSystem::TestParticleSystem()
+ExplosionParticleSystem::ExplosionParticleSystem()
 	: ParticleSystem("Particle")
 	, m_LastTimeGenerated(0)
 	, m_EmissionDelay(0)
@@ -14,7 +14,7 @@ TestParticleSystem::TestParticleSystem()
 	m_TextureBounds.size = glm::vec2(5.f);
 }
 
-void TestParticleSystem::update(Uint32 delta)
+void ExplosionParticleSystem::update(Uint32 delta)
 {
 	ParticleSystem::update(delta);
 
@@ -28,7 +28,7 @@ void TestParticleSystem::update(Uint32 delta)
 	}
 }
 
-Particle TestParticleSystem::genParticle()
+Particle ExplosionParticleSystem::genParticle()
 {
 	auto position = glm::vec2(Random::genFloat(0.f, Game::WIDTH), Random::genFloat(0.f, Game::HEIGHT));
 	auto velX = glm::sin(Random::genFloat(0.f, 2.f * 3.14159f));

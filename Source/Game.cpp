@@ -45,8 +45,8 @@ void Game::init()
 	setupSprites();
 	setupDefaultMatrices();
 
-	m_TestParticleSystem = std::unique_ptr<TestParticleSystem>(new TestParticleSystem);
-	m_TestParticleSystem->setEmissionCount(80);
+	m_ExplosionParticleSys = std::unique_ptr<ExplosionParticleSystem>(new ExplosionParticleSystem);
+	m_ExplosionParticleSys->setEmissionCount(100);
 	m_ParticleRenderer.init();
 
 	m_TextRenderer.init();
@@ -111,7 +111,7 @@ void Game::update(Uint32 delta)
 	removeAsteroids();
 	addNewAsteroids();
 
-	m_TestParticleSystem->update(delta);
+	m_ExplosionParticleSys->update(delta);
 
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
 }
@@ -167,8 +167,8 @@ void Game::checkLaserAsteroidCollisions()
 
 				asteroid->flagForRemoval();
 
-				m_TestParticleSystem->setPosition(asteroid->getSprite().getPosition());
-				m_TestParticleSystem->emitParticles();
+				m_ExplosionParticleSys->setPosition(asteroid->getSprite().getPosition());
+				m_ExplosionParticleSys->emitParticles();
 
 				AudioManager::getInstance().playSound("Explosion");
 
@@ -190,7 +190,7 @@ void Game::render()
 	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	m_ParticleRenderer.render(*m_TestParticleSystem);
+	m_ParticleRenderer.render(*m_ExplosionParticleSys);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
