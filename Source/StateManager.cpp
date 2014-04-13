@@ -13,6 +13,7 @@ StateManager& StateManager::getInstance()
 void StateManager::push(std::shared_ptr<State> state)
 {
 	m_States.push(state);
+	m_States.top()->init();
 }
 
 void StateManager::pop()

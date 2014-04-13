@@ -6,6 +6,7 @@
 #include "AsteroidFactory.hpp"
 #include "AudioManager.hpp"
 #include "Random.hpp"
+#include "StateManager.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
