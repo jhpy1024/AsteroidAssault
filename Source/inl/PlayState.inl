@@ -7,7 +7,7 @@
 #include "Sprite.hpp"
 
 template <typename T>
-std::vector<Sprite> Game::getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection)
+std::vector<Sprite> PlayState::getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection)
 {
 	std::vector<Sprite> sprites;
 
