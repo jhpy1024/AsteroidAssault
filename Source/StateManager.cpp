@@ -1,5 +1,7 @@
 #include "StateManager.hpp"
 
+#include <cassert>
+
 std::unique_ptr<StateManager> StateManager::m_Instance;
 
 StateManager& StateManager::getInstance()
@@ -23,6 +25,7 @@ void StateManager::pop()
 
 std::shared_ptr<State> StateManager::top()
 {
+	assert(!empty());
 	return m_States.top();
 }
 
