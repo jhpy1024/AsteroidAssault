@@ -28,6 +28,8 @@ PlayState::PlayState()
 
 void PlayState::init()
 {
+	setupSprites();
+
 	m_ExplosionParticleSys = std::unique_ptr<ExplosionParticleSystem>(new ExplosionParticleSystem);
 	m_ExplosionParticleSys->setEmissionCount(100);
 	m_LaserParticleSys = std::unique_ptr<LaserParticleSystem>(new LaserParticleSystem);

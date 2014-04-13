@@ -7,12 +7,14 @@
 #include "AudioManager.hpp"
 #include "Random.hpp"
 #include "StateManager.hpp"
+#include "PlayState.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
 #include <algorithm>
+#include <memory>
 
 int Game::WIDTH;
 int Game::HEIGHT;
@@ -30,6 +32,8 @@ void Game::init()
 	loadAudio();
 
 	setupDefaultMatrices();
+
+	StateManager::getInstance().push(std::make_shared<PlayState>());
 }
 
 void Game::loadAudio()
@@ -50,26 +54,28 @@ void Game::handleEvent(const SDL_Event& event)
 	default:
 		break;
 	}
+
+	StateManager::getInstance().top()->handleEvent(event);
 }
 
 void Game::handleKeyPress(SDL_Keycode key)
 {
-	
+	StateManager::getInstance().top()->handleKeyPress(key);
 }
 
 void Game::handleKeyRelease(SDL_Keycode key)
 {
-	
+	StateManager::getInstance().top()->handleKeyRelease(key);
 }
 
 void Game::update(Uint32 delta)
 {
-
+	StateManager::getInstance().top()->update(delta);
 }
 
 void Game::render()
 {
-
+	StateManager::getInstance().top()->render();
 }
 
 void Game::loadTextures()
