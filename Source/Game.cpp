@@ -33,7 +33,7 @@ void Game::init()
 
 	setupDefaultMatrices();
 
-	//StateManager::getInstance().push(std::make_shared<PlayState>());
+	StateManager::getInstance().push(std::make_shared<PlayState>());
 }
 
 void Game::loadAudio()
