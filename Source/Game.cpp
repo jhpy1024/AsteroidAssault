@@ -8,6 +8,7 @@
 #include "Random.hpp"
 #include "StateManager.hpp"
 #include "PlayState.hpp"
+#include "MenuState.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -33,7 +34,7 @@ void Game::init()
 
 	setupDefaultMatrices();
 
-	StateManager::getInstance().push(std::make_shared<PlayState>());
+	StateManager::getInstance().push(std::make_shared<MenuState>());
 }
 
 void Game::loadAudio()
@@ -88,6 +89,7 @@ void Game::loadTextures()
 	textureManager.addTexture("Laser", "Resources/Textures/LaserSheet.png");
 	textureManager.addTexture("Particle", "Resources/Textures/Particle.png");
 	textureManager.addTexture("TextSheet", "Resources/Textures/TextSheet.png");
+	textureManager.addTexture("MenuSheet", "Resources/Textures/MenuSheet.png");
 } 
 
 void Game::loadShaders()

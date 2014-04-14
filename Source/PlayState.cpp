@@ -5,6 +5,7 @@
 #include "AudioManager.hpp"
 #include "TextureManager.hpp"
 #include "Game.hpp"
+#include "StateManager.hpp"
 
 PlayState::PlayState()
 	: m_Player(glm::vec2(Game::WIDTH / 2.f, 100.f), PlayerShipType::GreenRectangular)
@@ -57,6 +58,9 @@ void PlayState::handleKeyPress(SDL_Keycode key)
 
 	if (key == SDLK_SPACE)
 		m_IsShooting = true;
+
+	if (key == SDLK_ESCAPE)
+		StateManager::getInstance().pop();
 }
 
 void PlayState::handleKeyRelease(SDL_Keycode key)
