@@ -41,6 +41,10 @@ void MenuState::init()
 	m_ExitRect.height = m_ExitButton.getSize().y;
 
 	m_MouseRect.width = m_MouseRect.height = 2.f;
+
+	m_ParticleRenderer.init();
+	m_ParticleSys.setPosition({ Game::WIDTH / 2.f, Game::HEIGHT / 2.f });
+	m_ParticleSys.setEmissionCount(20);
 }
 
 void MenuState::handleEvent(const SDL_Event& event)
@@ -80,9 +84,15 @@ void MenuState::handleKeyRelease(SDL_Keycode key)
 void MenuState::update(Uint32 delta)
 {
 	m_MouseRect.position = Mouse::getPosition();
+	
+	m_ParticleSys.update(delta);
 }
 
 void MenuState::render()
 {
+	glClearColor(0.05f, 0.05f, 0.05f, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	m_ParticleRenderer.render(m_ParticleSys);
 	m_SpriteRenderer.render(m_Sprites, TextureManager::getInstance().getTexture("MenuSheet"));
 }

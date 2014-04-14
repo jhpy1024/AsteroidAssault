@@ -5,6 +5,8 @@
 #include "Sprite.hpp"
 #include "SpriteRenderer.hpp"
 #include "RectangleShape.hpp"
+#include "MenuParticleSystem.hpp"
+#include "ParticleRenderer.hpp"
 
 #include <vector>
 
@@ -34,6 +36,9 @@ private:
 	RectangleShape m_AboutRect;
 	RectangleShape m_ExitRect;
 	RectangleShape m_MouseRect;
+
+	MenuParticleSystem m_ParticleSys;
+	ParticleRenderer m_ParticleRenderer;
 };
 
 #endif
