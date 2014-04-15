@@ -3,6 +3,8 @@
 #include "Mouse.hpp"
 #include "TextureManager.hpp"
 #include "Collision.hpp"
+#include "MenuState.hpp"
+#include "StateManager.hpp"
 
 DeadState::DeadState(int score)
 	: m_Score(score)
@@ -57,7 +59,7 @@ void DeadState::handleEvent(const SDL_Event& event)
 void DeadState::leftButtonPressed()
 {
 	if (Collision::isColliding(m_MouseRect, m_RetryRect))
-		;//retry
+		StateManager::getInstance().clearAndPush(std::make_shared<MenuState>());
 	else if (Collision::isColliding(m_MouseRect, m_ExitRect))
 	{
 		SDL_Quit();
