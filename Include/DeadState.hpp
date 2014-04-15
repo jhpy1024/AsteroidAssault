@@ -7,6 +7,8 @@
 #include "Sprite.hpp"
 #include "RectangleShape.hpp"
 #include "TextRenderer.hpp"
+#include "StarParticleSystem.hpp"
+#include "ParticleRenderer.hpp"
 
 #include <vector>
 
@@ -39,6 +41,9 @@ private:
 
 	Text m_ScoreText;
 	TextRenderer m_TextRenderer;
+
+	StarParticleSystem m_ParticleSys;
+	ParticleRenderer m_ParticleRenderer;
 
 	int m_Score;
 };

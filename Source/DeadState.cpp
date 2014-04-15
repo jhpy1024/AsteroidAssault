@@ -8,6 +8,7 @@
 
 DeadState::DeadState(int score)
 	: m_Score(score)
+	, m_ParticleSys({ 1.f, 0.f, 0.f })
 {
 
 }
@@ -43,6 +44,9 @@ void DeadState::init()
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
 	
 	m_TextRenderer.init();
+
+	m_ParticleRenderer.init();
+	m_ParticleSys.setEmissionCount(100);
 }
 
 void DeadState::handleEvent(const SDL_Event& event)
@@ -80,6 +84,8 @@ void DeadState::handleKeyRelease(SDL_Keycode key)
 void DeadState::update(Uint32 delta) 
 {
 	m_MouseRect.position = Mouse::getPosition();
+	
+	m_ParticleSys.update(delta);
 }
 
 void DeadState::render()
@@ -87,6 +93,7 @@ void DeadState::render()
 	glClearColor(0.05f, 0.05f, 0.05f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	m_ParticleRenderer.render(m_ParticleSys);
 	m_SpriteRenderer.render(m_Sprites, TextureManager::getInstance().getTexture("DeadSheet"));
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
 }
