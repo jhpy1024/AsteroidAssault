@@ -5,6 +5,7 @@
 #include "Collision.hpp"
 #include "StateManager.hpp"
 #include "PlayState.hpp"
+#include "AudioManager.hpp"
 
 #include <iostream>
 #include <memory>
@@ -45,6 +46,8 @@ void MenuState::init()
 	m_ParticleRenderer.init();
 	m_ParticleSys.setPosition({ Game::WIDTH / 2.f, Game::HEIGHT / 2.f });
 	m_ParticleSys.setEmissionCount(20);
+
+	AudioManager::getInstance().playMusic("TitleMusic", -1);
 }
 
 void MenuState::handleEvent(const SDL_Event& event)

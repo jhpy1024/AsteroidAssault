@@ -41,6 +41,7 @@ void Game::loadAudio()
 {
 	AudioManager::getInstance().loadSound("Laser", "Resources/Sounds/laser.wav");
 	AudioManager::getInstance().loadSound("Explosion", "Resources/Sounds/explosion.wav");
+	AudioManager::getInstance().loadMusic("TitleMusic", "Resources/Music/TitleMusic.wav");
 }
 
 void Game::handleEvent(const SDL_Event& event)
