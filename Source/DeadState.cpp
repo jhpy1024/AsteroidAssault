@@ -2,6 +2,7 @@
 #include "Game.hpp"
 #include "Mouse.hpp"
 #include "TextureManager.hpp"
+#include "Collision.hpp"
 
 DeadState::DeadState(int score)
 	: m_Score(score)
@@ -44,7 +45,24 @@ void DeadState::init()
 
 void DeadState::handleEvent(const SDL_Event& event)
 {
+	if (event.type == SDL_MOUSEBUTTONDOWN)
+	{
+		if (event.button.button == SDL_BUTTON_LEFT)
+		{
+			leftButtonPressed();
+		}
+	}
+}
 
+void DeadState::leftButtonPressed()
+{
+	if (Collision::isColliding(m_MouseRect, m_RetryRect))
+		;//retry
+	else if (Collision::isColliding(m_MouseRect, m_ExitRect))
+	{
+		SDL_Quit();
+		exit(0);
+	}
 }
 
 void DeadState::handleKeyPress(SDL_Keycode key) 

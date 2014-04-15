@@ -24,6 +24,9 @@ public:
 	void render() override;
 
 private:
+	void leftButtonPressed();
+
+private:
 	Sprite m_Title;
 	Sprite m_RetryButton;
 	Sprite m_ExitButton;
