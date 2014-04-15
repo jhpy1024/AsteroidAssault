@@ -6,6 +6,7 @@
 #include "TextureManager.hpp"
 #include "Game.hpp"
 #include "StateManager.hpp"
+#include "DeadState.hpp"
 
 PlayState::PlayState()
 	: m_Player(glm::vec2(Game::WIDTH / 2.f, 100.f), PlayerShipType::GreenRectangular)
@@ -125,6 +126,10 @@ void PlayState::decreaseLives()
 		--m_Lives;
 		m_LivesText.setString("Lives: " + std::to_string(m_Lives));
 		m_LivesText.setColor({ Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), 1.f });
+	}
+	else
+	{
+		StateManager::getInstance().push(std::make_shared<DeadState>(m_Score));
 	}
 }
 

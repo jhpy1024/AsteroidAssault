@@ -9,6 +9,7 @@
 #include "StateManager.hpp"
 #include "PlayState.hpp"
 #include "MenuState.hpp"
+#include "DeadState.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -91,6 +92,7 @@ void Game::loadTextures()
 	textureManager.addTexture("Particle", "Resources/Textures/Particle.png");
 	textureManager.addTexture("TextSheet", "Resources/Textures/TextSheet.png");
 	textureManager.addTexture("MenuSheet", "Resources/Textures/MenuSheet.png");
+	textureManager.addTexture("DeadSheet", "Resources/Textures/DeadSheet.png");
 } 
 
 void Game::loadShaders()
