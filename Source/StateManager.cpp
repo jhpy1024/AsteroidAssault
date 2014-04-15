@@ -23,6 +23,20 @@ void StateManager::pop()
 	m_States.pop();
 }
 
+void StateManager::clear()
+{
+	while (!m_States.empty())
+	{
+		m_States.pop();
+	}
+}
+
+void StateManager::clearAndPush(std::shared_ptr<State> state)
+{
+	clear();
+	push(state);
+}
+
 std::shared_ptr<State> StateManager::top()
 {
 	assert(!empty());

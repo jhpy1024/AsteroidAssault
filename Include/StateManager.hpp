@@ -13,6 +13,8 @@ public:
 
 	void push(std::shared_ptr<State> state);
 	void pop();
+	void clear();
+	void clearAndPush(std::shared_ptr<State> state);
 
 	std::shared_ptr<State> top();
 
