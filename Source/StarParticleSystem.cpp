@@ -1,18 +1,19 @@
-#include "MenuParticleSystem.hpp"
+#include "StarParticleSystem.hpp"
 #include "Random.hpp"
 #include "Game.hpp"
 
 #include <iostream>
 
-MenuParticleSystem::MenuParticleSystem()
+StarParticleSystem::StarParticleSystem(const glm::vec3& starColor)
 	: ParticleSystem("Particle")
 	, m_LastTimeEmitted(0)
+	, m_StarColor(starColor)
 {
 	m_TextureBounds.bottomLeft = { 0.f, 0.f };
 	m_TextureBounds.size = { 5.f, 5.f };
 }
 
-void MenuParticleSystem::update(Uint32 delta)
+void StarParticleSystem::update(Uint32 delta)
 {
 	ParticleSystem::update(delta);
 
@@ -29,7 +30,7 @@ void MenuParticleSystem::update(Uint32 delta)
 		emitParticles();
 }
 
-Particle MenuParticleSystem::genParticle()
+Particle StarParticleSystem::genParticle()
 {
 	auto position = glm::vec2(Random::genFloat(0.f, Game::WIDTH), Random::genFloat(0.f, Game::HEIGHT));
 
@@ -38,7 +39,7 @@ Particle MenuParticleSystem::genParticle()
 	auto rotation = Random::genFloat(0.f, 360.f);
 
 	Particle particle(position, { 0.f, 0.f }, size, lifetime);
-	particle.color = glm::vec4(1.f, 1.f, 1.f, Random::genFloat(0.2f, 0.7f));
+	particle.color = glm::vec4(m_StarColor, Random::genFloat(0.2f, 0.7f));
 	particle.setRotationDegs(rotation);
 
 	m_LastTimeEmitted = SDL_GetTicks();

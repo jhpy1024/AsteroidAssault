@@ -5,7 +5,7 @@
 #include "Sprite.hpp"
 #include "SpriteRenderer.hpp"
 #include "RectangleShape.hpp"
-#include "MenuParticleSystem.hpp"
+#include "StarParticleSystem.hpp"
 #include "ParticleRenderer.hpp"
 
 #include <vector>
@@ -37,7 +37,7 @@ private:
 	RectangleShape m_ExitRect;
 	RectangleShape m_MouseRect;
 
-	MenuParticleSystem m_ParticleSys;
+	StarParticleSystem m_ParticleSys;
 	ParticleRenderer m_ParticleRenderer;
 };
 
