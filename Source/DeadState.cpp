@@ -37,7 +37,7 @@ void DeadState::init()
 
 	m_MouseRect.width = m_MouseRect.height = 2.f;
 
-	m_ScoreText.setPosition({ m_Title.getPosition().x /*- m_Title.getSize().x / 2.f*/, m_Title.getPosition().y - m_Title.getSize().y });
+	m_ScoreText.setPosition({ m_Title.getPosition().x, m_Title.getPosition().y - m_Title.getSize().y });
 	m_ScoreText.setHorizontalPadding(2.f);
 	m_ScoreText.setCharacterSize({ 20.f, 20.f });
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));

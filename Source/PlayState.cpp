@@ -121,7 +121,7 @@ void PlayState::checkPlayerAsteroidCollisions()
 
 void PlayState::decreaseLives()
 {
-	if (m_Lives > 0)
+	if (m_Lives > 1)
 	{
 		--m_Lives;
 		m_LivesText.setString("Lives: " + std::to_string(m_Lives));
