@@ -6,6 +6,7 @@
 
 #include "Sprite.hpp"
 #include "GameObject.hpp"
+#include "Powerup.hpp"
 
 enum class PlayerShipType
 {
@@ -32,6 +33,8 @@ public:
 	void stopMovingLeft();
 	void stopMovingRight();
 	void decelerate();
+
+	void collectedPowerup(PowerupType::Type type);
 
 private:
 	void init();

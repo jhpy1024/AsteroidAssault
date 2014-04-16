@@ -24,6 +24,8 @@ PlayState::PlayState()
 	, m_ScoreText("Score: 0", { Game::WIDTH * 0.05f, Game::HEIGHT * 0.05f }, { 0.f, 1.f, 0.f, 1.f })
 	, m_Lives(3)
 	, m_LivesText("Lives: " + std::to_string(m_Lives), { Game::WIDTH * 0.78f, Game::HEIGHT * 0.05f }, { 0.f, 1.f, 0.f, 1.f })
+	, m_LastTimePowerupCreated(0)
+	, POWERUP_CREATION_DELAY(5000)
 {
 	
 }
@@ -60,9 +62,6 @@ void PlayState::handleKeyPress(SDL_Keycode key)
 	if (key == SDLK_SPACE)
 		m_IsShooting = true;
 
-	if (key == SDLK_p)
-		m_Powerups.push_back(std::make_shared<Powerup>(glm::vec2(Random::genFloat(0.f, Game::WIDTH), Random::genFloat(0.f, Game::HEIGHT)), glm::vec2(0.f), PowerupType::Laser));
-
 	if (key == SDLK_ESCAPE)
 		StateManager::getInstance().pop();
 }
@@ -93,9 +92,23 @@ void PlayState::update(Uint32 delta)
 	removeAsteroids();
 	addNewAsteroids();
 
+	createPowerupsIfNeeded();
+	removePowerups();
+
 	checkCollisions();
 	
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+}
+
+void PlayState::createPowerupsIfNeeded()
+{
+	if (SDL_GetTicks() - m_LastTimePowerupCreated >= POWERUP_CREATION_DELAY)
+	{
+		m_Powerups.push_back(std::make_shared<Powerup>(
+			glm::vec2(Random::genFloat(0.f, Game::WIDTH), Game::HEIGHT * 1.2f), glm::vec2(0.f, -0.05f), PowerupType::Laser));
+
+		m_LastTimePowerupCreated = SDL_GetTicks();
+	}
 }
 
 void PlayState::updatePowerups(Uint32 delta)
@@ -121,7 +134,20 @@ void PlayState::checkCollisions()
 {
 	checkLaserAsteroidCollisions();
 	checkPlayerAsteroidCollisions();
+	checkPlayerPowerupCollisions();
 	checkPlayerInBounds();
+}
+
+void PlayState::checkPlayerPowerupCollisions()
+{
+	for (auto& powerup : m_Powerups)
+	{
+		if (Collision::isColliding(m_Player.getShape(), powerup->getShape()))
+		{
+			m_Player.collectedPowerup(powerup->getType());
+			powerup->flagForRemoval();
+		}
+	}
 }
 
 void PlayState::checkPlayerInBounds()
@@ -236,6 +262,21 @@ void PlayState::removeAsteroids()
 {
 	removeOutOfBoundAsteroids();
 	removeFlaggedAsteroids();
+}
+
+void PlayState::removePowerups()
+{
+	if (m_Powerups.empty()) return;
+
+	auto itr = m_Powerups.begin();
+
+	while (itr != m_Powerups.end())
+	{
+		if ((*itr)->shouldRemove())
+			itr = m_Powerups.erase(itr);
+		else
+			++itr;
+	}
 }
 
 void PlayState::removeFlaggedAsteroids()

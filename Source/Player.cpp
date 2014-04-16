@@ -1,5 +1,7 @@
 #include "Player.hpp"
 
+#include <iostream>
+
 Player::Player(const glm::vec2& startPosition, PlayerShipType shipType)
 	: m_StartPosition(startPosition)
 	, m_ShipType(shipType)
@@ -20,6 +22,12 @@ void Player::init()
 void Player::setupShape()
 {
 	m_Rectangle = RectangleShape(m_Sprite.getSize());
+}
+
+void Player::collectedPowerup(PowerupType::Type type)
+{
+	if (type == PowerupType::Laser)
+		std::cout << "Awww yeah, lasers!" << std::endl;
 }
 
 void Player::update(Uint32 delta)

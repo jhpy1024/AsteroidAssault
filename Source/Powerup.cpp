@@ -26,6 +26,11 @@ void Powerup::setupShape()
 	m_Rectangle = RectangleShape(m_Sprite.getSize());
 }
 
+PowerupType::Type Powerup::getType() const
+{
+	return m_Type;
+}
+
 TextureBounds Powerup::getTextureBounds() const
 {
 	TextureBounds bounds;

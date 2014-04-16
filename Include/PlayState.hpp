@@ -37,6 +37,7 @@ private:
 	void checkLaserAsteroidCollisions();
 	void checkPlayerAsteroidCollisions();
 	void checkPlayerInBounds();
+	void checkPlayerPowerupCollisions();
 
 	template <typename T>
 	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection);
@@ -58,9 +59,12 @@ private:
 	void createAsteroids();
 	void createSubAsteroids(std::shared_ptr<Asteroid> asteroid);
 
+	void createPowerupsIfNeeded();
+
 	void removeLasers();
 	void removeOutOfBoundLasers();
 	void removeFlaggedLasers();
+	void removePowerups();
 
 	void addNewAsteroids();
 	void removeAsteroids();
@@ -103,6 +107,9 @@ private:
 	Text m_LivesText;
 
 	TextRenderer m_TextRenderer;
+
+	Uint32 m_LastTimePowerupCreated;
+	const Uint32 POWERUP_CREATION_DELAY;
 };
 
 #include "PlayState.inl"
