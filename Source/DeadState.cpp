@@ -6,11 +6,41 @@
 #include "MenuState.hpp"
 #include "StateManager.hpp"
 
+#include <fstream>
+#include <string>
+
 DeadState::DeadState(int score)
 	: m_Score(score)
 	, m_ParticleSys({ 1.f, 0.f, 0.f })
 {
+	auto highestScore = readHighestScore();
+	if (m_Score > highestScore)
+		writeHighestScore();
+}
 
+void DeadState::writeHighestScore()
+{
+	std::ofstream file(".highestScore", std::ios::trunc);
+	if (file.is_open())
+		file << m_Score;
+
+	file.close();
+}
+
+int DeadState::readHighestScore() const
+{
+	std::string line;
+	std::ifstream file(".highestScore");
+	
+	if (file.is_open())
+		std::getline(file, line);
+
+	file.close();
+
+	if (line.empty())
+		return 0;
+	else
+		return std::stoi(line);
 }
 
 void DeadState::init()
@@ -38,10 +68,16 @@ void DeadState::init()
 
 	m_MouseRect.width = m_MouseRect.height = 2.f;
 
-	m_ScoreText.setPosition({ m_Title.getPosition().x, m_Title.getPosition().y - m_Title.getSize().y });
 	m_ScoreText.setHorizontalPadding(2.f);
 	m_ScoreText.setCharacterSize({ 20.f, 20.f });
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+	m_ScoreText.setPosition({ m_Title.getPosition().x - (m_ScoreText.getStringLength() * 22.f) / 2.f, m_Title.getPosition().y - m_Title.getSize().y });
+	m_ScoreText.setColor({ 0.f, 1.f, 1.f, 1.f });
+
+	m_HighestScoreText.setPosition({ m_ScoreText.getPosition().x, m_ScoreText.getPosition().y - m_ScoreText.getCharacterSize().y * 1.5f });
+	m_HighestScoreText.setHorizontalPadding(2.f);
+	m_HighestScoreText.setString("Highest Score: " + std::to_string(readHighestScore()));
+	m_HighestScoreText.setColor({ 0.f, 1.f, 0.f, 1.f });
 	
 	m_TextRenderer.init();
 
@@ -96,4 +132,5 @@ void DeadState::render()
 	m_ParticleRenderer.render(m_ParticleSys);
 	m_SpriteRenderer.render(m_Sprites, TextureManager::getInstance().getTexture("DeadSheet"));
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
+	m_TextRenderer.render(m_HighestScoreText, TextureManager::getInstance().getTexture("TextSheet"));
 }

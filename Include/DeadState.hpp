@@ -28,6 +28,9 @@ public:
 private:
 	void leftButtonPressed();
 
+	int readHighestScore() const;
+	void writeHighestScore();
+
 private:
 	Sprite m_Title;
 	Sprite m_RetryButton;
@@ -40,6 +43,7 @@ private:
 	RectangleShape m_MouseRect;
 
 	Text m_ScoreText;
+	Text m_HighestScoreText;
 	TextRenderer m_TextRenderer;
 
 	StarParticleSystem m_ParticleSys;
