@@ -60,6 +60,9 @@ void PlayState::handleKeyPress(SDL_Keycode key)
 	if (key == SDLK_SPACE)
 		m_IsShooting = true;
 
+	if (key == SDLK_p)
+		m_Powerups.push_back(std::make_shared<Powerup>(glm::vec2(Random::genFloat(0.f, Game::WIDTH), Random::genFloat(0.f, Game::HEIGHT)), glm::vec2(0.f), PowerupType::Laser));
+
 	if (key == SDLK_ESCAPE)
 		StateManager::getInstance().pop();
 }
@@ -81,6 +84,7 @@ void PlayState::update(Uint32 delta)
 	updateAsteroids(delta);
 	updateLasers(delta);
 	updateParticles(delta);
+	updatePowerups(delta);
 
 	fireLasersIfNeeded();
 	removeLasers();
@@ -92,6 +96,12 @@ void PlayState::update(Uint32 delta)
 	checkCollisions();
 	
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+}
+
+void PlayState::updatePowerups(Uint32 delta)
+{
+	for (auto& powerup : m_Powerups)
+		powerup->update(delta);
 }
 
 void PlayState::updateParticles(Uint32 delta)
@@ -186,11 +196,13 @@ void PlayState::render()
 {
 	auto asteroidSprites = getSpritesFromCollection(m_Asteroids);
 	auto laserSprites = getSpritesFromCollection(m_Lasers);
+	auto powerupSprites = getSpritesFromCollection(m_Powerups);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));
+	m_SpriteRenderer.render(powerupSprites, TextureManager::getInstance().getTexture("PowerupSheet"));
 	m_SpriteRenderer.render(laserSprites, TextureManager::getInstance().getTexture("Laser"));
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);

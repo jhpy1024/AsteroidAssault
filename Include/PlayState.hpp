@@ -12,6 +12,7 @@
 #include "ExplosionParticleSystem.hpp"
 #include "Text.hpp"
 #include "TextRenderer.hpp"
+#include "Powerup.hpp"
 
 #include <vector>
 #include <memory>
@@ -47,6 +48,7 @@ private:
 	void updateAsteroids(Uint32 delta);
 	void updateLasers(Uint32 delta);
 	void updateParticles(Uint32 delta);
+	void updatePowerups(Uint32 delta);
 
 	bool isFireDelayOver() const;
 	void fireLaser();
@@ -70,6 +72,7 @@ private:
 
 	std::vector<std::shared_ptr<Asteroid>> m_Asteroids;
 	std::vector<std::shared_ptr<Laser>> m_Lasers;
+	std::vector<std::shared_ptr<Powerup>> m_Powerups;
 
 	Sprite m_Background;
 	SpriteRenderer m_SpriteRenderer;
