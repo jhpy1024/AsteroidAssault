@@ -27,7 +27,9 @@ void Player::setupShape()
 void Player::collectedPowerup(PowerupType::Type type)
 {
 	if (type == PowerupType::Laser)
-		std::cout << "Awww yeah, lasers!" << std::endl;
+	{
+		
+	}
 }
 
 void Player::update(Uint32 delta)

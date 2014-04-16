@@ -71,6 +71,8 @@ private:
 	void removeOutOfBoundAsteroids();
 	void removeFlaggedAsteroids();
 
+	void checkIfTripleLaserOver();
+
 private:
 	Player m_Player;
 
@@ -110,6 +112,10 @@ private:
 
 	Uint32 m_LastTimePowerupCreated;
 	const Uint32 POWERUP_CREATION_DELAY;
+
+	bool m_HasTripleLasers;
+	Uint32 m_TimeGotTripleLasers;
+	const Uint32 TIME_TRIPLE_LASERS_ACTIVE;
 };
 
 #include "PlayState.inl"

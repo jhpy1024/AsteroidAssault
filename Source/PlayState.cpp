@@ -26,6 +26,9 @@ PlayState::PlayState()
 	, m_LivesText("Lives: " + std::to_string(m_Lives), { Game::WIDTH * 0.78f, Game::HEIGHT * 0.05f }, { 0.f, 1.f, 0.f, 1.f })
 	, m_LastTimePowerupCreated(0)
 	, POWERUP_CREATION_DELAY(5000)
+	, m_HasTripleLasers(false)
+	, m_TimeGotTripleLasers(0)
+	, TIME_TRIPLE_LASERS_ACTIVE(5000)
 {
 	
 }
@@ -96,8 +99,16 @@ void PlayState::update(Uint32 delta)
 	removePowerups();
 
 	checkCollisions();
+
+	checkIfTripleLaserOver();
 	
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+}
+
+void PlayState::checkIfTripleLaserOver()
+{
+	if (SDL_GetTicks() - m_TimeGotTripleLasers >= TIME_TRIPLE_LASERS_ACTIVE)
+		m_HasTripleLasers = false;
 }
 
 void PlayState::createPowerupsIfNeeded()
@@ -105,7 +116,7 @@ void PlayState::createPowerupsIfNeeded()
 	if (SDL_GetTicks() - m_LastTimePowerupCreated >= POWERUP_CREATION_DELAY)
 	{
 		m_Powerups.push_back(std::make_shared<Powerup>(
-			glm::vec2(Random::genFloat(0.f, Game::WIDTH), Game::HEIGHT * 1.2f), glm::vec2(0.f, -0.05f), PowerupType::Laser));
+			glm::vec2(Random::genFloat(0.f, Game::WIDTH), Game::HEIGHT * 1.2f), glm::vec2(0.f, -0.10f), PowerupType::Laser));
 
 		m_LastTimePowerupCreated = SDL_GetTicks();
 	}
@@ -144,7 +155,12 @@ void PlayState::checkPlayerPowerupCollisions()
 	{
 		if (Collision::isColliding(m_Player.getShape(), powerup->getShape()))
 		{
+			// NOT USED YET.
 			m_Player.collectedPowerup(powerup->getType());
+
+			m_HasTripleLasers = true;
+			m_TimeGotTripleLasers = SDL_GetTicks();
+
 			powerup->flagForRemoval();
 		}
 	}
@@ -366,9 +382,19 @@ void PlayState::fireLaser()
 	if (isFireDelayOver())
 	{
 		auto position = m_Player.getSprite().getPosition();
+		auto size = m_Player.getSprite().getSize();
 		auto rotation = m_Player.getSprite().getRotationDegs();
 
-		m_Lasers.push_back(std::make_shared<Laser>(position, rotation, LaserType::Red));
+		if (m_HasTripleLasers)
+		{
+			m_Lasers.push_back(std::make_shared<Laser>(glm::vec2(position.x - size.x / 2.f, position.y), rotation, LaserType::Red));
+			m_Lasers.push_back(std::make_shared<Laser>(glm::vec2(position.x, position.y), rotation, LaserType::Red));
+			m_Lasers.push_back(std::make_shared<Laser>(glm::vec2(position.x + size.x / 2.f, position.y), rotation, LaserType::Red));
+		}
+		else
+		{
+			m_Lasers.push_back(std::make_shared<Laser>(position, rotation, LaserType::Red));
+		}
 
 		AudioManager::getInstance().playSound("Laser");
 
