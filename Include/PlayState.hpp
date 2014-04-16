@@ -46,6 +46,7 @@ private:
 	void updatePlayer(Uint32 delta);
 	void updateAsteroids(Uint32 delta);
 	void updateLasers(Uint32 delta);
+	void updateParticles(Uint32 delta);
 
 	bool isFireDelayOver() const;
 	void fireLaser();
@@ -53,6 +54,7 @@ private:
 
 	void createAsteroidsIfNeeded();
 	void createAsteroids();
+	void createSubAsteroids(std::shared_ptr<Asteroid> asteroid);
 
 	void removeLasers();
 	void removeOutOfBoundLasers();

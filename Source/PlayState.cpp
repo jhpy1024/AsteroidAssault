@@ -80,18 +80,24 @@ void PlayState::update(Uint32 delta)
 	updatePlayer(delta);
 	updateAsteroids(delta);
 	updateLasers(delta);
-	fireLasersIfNeeded();
-	createAsteroidsIfNeeded();
-	checkCollisions();
+	updateParticles(delta);
 
+	fireLasersIfNeeded();
 	removeLasers();
+
+	createAsteroidsIfNeeded();
 	removeAsteroids();
 	addNewAsteroids();
 
+	checkCollisions();
+	
+	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+}
+
+void PlayState::updateParticles(Uint32 delta)
+{
 	m_ExplosionParticleSys->update(delta);
 	m_LaserParticleSys->update(delta);
-
-	m_ScoreText.setString("Score: " + std::to_string(m_Score));
 }
 
 void PlayState::addNewAsteroids()
@@ -153,12 +159,9 @@ void PlayState::checkLaserAsteroidCollisions()
 		{
 			if (Collision::isColliding(laser->getShape(), asteroid->getShape()))
 			{
+				createSubAsteroids(asteroid);
+
 				laser->flagForRemoval();
-
-				auto subAsteroids = AsteroidFactory::createSubAsteroids(*asteroid);
-				for (auto& newAsteroid : subAsteroids)
-					m_AsteroidsToAdd.push_back(newAsteroid);
-
 				asteroid->flagForRemoval();
 
 				m_ExplosionParticleSys->setPosition(asteroid->getSprite().getPosition());
@@ -170,6 +173,13 @@ void PlayState::checkLaserAsteroidCollisions()
 			}
 		}
 	}
+}
+
+void PlayState::createSubAsteroids(std::shared_ptr<Asteroid> asteroid)
+{
+	auto subAsteroids = AsteroidFactory::createSubAsteroids(*asteroid);
+	for (auto& newAsteroid : subAsteroids)
+		m_AsteroidsToAdd.push_back(newAsteroid);
 }
 
 void PlayState::render()
