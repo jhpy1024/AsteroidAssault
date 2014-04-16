@@ -105,6 +105,18 @@ void PlayState::checkCollisions()
 {
 	checkLaserAsteroidCollisions();
 	checkPlayerAsteroidCollisions();
+	checkPlayerInBounds();
+}
+
+void PlayState::checkPlayerInBounds()
+{
+	auto pos = m_Player.getSprite().getPosition();
+	auto size = m_Player.getSprite().getSize();
+
+	if (pos.x - size.x / 2.f < 0.f)
+		m_Player.getSprite().setPosition({ 0.f + size.x / 2.f, pos.y });
+	else if (pos.x + size.x / 2.f > Game::WIDTH)
+		m_Player.getSprite().setPosition({ Game::WIDTH - size.x / 2.f, pos.y });
 }
 
 void PlayState::checkPlayerAsteroidCollisions()

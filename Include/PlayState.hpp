@@ -35,6 +35,7 @@ private:
 	void checkCollisions();
 	void checkLaserAsteroidCollisions();
 	void checkPlayerAsteroidCollisions();
+	void checkPlayerInBounds();
 
 	template <typename T>
 	std::vector<Sprite> getSpritesFromCollection(std::vector<std::shared_ptr<T>>& collection);
