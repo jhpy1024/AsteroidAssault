@@ -94,6 +94,7 @@ void Game::loadTextures()
 	textureManager.addTexture("MenuSheet", "Resources/Textures/MenuSheet.png");
 	textureManager.addTexture("DeadSheet", "Resources/Textures/DeadSheet.png");
 	textureManager.addTexture("PowerupSheet", "Resources/Textures/PowerupSheet.png");
+	textureManager.addTexture("AboutSheet", "Resources/Textures/AboutSheet.png");
 } 
 
 void Game::loadShaders()

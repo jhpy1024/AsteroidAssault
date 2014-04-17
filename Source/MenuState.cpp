@@ -6,6 +6,7 @@
 #include "StateManager.hpp"
 #include "PlayState.hpp"
 #include "AudioManager.hpp"
+#include "AboutState.hpp"
 
 #include <iostream>
 #include <memory>
@@ -66,7 +67,7 @@ void MenuState::leftButtonPressed()
 	if (Collision::isColliding(m_MouseRect, m_PlayRect))
 		StateManager::getInstance().push(std::make_shared<PlayState>());
 	else if (Collision::isColliding(m_MouseRect, m_AboutRect))
-		std::cout << "About button pressed" << std::endl;
+		StateManager::getInstance().push(std::make_shared<AboutState>());
 	else if (Collision::isColliding(m_MouseRect, m_ExitRect))
 	{
 		SDL_Quit();
