@@ -195,7 +195,7 @@ void PlayState::decreaseLives()
 	{
 		--m_Lives;
 		m_LivesText.setString("Lives: " + std::to_string(m_Lives));
-		m_LivesText.setColor({ Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), 1.f });
+		m_LivesText.setColor({ Random::genFloat(0.3f, 1.f), Random::genFloat(0.3f, 1.f), Random::genFloat(0.3f, 1.f), 1.f });
 	}
 	else
 	{
@@ -259,7 +259,7 @@ void PlayState::render()
 void PlayState::increaseScore()
 {
 	m_Score += 100;
-	m_ScoreText.setColor({ Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), Random::genFloat(0.f, 1.f), 1.f });
+	m_ScoreText.setColor({ Random::genFloat(0.3f, 1.f), Random::genFloat(0.3f, 1.f), Random::genFloat(0.3f, 1.f), 1.f });
 }
 
 void PlayState::fireLasersIfNeeded()
