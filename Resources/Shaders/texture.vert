@@ -9,6 +9,8 @@ uniform mat4 in_ProjectionMatrix;
 uniform mat4 in_ViewMatrix;
 uniform mat4 in_ModelMatrix;
 
+in float in_Time;
+
 void main()
 {
 	mat4 mvpMatrix = in_ProjectionMatrix * in_ViewMatrix * in_ModelMatrix;

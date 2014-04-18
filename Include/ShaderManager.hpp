@@ -15,6 +15,9 @@ public:
 	void addShader(const std::string& id, const std::string& vertexFile, const std::string& fragmentFile);
 	std::shared_ptr<Shader> getShader(const std::string& id);
 
+	void enableScreenShake(float amount = 3.f);
+	void disableScrenShake();
+
 private:
 	ShaderManager();
 

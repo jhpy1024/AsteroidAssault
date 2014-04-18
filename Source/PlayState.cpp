@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "StateManager.hpp"
 #include "DeadState.hpp"
+#include "ShaderManager.hpp"
 
 PlayState::PlayState()
 	: m_Player(glm::vec2(Game::WIDTH / 2.f, 100.f), PlayerShipType::GreenRectangular)
@@ -63,8 +64,11 @@ void PlayState::handleKeyPress(SDL_Keycode key)
 		m_Player.moveRight();
 
 	if (key == SDLK_SPACE)
+	{
 		m_IsShooting = true;
-
+		ShaderManager::getInstance().enableScreenShake(m_HasTripleLasers ? 8.f : 3.f);
+	}
+	
 	if (key == SDLK_ESCAPE)
 		StateManager::getInstance().pop();
 }
@@ -77,7 +81,10 @@ void PlayState::handleKeyRelease(SDL_Keycode key)
 		m_Player.stopMovingRight();
 
 	if (key == SDLK_SPACE)
+	{
 		m_IsShooting = false;
+		ShaderManager::getInstance().disableScrenShake();
+	}
 }
 
 void PlayState::update(Uint32 delta)
@@ -199,6 +206,7 @@ void PlayState::decreaseLives()
 	}
 	else
 	{
+		ShaderManager::getInstance().disableScrenShake();
 		StateManager::getInstance().push(std::make_shared<DeadState>(m_Score));
 	}
 }

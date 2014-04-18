@@ -73,6 +73,11 @@ void Game::handleKeyRelease(SDL_Keycode key)
 
 void Game::update(Uint32 delta)
 {
+	ShaderManager::getInstance().getShader("Texture")->bind();
+	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Time", static_cast<float>(SDL_GetTicks()));
+	ShaderManager::getInstance().getShader("Particle")->bind();
+	ShaderManager::getInstance().getShader("Particle")->setUniform("in_Time", static_cast<float>(SDL_GetTicks()));
+
 	StateManager::getInstance().top()->update(delta);
 }
 
