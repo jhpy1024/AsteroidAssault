@@ -9,6 +9,8 @@
 #include "DeadState.hpp"
 #include "ShaderManager.hpp"
 
+#include <iostream>
+
 PlayState::PlayState()
 	: m_Player(glm::vec2(Game::WIDTH / 2.f, 100.f), PlayerShipType::GreenRectangular)
 	, ASTEROID_CREATION_COUNT(5)
@@ -95,6 +97,22 @@ void PlayState::handleKeyRelease(SDL_Keycode key)
 	}
 }
 
+float clamp(float lower, float upper, float x)
+{
+	if (x < lower)
+		return lower;
+	else if (x > upper)
+		return upper;
+	else
+		return x;
+}
+
+float smoothstep(float a, float b, float x)
+{
+	float x1 = clamp(0.f, 1.f, (x - a) / (b - a));
+	return x1 * x1 * (3 - 2 * x1);
+}
+
 void PlayState::update(Uint32 delta)
 {
 	updatePlayer(delta);
@@ -118,6 +136,17 @@ void PlayState::update(Uint32 delta)
 	checkIfTripleLaserOver();
 	
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+
+	static int direction = 1;
+
+	if (m_Circle.radius >= 96.f)
+		direction = -1;
+	if (m_Circle.radius <= 64.f)
+		direction = 1;
+
+	m_Circle.radius += 0.05f * direction * delta;
+	m_Circle.color.w = smoothstep(64.f * 0.75f, 96.f, m_Circle.radius);
+	m_Circle.position = m_Player.getSprite().getPosition();
 }
 
 void PlayState::checkIfTripleLaserOver()
@@ -258,6 +287,7 @@ void PlayState::render()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
+	m_ShapeRenderer.render(std::make_shared<CircleShape>(m_Circle));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));
 	m_SpriteRenderer.render(powerupSprites, TextureManager::getInstance().getTexture("PowerupSheet"));
@@ -272,7 +302,6 @@ void PlayState::render()
 	m_TextRenderer.render(m_LivesText, TextureManager::getInstance().getTexture("TextSheet"));
 
 	m_ShapeRenderer.render(std::make_shared<RectangleShape>(m_Rectangle));
-	m_ShapeRenderer.render(std::make_shared<CircleShape>(m_Circle));
 }
 
 void PlayState::increaseScore()
