@@ -1,6 +1,15 @@
 #include "ShapeRenderer.hpp"
 #include "ShaderManager.hpp"
+#include "Shader.hpp"
 #include "RectangleShape.hpp"
+
+#include <iostream>
+
+ShapeRenderer::ShapeRenderer()
+	: m_NumSegments(100)
+{
+
+}
 
 void ShapeRenderer::init()
 {
@@ -13,14 +22,14 @@ void ShapeRenderer::setNumCircleSegments(int numSegments)
 	m_NumSegments = numSegments;
 }
 
-void ShapeRenderer::render(Shape& shape)
+void ShapeRenderer::render(std::shared_ptr<Shape> shape)
 {
-	std::vector<Shape> shapes;
+	std::vector<std::shared_ptr<Shape>> shapes;
 	shapes.push_back(shape);
 	render(shapes);
 }
 
-void ShapeRenderer::render(std::vector<Shape>& shapes)
+void ShapeRenderer::render(std::vector<std::shared_ptr<Shape>>& shapes)
 {
 	if (shapes.empty()) return;
 
@@ -43,98 +52,101 @@ void ShapeRenderer::render(std::vector<Shape>& shapes)
 	m_ColorBuffer.bind();
 	colorShader->setupVertexAttribPointer("in_Color", 4);
 
-	glDrawArrays(GL_TRIANGLES, 0, m_VertexBuffer.getNumVertices());
+	glDrawArrays(GL_TRIANGLE_FAN, 0, m_VertexBuffer.getNumVertices());
 }
 
-void ShapeRenderer::addVertices(Shape& shape)
+void ShapeRenderer::addVertices(std::shared_ptr<Shape> shape)
 {
-	switch (shape.getType())
+	switch (shape->getType())
 	{
 	case ShapeType::Rectangle:
-		addVertices(static_cast<RectangleShape&>(shape));
+		addVertices(std::static_pointer_cast<RectangleShape>(shape));
 		break;
 	case ShapeType::Circle:
-		addVertices(static_cast<CircleShape&>(shape));
+		addVertices(std::static_pointer_cast<CircleShape>(shape));
 		break;
 	default:
 		break;
 	}
 }
 
-void ShapeRenderer::addColors(Shape& shape)
+void ShapeRenderer::addColors(std::shared_ptr<Shape> shape)
 {
-	switch (shape.getType())
+	switch (shape->getType())
 	{
 	case ShapeType::Rectangle:
-		addColors(static_cast<RectangleShape&>(shape));
+		addColors(std::static_pointer_cast<RectangleShape>(shape));
 		break;
 	case ShapeType::Circle:
-		addColors(static_cast<CircleShape&>(shape));
+		addColors(std::static_pointer_cast<CircleShape>(shape));
 		break;
 	default:
 		break;
 	}
 }
 
-void ShapeRenderer::addVertices(RectangleShape& shape)
+void ShapeRenderer::addVertices(std::shared_ptr<RectangleShape> shape)
 {
 	// Bottom Left
-	m_Vertices.push_back(shape.position.x - shape.width / 2.f);
-	m_Vertices.push_back(shape.position.y - shape.height / 2.f);
+	m_Vertices.push_back(shape->position.x - shape->width / 2.f);
+	m_Vertices.push_back(shape->position.y - shape->height / 2.f);
 
 	// Bottom Right
-	m_Vertices.push_back(shape.position.x + shape.width / 2.f);
-	m_Vertices.push_back(shape.position.y - shape.height / 2.f);
+	m_Vertices.push_back(shape->position.x + shape->width / 2.f);
+	m_Vertices.push_back(shape->position.y - shape->height / 2.f);
 
 	// Top Right
-	m_Vertices.push_back(shape.position.x + shape.width / 2.f);
-	m_Vertices.push_back(shape.position.y + shape.height / 2.f);
+	m_Vertices.push_back(shape->position.x + shape->width / 2.f);
+	m_Vertices.push_back(shape->position.y + shape->height / 2.f);
 
 	// Top Right (2)
-	m_Vertices.push_back(shape.position.x + shape.width / 2.f);
-	m_Vertices.push_back(shape.position.y + shape.height / 2.f);
+	m_Vertices.push_back(shape->position.x + shape->width / 2.f);
+	m_Vertices.push_back(shape->position.y + shape->height / 2.f);
 
 	// Top Left
-	m_Vertices.push_back(shape.position.x - shape.width / 2.f);
-	m_Vertices.push_back(shape.position.y + shape.height / 2.f);
+	m_Vertices.push_back(shape->position.x - shape->width / 2.f);
+	m_Vertices.push_back(shape->position.y + shape->height / 2.f);
 
 	// Bottom Left (2)
-	m_Vertices.push_back(shape.position.x - shape.width / 2.f);
-	m_Vertices.push_back(shape.position.y - shape.height / 2.f);
+	m_Vertices.push_back(shape->position.x - shape->width / 2.f);
+	m_Vertices.push_back(shape->position.y - shape->height / 2.f);
 }
 
-void ShapeRenderer::addVertices(CircleShape& shape)
+void ShapeRenderer::addVertices(std::shared_ptr<CircleShape> shape)
 {
+	float prevX;
+	float prevY;
+
 	for (int i = 0; i < m_NumSegments; ++i)
 	{
-		float theta = 2.f * 3.1415926f * i * m_NumSegments;
+		float theta = (2.f * 3.1415926f * i) / m_NumSegments;
 
-		float x = shape.radius * std::cos(theta);
-		float y = shape.radius * std::sin(theta);
+		float x = shape->radius * std::cos(theta) + shape->position.x;
+		float y = shape->radius * std::sin(theta) + shape->position.y;
 
 		m_Vertices.push_back(x);
 		m_Vertices.push_back(y);
 	}
 }
 
-void ShapeRenderer::addColors(RectangleShape& shape)
+void ShapeRenderer::addColors(std::shared_ptr<RectangleShape> shape)
 {
 	for (int i = 0; i < 6; ++i)
 	{
 		m_Colors.push_back(1.f);
-		m_Colors.push_back(0.f);
-		m_Colors.push_back(0.f);
+		m_Colors.push_back(1.f);
+		m_Colors.push_back(1.f);
 		m_Colors.push_back(1.f);
 	}
 }
 
-void ShapeRenderer::addColors(CircleShape& shape)
+void ShapeRenderer::addColors(std::shared_ptr<CircleShape> shape)
 {
-	for (int i = 0; i < m_NumSegments; ++i)
+	for (int i = 0; i < (m_NumSegments * 3) - 1; ++i)
 	{
+		m_Colors.push_back(0.f);
 		m_Colors.push_back(1.f);
-		m_Colors.push_back(0.f);
-		m_Colors.push_back(0.f);
+		m_Colors.push_back(1.f);
 		m_Colors.push_back(1.f);
 	}
 }

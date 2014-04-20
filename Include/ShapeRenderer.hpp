@@ -7,26 +7,29 @@
 #include "CircleShape.hpp"
 
 #include <vector>
+#include <memory>
 
 class ShapeRenderer
 {
 public:
+	ShapeRenderer();
+
 	void init();
-	void render(Shape& shape);
-	void render(std::vector<Shape>& shapes);
+	void render(std::shared_ptr<Shape> shape);
+	void render(std::vector<std::shared_ptr<Shape>>& shapes);
 
 	void setNumCircleSegments(int numSegments);
 
 private:
 	void clearVectors();
 
-	void addVertices(Shape& shape);
-	void addVertices(RectangleShape& shape);
-	void addVertices(CircleShape& shape);
+	void addVertices(std::shared_ptr<Shape> shape);
+	void addVertices(std::shared_ptr<RectangleShape> shape);
+	void addVertices(std::shared_ptr<CircleShape> shape);
 
-	void addColors(Shape& shape);
-	void addColors(RectangleShape& shape);
-	void addColors(CircleShape& shape);
+	void addColors(std::shared_ptr<Shape> shape);
+	void addColors(std::shared_ptr<RectangleShape> shape);
+	void addColors(std::shared_ptr<CircleShape> shape);
 
 	void passDataToBuffers();
 

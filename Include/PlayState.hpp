@@ -14,6 +14,10 @@
 #include "TextRenderer.hpp"
 #include "Powerup.hpp"
 
+#include "RectangleShape.hpp"
+#include "CircleShape.hpp"
+#include "ShapeRenderer.hpp"
+
 #include <vector>
 #include <memory>
 
@@ -116,6 +120,10 @@ private:
 	bool m_HasTripleLasers;
 	Uint32 m_TimeGotTripleLasers;
 	const Uint32 TIME_TRIPLE_LASERS_ACTIVE;
+
+	RectangleShape m_Rectangle;
+	CircleShape m_Circle;
+	ShapeRenderer m_ShapeRenderer;
 };
 
 #include "PlayState.inl"

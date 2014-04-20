@@ -1,11 +1,12 @@
 #include "RectangleShape.hpp"
 
+#include <iostream>
+
 RectangleShape::RectangleShape()
 	: Shape(ShapeType::Rectangle)
 	, width(0.f)
 	, height(0.f)
 {
-
 }
 
 RectangleShape::RectangleShape(const glm::vec2& size)
@@ -13,7 +14,6 @@ RectangleShape::RectangleShape(const glm::vec2& size)
 	, width(size.x)
 	, height(size.y)
 {
-	
 }
 
 RectangleShape::RectangleShape(float width, float height)
@@ -21,5 +21,4 @@ RectangleShape::RectangleShape(float width, float height)
 	, width(width)
 	, height(height)
 {
-
 }

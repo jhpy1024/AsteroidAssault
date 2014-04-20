@@ -77,6 +77,8 @@ void Game::update(Uint32 delta)
 	ShaderManager::getInstance().getShader("Texture")->setUniform("in_Time", static_cast<float>(SDL_GetTicks()));
 	ShaderManager::getInstance().getShader("Particle")->bind();
 	ShaderManager::getInstance().getShader("Particle")->setUniform("in_Time", static_cast<float>(SDL_GetTicks()));
+	ShaderManager::getInstance().getShader("Color")->bind();
+	ShaderManager::getInstance().getShader("Color")->setUniform("in_Time", static_cast<float>(SDL_GetTicks()));
 
 	StateManager::getInstance().top()->update(delta);
 }
@@ -106,12 +108,15 @@ void Game::loadShaders()
 {
 	ShaderManager::getInstance().addShader("Texture", "Resources/Shaders/texture.vert", "Resources/Shaders/texture.frag");
 	ShaderManager::getInstance().addShader("Particle", "Resources/Shaders/particle.vert", "Resources/Shaders/particle.frag");
+	ShaderManager::getInstance().addShader("Color", "Resources/Shaders/color.vert", "Resources/Shaders/color.frag");
 }
 
 void Game::setupDefaultMatrices()
 {
 	auto textureShader = ShaderManager::getInstance().getShader("Texture");
 	auto particleShader = ShaderManager::getInstance().getShader("Particle");
+	auto colorShader = ShaderManager::getInstance().getShader("Color");
+
 	auto projectionMatrix = glm::ortho(0.f, static_cast<float>(WIDTH), 0.f, static_cast<float>(HEIGHT));
 	auto viewMatrix = glm::mat4(1.f);
 	auto modelMatrix = glm::mat4(1.f);
@@ -120,8 +125,14 @@ void Game::setupDefaultMatrices()
 	textureShader->setUniform("in_ProjectionMatrix", projectionMatrix);
 	textureShader->setUniform("in_ViewMatrix", viewMatrix);
 	textureShader->setUniform("in_ModelMatrix", modelMatrix);
+
 	particleShader->bind();
 	particleShader->setUniform("in_ProjectionMatrix", projectionMatrix);
 	particleShader->setUniform("in_ViewMatrix", viewMatrix);
 	particleShader->setUniform("in_ModelMatrix", modelMatrix);
+
+	colorShader->bind();
+	colorShader->setUniform("in_ProjectionMatrix", projectionMatrix);
+	colorShader->setUniform("in_ViewMatrix", viewMatrix);
+	colorShader->setUniform("in_ModelMatrix", modelMatrix);
 }

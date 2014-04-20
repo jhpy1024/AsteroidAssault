@@ -49,6 +49,12 @@ void PlayState::init()
 	m_ScoreText.setPadding({ 2.f, 0.f });
 	m_LivesText.setCharacterSize({ 15.f, 15.f });
 	m_LivesText.setPadding({ 2.f, 0.f });
+
+	m_Rectangle.position = { Game::WIDTH / 2.f, Game::HEIGHT / 2.f };
+	m_Rectangle.width = m_Rectangle.height = 32.f;
+	m_Circle.position = m_Rectangle.position + 100.f;
+	m_Circle.radius = 32.f;
+	m_ShapeRenderer.init();
 }
 
 void PlayState::handleEvent(const SDL_Event& event)
@@ -262,6 +268,9 @@ void PlayState::render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
 	m_TextRenderer.render(m_LivesText, TextureManager::getInstance().getTexture("TextSheet"));
+
+	m_ShapeRenderer.render(std::make_shared<RectangleShape>(m_Rectangle));
+	m_ShapeRenderer.render(std::make_shared<CircleShape>(m_Circle));
 }
 
 void PlayState::increaseScore()
