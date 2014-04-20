@@ -52,8 +52,10 @@ void PlayState::init()
 
 	m_Rectangle.position = { Game::WIDTH / 2.f, Game::HEIGHT / 2.f };
 	m_Rectangle.width = m_Rectangle.height = 32.f;
+	m_Rectangle.color = { 0.f, 1.f, 0.f, 1.f };
 	m_Circle.position = m_Rectangle.position + 100.f;
 	m_Circle.radius = 32.f;
+	m_Circle.color = { 0.f, 1.f, 1.f, 1.f };
 	m_ShapeRenderer.init();
 }
 

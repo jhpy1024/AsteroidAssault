@@ -15,6 +15,7 @@ public:
 	ShapeType getType() const;
 
 	glm::vec2 position;
+	glm::vec4 color;
 
 protected:
 	Shape(ShapeType type);

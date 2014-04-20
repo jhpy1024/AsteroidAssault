@@ -133,10 +133,10 @@ void ShapeRenderer::addColors(std::shared_ptr<RectangleShape> shape)
 {
 	for (int i = 0; i < 6; ++i)
 	{
-		m_Colors.push_back(1.f);
-		m_Colors.push_back(1.f);
-		m_Colors.push_back(1.f);
-		m_Colors.push_back(1.f);
+		m_Colors.push_back(shape->color.x);
+		m_Colors.push_back(shape->color.y);
+		m_Colors.push_back(shape->color.z);
+		m_Colors.push_back(shape->color.w);
 	}
 }
 
@@ -144,10 +144,10 @@ void ShapeRenderer::addColors(std::shared_ptr<CircleShape> shape)
 {
 	for (int i = 0; i < (m_NumSegments * 3) - 1; ++i)
 	{
-		m_Colors.push_back(0.f);
-		m_Colors.push_back(1.f);
-		m_Colors.push_back(1.f);
-		m_Colors.push_back(1.f);
+		m_Colors.push_back(shape->color.x);
+		m_Colors.push_back(shape->color.y);
+		m_Colors.push_back(shape->color.z);
+		m_Colors.push_back(shape->color.w);
 	}
 }
 
