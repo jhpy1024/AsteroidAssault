@@ -8,6 +8,7 @@
 #include "StateManager.hpp"
 #include "DeadState.hpp"
 #include "ShaderManager.hpp"
+#include "MathUtils.hpp"
 
 #include <iostream>
 
@@ -91,22 +92,6 @@ void PlayState::handleKeyRelease(SDL_Keycode key)
 	}
 }
 
-float clamp(float lower, float upper, float x)
-{
-	if (x < lower)
-		return lower;
-	else if (x > upper)
-		return upper;
-	else
-		return x;
-}
-
-float smoothstep(float a, float b, float x)
-{
-	float x1 = clamp(0.f, 1.f, (x - a) / (b - a));
-	return x1 * x1 * (3 - 2 * x1);
-}
-
 void PlayState::update(Uint32 delta)
 {
 	updatePlayer(delta);
@@ -151,7 +136,7 @@ void PlayState::updateShield(Uint32 delta)
 		direction = 1;
 
 	m_Shield.radius += 0.05f * direction * delta;
-	m_Shield.color.w = smoothstep(64.f * 0.75f, 96.f, m_Shield.radius);
+	m_Shield.color.w = MathUtils::smoothStep(m_Shield.radius, 64.f * 0.75f, 96.f);
 	m_Shield.position = m_Player.getSprite().getPosition();
 }
 
