@@ -42,7 +42,7 @@ void PlayState::init()
 	setupSprites();
 
 	m_ExplosionParticleSys = std::unique_ptr<ExplosionParticleSystem>(new ExplosionParticleSystem);
-	m_ExplosionParticleSys->setEmissionCount(100);
+	m_ExplosionParticleSys->setEmissionCount(70);
 	m_LaserParticleSys = std::unique_ptr<LaserParticleSystem>(new LaserParticleSystem);
 	m_LaserParticleSys->setEmissionCount(5);
 	m_ParticleRenderer.init();
@@ -71,10 +71,7 @@ void PlayState::handleKeyPress(SDL_Keycode key)
 		m_Player.moveRight();
 
 	if (key == SDLK_SPACE)
-	{
 		m_IsShooting = true;
-		ShaderManager::getInstance().enableScreenShake(m_CurrentPowerup == PowerupType::Laser ? 8.f : 3.f);
-	}
 	
 	if (key == SDLK_ESCAPE)
 		StateManager::getInstance().pop();
@@ -252,14 +249,12 @@ void PlayState::checkPlayerAsteroidCollisions()
 			if (Collision::isColliding(m_Shield, asteroid->getShape()))
 			{
 				asteroid->reverseDirection();
-				std::cout << "Ding\n";
 				continue;
 			}
 		}
 
 		if (Collision::isColliding(m_Player.getShape(), asteroid->getShape()))
 		{
-			std::cout << "Ding2\n";
 			asteroid->flagForRemoval();
 			decreaseLives();
 		}
@@ -476,6 +471,7 @@ void PlayState::fireLaser()
 		}
 
 		AudioManager::getInstance().playSound("Laser");
+		ShaderManager::getInstance().enableScreenShake(m_CurrentPowerup == PowerupType::Laser ? 8.f : 3.f);
 
 		m_LastTimeFiredLaser = SDL_GetTicks();
 	}
