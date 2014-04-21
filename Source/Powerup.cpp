@@ -41,6 +41,9 @@ TextureBounds Powerup::getTextureBounds() const
 		bounds.bottomLeft = { 0.f, 0.f };
 		bounds.size = { 61.f, 60.f };
 		break;
+	case PowerupType::Shield:
+		bounds.bottomLeft = { 61.f, 0.f };
+		bounds.size = { 61.f, 60.f };
 	default:
 		break;
 	}

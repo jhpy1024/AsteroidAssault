@@ -10,6 +10,8 @@ namespace PowerupType
 	enum Type
 	{
 		Laser,
+		Shield,
+		Last,
 	};
 };
 

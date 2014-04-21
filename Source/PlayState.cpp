@@ -28,7 +28,7 @@ PlayState::PlayState()
 	, m_Lives(3)
 	, m_LivesText("Lives: " + std::to_string(m_Lives), { Game::WIDTH * 0.78f, Game::HEIGHT * 0.05f }, { 0.f, 1.f, 0.f, 1.f })
 	, m_LastTimePowerupCreated(0)
-	, POWERUP_CREATION_DELAY(30000)
+	, POWERUP_CREATION_DELAY(1000)
 	, m_HasTripleLasers(false)
 	, m_TimeGotTripleLasers(0)
 	, TIME_TRIPLE_LASERS_ACTIVE(5000)
@@ -56,7 +56,7 @@ void PlayState::init()
 	m_Rectangle.width = m_Rectangle.height = 32.f;
 	m_Rectangle.color = { 0.f, 1.f, 0.f, 1.f };
 	m_Circle.position = m_Rectangle.position + 100.f;
-	m_Circle.radius = 32.f;
+	m_Circle.radius = 64.f;
 	m_Circle.color = { 0.f, 1.f, 1.f, 1.f };
 	m_ShapeRenderer.init();
 }
@@ -159,8 +159,11 @@ void PlayState::createPowerupsIfNeeded()
 {
 	if (SDL_GetTicks() - m_LastTimePowerupCreated >= POWERUP_CREATION_DELAY)
 	{
-		m_Powerups.push_back(std::make_shared<Powerup>(
-			glm::vec2(Random::genFloat(0.f, Game::WIDTH), Game::HEIGHT * 1.2f), glm::vec2(0.f, -0.10f), PowerupType::Laser));
+		auto position = glm::vec2(Random::genFloat(0.f, Game::WIDTH), Game::HEIGHT * 1.2f);
+		auto velocity = glm::vec2(0.f, -0.10f);
+		auto powerupType = static_cast<PowerupType::Type>(Random::genInt(0, PowerupType::Last - 1));
+
+		m_Powerups.push_back(std::make_shared<Powerup>(position, velocity, powerupType));
 
 		m_LastTimePowerupCreated = SDL_GetTicks();
 	}
