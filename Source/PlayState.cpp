@@ -27,11 +27,12 @@ PlayState::PlayState()
 	, m_ScoreText("Score: 0", { Game::WIDTH * 0.05f, Game::HEIGHT * 0.05f }, { 0.f, 1.f, 0.f, 1.f })
 	, m_Lives(3)
 	, m_LivesText("Lives: " + std::to_string(m_Lives), { Game::WIDTH * 0.78f, Game::HEIGHT * 0.05f }, { 0.f, 1.f, 0.f, 1.f })
+	, m_CurrentPowerup(PowerupType::Last)
 	, m_LastTimePowerupCreated(0)
-	, POWERUP_CREATION_DELAY(1000)
-	, m_HasTripleLasers(false)
-	, m_TimeGotTripleLasers(0)
+	, m_TimeCollectedPowerup(0)
+	, POWERUP_CREATION_DELAY(10000)
 	, TIME_TRIPLE_LASERS_ACTIVE(5000)
+	, TIME_SHIELD_ACTIVE(8000)
 {
 	
 }
@@ -52,12 +53,8 @@ void PlayState::init()
 	m_LivesText.setCharacterSize({ 15.f, 15.f });
 	m_LivesText.setPadding({ 2.f, 0.f });
 
-	m_Rectangle.position = { Game::WIDTH / 2.f, Game::HEIGHT / 2.f };
-	m_Rectangle.width = m_Rectangle.height = 32.f;
-	m_Rectangle.color = { 0.f, 1.f, 0.f, 1.f };
-	m_Circle.position = m_Rectangle.position + 100.f;
-	m_Circle.radius = 64.f;
-	m_Circle.color = { 0.f, 1.f, 1.f, 1.f };
+	m_Shield.radius = 64.f;
+	m_Shield.color = { 0.f, 1.f, 1.f, 1.f };
 	m_ShapeRenderer.init();
 }
 
@@ -76,7 +73,7 @@ void PlayState::handleKeyPress(SDL_Keycode key)
 	if (key == SDLK_SPACE)
 	{
 		m_IsShooting = true;
-		ShaderManager::getInstance().enableScreenShake(m_HasTripleLasers ? 8.f : 3.f);
+		ShaderManager::getInstance().enableScreenShake(m_CurrentPowerup == PowerupType::Laser ? 8.f : 3.f);
 	}
 	
 	if (key == SDLK_ESCAPE)
@@ -120,6 +117,7 @@ void PlayState::update(Uint32 delta)
 	updateLasers(delta);
 	updateParticles(delta);
 	updatePowerups(delta);
+	updateShield(delta);
 
 	fireLasersIfNeeded();
 	removeLasers();
@@ -133,26 +131,48 @@ void PlayState::update(Uint32 delta)
 
 	checkCollisions();
 
-	checkIfTripleLaserOver();
+	checkIfPowerupOver();
 	
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+}
+
+void PlayState::updateShield(Uint32 delta)
+{
+	if (m_CurrentPowerup != PowerupType::Shield)
+	{
+		m_Shield.radius = 0.f;
+		return;
+	}
+
+	if (m_Shield.radius == 0.f) m_Shield.radius = 64.f;
 
 	static int direction = 1;
 
-	if (m_Circle.radius >= 96.f)
+	if (m_Shield.radius >= 96.f)
 		direction = -1;
-	if (m_Circle.radius <= 64.f)
+	if (m_Shield.radius <= 64.f)
 		direction = 1;
 
-	m_Circle.radius += 0.05f * direction * delta;
-	m_Circle.color.w = smoothstep(64.f * 0.75f, 96.f, m_Circle.radius);
-	m_Circle.position = m_Player.getSprite().getPosition();
+	m_Shield.radius += 0.05f * direction * delta;
+	m_Shield.color.w = smoothstep(64.f * 0.75f, 96.f, m_Shield.radius);
+	m_Shield.position = m_Player.getSprite().getPosition();
 }
 
-void PlayState::checkIfTripleLaserOver()
+void PlayState::checkIfPowerupOver()
 {
-	if (SDL_GetTicks() - m_TimeGotTripleLasers >= TIME_TRIPLE_LASERS_ACTIVE)
-		m_HasTripleLasers = false;
+	switch (m_CurrentPowerup)
+	{
+	case PowerupType::Laser:
+		if (SDL_GetTicks() - m_TimeCollectedPowerup >= TIME_TRIPLE_LASERS_ACTIVE)
+			m_CurrentPowerup = PowerupType::Last;
+		break;
+	case PowerupType::Shield:
+		if (SDL_GetTicks() - m_TimeCollectedPowerup >= TIME_SHIELD_ACTIVE)
+			m_CurrentPowerup = PowerupType::Last;
+		break;
+	default:
+		break;
+	}
 }
 
 void PlayState::createPowerupsIfNeeded()
@@ -204,11 +224,10 @@ void PlayState::checkPlayerPowerupCollisions()
 		{
 			// NOT USED YET.
 			m_Player.collectedPowerup(powerup->getType());
-
-			m_HasTripleLasers = true;
-			m_TimeGotTripleLasers = SDL_GetTicks();
-
+			m_CurrentPowerup = powerup->getType();
 			powerup->flagForRemoval();
+
+			m_TimeCollectedPowerup = SDL_GetTicks();
 		}
 	}
 }
@@ -228,8 +247,19 @@ void PlayState::checkPlayerAsteroidCollisions()
 {
 	for (auto& asteroid : m_Asteroids)
 	{
+		if (m_CurrentPowerup == PowerupType::Shield)
+		{
+			if (Collision::isColliding(m_Shield, asteroid->getShape()))
+			{
+				asteroid->reverseDirection();
+				std::cout << "Ding\n";
+				continue;
+			}
+		}
+
 		if (Collision::isColliding(m_Player.getShape(), asteroid->getShape()))
 		{
+			std::cout << "Ding2\n";
 			asteroid->flagForRemoval();
 			decreaseLives();
 		}
@@ -290,7 +320,7 @@ void PlayState::render()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_SpriteRenderer.render(m_Background, TextureManager::getInstance().getTexture("Background"));
-	m_ShapeRenderer.render(std::make_shared<CircleShape>(m_Circle));
+	m_ShapeRenderer.render(std::make_shared<CircleShape>(m_Shield));
 	m_SpriteRenderer.render(m_Player.getSprite(), TextureManager::getInstance().getTexture("Player"));
 	m_SpriteRenderer.render(asteroidSprites, TextureManager::getInstance().getTexture("Asteroid"));
 	m_SpriteRenderer.render(powerupSprites, TextureManager::getInstance().getTexture("PowerupSheet"));
@@ -303,8 +333,6 @@ void PlayState::render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
 	m_TextRenderer.render(m_LivesText, TextureManager::getInstance().getTexture("TextSheet"));
-
-	m_ShapeRenderer.render(std::make_shared<RectangleShape>(m_Rectangle));
 }
 
 void PlayState::increaseScore()
@@ -436,7 +464,7 @@ void PlayState::fireLaser()
 		auto size = m_Player.getSprite().getSize();
 		auto rotation = m_Player.getSprite().getRotationDegs();
 
-		if (m_HasTripleLasers)
+		if (m_CurrentPowerup == PowerupType::Laser)
 		{
 			m_Lasers.push_back(std::make_shared<Laser>(glm::vec2(position.x - size.x / 2.f, position.y), rotation, LaserType::Red));
 			m_Lasers.push_back(std::make_shared<Laser>(glm::vec2(position.x, position.y), rotation, LaserType::Red));

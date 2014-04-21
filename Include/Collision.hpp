@@ -13,6 +13,7 @@ public:
 private:
 	static bool circleVsCircle(const Shape& shape1, const Shape& shape2);
 	static bool rectangleVsRectangle(const Shape& shape1, const Shape& shape2);
+	static bool circleVsRectangle(const Shape& shape1, const Shape& shape2);
 };
 
 #endif

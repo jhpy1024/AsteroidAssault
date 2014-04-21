@@ -42,6 +42,8 @@ public:
 
 	AsteroidType::Type getType() const;
 
+	void reverseDirection();
+
 private:
 	AsteroidType::Type getRandomType() const;
 	glm::vec2 getRandomPosition() const;

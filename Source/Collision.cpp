@@ -11,11 +11,30 @@ bool Collision::isColliding(const Shape& shape1, const Shape& shape2)
 		return rectangleVsRectangle(shape1, shape2);
 	else if ((shape1Type == ShapeType::Circle) && (shape2Type == ShapeType::Circle))
 		return circleVsCircle(shape1, shape2);
-	else
-	{
-		std::cerr << "This form of collision detection has not been implemented yet." << std::endl;
-		return false;
-	}
+	else if ((shape1Type == ShapeType::Circle) && (shape2Type == ShapeType::Rectangle))
+		return circleVsRectangle(shape1, shape2);
+	else if ((shape2Type == ShapeType::Circle) && (shape1Type == ShapeType::Rectangle))
+		return circleVsRectangle(shape2, shape1);
+}
+
+bool Collision::circleVsRectangle(const Shape& shape1, const Shape& shape2)
+{
+	auto circle = static_cast<const CircleShape&>(shape1);
+	auto rect = static_cast<const RectangleShape&>(shape2);
+
+	float circleDistanceX = std::abs(circle.position.x - rect.position.x);
+	float circleDistanceY = std::abs(circle.position.y - rect.position.y);
+
+	if (circleDistanceX > (rect.width / 2 + circle.radius)) { return false; }
+	if (circleDistanceY > (rect.height / 2 + circle.radius)) { return false; }
+
+	if (circleDistanceX <= (rect.width / 2)) { return true; }
+	if (circleDistanceY <= (rect.height / 2)) { return true; }
+
+	float cornerDistanceSquared = (circleDistanceX - rect.width / 2) * (circleDistanceX - rect.width / 2) +
+		(circleDistanceY - rect.height / 2) * (circleDistanceY - rect.height / 2);
+
+	return (cornerDistanceSquared <= (circle.radius * circle.radius));
 }
 
 bool Collision::rectangleVsRectangle(const Shape& shape1, const Shape& shape2)

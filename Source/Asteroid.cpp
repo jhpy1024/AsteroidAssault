@@ -28,6 +28,12 @@ Asteroid::Asteroid(const glm::vec2& position, AsteroidType::Type type)
 	setupShape();
 }
 
+void Asteroid::reverseDirection()
+{
+	m_Velocity.y = -m_Velocity.y;
+	m_Velocity.y *= 1.5f;
+}
+
 void Asteroid::setupShape()
 {
 	m_Rectangle = RectangleShape(m_Sprite.getSize());

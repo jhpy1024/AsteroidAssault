@@ -53,6 +53,7 @@ private:
 	void updateLasers(Uint32 delta);
 	void updateParticles(Uint32 delta);
 	void updatePowerups(Uint32 delta);
+	void updateShield(Uint32 delta);
 
 	bool isFireDelayOver() const;
 	void fireLaser();
@@ -74,7 +75,7 @@ private:
 	void removeOutOfBoundAsteroids();
 	void removeFlaggedAsteroids();
 
-	void checkIfTripleLaserOver();
+	void checkIfPowerupOver();
 
 private:
 	Player m_Player;
@@ -113,12 +114,12 @@ private:
 
 	TextRenderer m_TextRenderer;
 
+	PowerupType::Type m_CurrentPowerup;
 	Uint32 m_LastTimePowerupCreated;
+	Uint32 m_TimeCollectedPowerup;
 	const Uint32 POWERUP_CREATION_DELAY;
-
-	bool m_HasTripleLasers;
-	Uint32 m_TimeGotTripleLasers;
 	const Uint32 TIME_TRIPLE_LASERS_ACTIVE;
+	const Uint32 TIME_SHIELD_ACTIVE;
 
 	CircleShape m_Shield;
 	ShapeRenderer m_ShapeRenderer;
