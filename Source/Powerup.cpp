@@ -19,6 +19,7 @@ void Powerup::setupSprite()
 {
 	m_Sprite.setPosition(m_StartPosition);
 	m_Sprite.setTextureBounds(getTextureBounds());
+	m_Sprite.setScale({ 2.5f, 2.5f });
 }
 
 void Powerup::setupShape()
@@ -39,11 +40,11 @@ TextureBounds Powerup::getTextureBounds() const
 	{
 	case PowerupType::Laser:
 		bounds.bottomLeft = { 0.f, 0.f };
-		bounds.size = { 61.f, 60.f };
+		bounds.size = { 24.f, 24.f };
 		break;
 	case PowerupType::Shield:
-		bounds.bottomLeft = { 61.f, 0.f };
-		bounds.size = { 61.f, 60.f };
+		bounds.bottomLeft = { 24.f, 0.f };
+		bounds.size = { 24.f, 24.f };
 	default:
 		break;
 	}
