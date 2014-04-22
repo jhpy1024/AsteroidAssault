@@ -76,6 +76,7 @@ private:
 	void removeFlaggedAsteroids();
 
 	void checkIfPowerupOver();
+	void collectedPowerup();
 
 private:
 	Player m_Player;

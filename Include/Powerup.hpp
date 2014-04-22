@@ -11,6 +11,7 @@ namespace PowerupType
 	{
 		Laser,
 		Shield,
+		Health,
 		Last,
 	};
 };

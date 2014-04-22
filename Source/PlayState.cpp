@@ -209,8 +209,24 @@ void PlayState::checkPlayerPowerupCollisions()
 			m_CurrentPowerup = powerup->getType();
 			powerup->flagForRemoval();
 
+			collectedPowerup();
+
 			m_TimeCollectedPowerup = SDL_GetTicks();
 		}
+	}
+}
+
+void PlayState::collectedPowerup()
+{
+	switch (m_CurrentPowerup)
+	{
+	case PowerupType::Health:
+		++m_Lives;
+		m_LivesText.setString("Lives: " + std::to_string(m_Lives));
+		m_LivesText.setColor({ Random::genFloat(0.3f, 1.f), Random::genFloat(0.3f, 1.f), Random::genFloat(0.3f, 1.f), 1.f });
+		break;
+	default:
+		break;
 	}
 }
 
