@@ -36,6 +36,8 @@ private:
 
 	glm::vec2 m_StartPosition;
 	glm::vec2 m_Velocity;
+
+	float m_RotationSpeed;
 };
 
 #endif

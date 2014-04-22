@@ -1,10 +1,14 @@
 #include "Powerup.hpp"
+#include "Random.hpp"
 
 Powerup::Powerup(const glm::vec2& position, const glm::vec2& velocity, PowerupType::Type type)
 	: m_StartPosition(position)
 	, m_Velocity(velocity)
 	, m_Type(type)
 {
+	std::vector<float> rotationDirections = { -1.f, 1.f };
+	m_RotationSpeed = Random::genFloat(0.18f, 0.36f) * Random::choice(rotationDirections);
+
 	setupSprite();
 	setupShape();
 }
@@ -12,6 +16,7 @@ Powerup::Powerup(const glm::vec2& position, const glm::vec2& velocity, PowerupTy
 void Powerup::update(Uint32 delta)
 {
 	m_Sprite.move(m_Velocity * static_cast<float>(delta));
+	m_Sprite.rotateDegs(m_RotationSpeed * static_cast<float>(delta));
 	m_Rectangle.position = m_Sprite.getPosition();
 }
 
