@@ -16,6 +16,7 @@ public:
 
 	glm::vec2 getPosition() const;
 	glm::vec2 getTargetPosition() const;
+	std::vector<glm::vec2>& getMidpoints();
 
 private:
 	bool pointDelayOver() const;

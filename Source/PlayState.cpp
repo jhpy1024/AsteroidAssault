@@ -9,6 +9,7 @@
 #include "DeadState.hpp"
 #include "ShaderManager.hpp"
 #include "MathUtils.hpp"
+#include "Mouse.hpp"
 
 #include <iostream>
 
@@ -57,6 +58,13 @@ void PlayState::init()
 	m_Shield.radius = 64.f;
 	m_Shield.color = { 0.f, 1.f, 1.f, 1.f };
 	m_ShapeRenderer.init();
+
+	m_LightningRenderer.init();
+
+	for (int i = 0; i < 5; ++i)
+	{
+		m_Lightning.push_back(std::make_shared<Lightning>(glm::vec2(Game::WIDTH / 2.f, Game::HEIGHT)));
+	}
 }
 
 void PlayState::handleEvent(const SDL_Event& event)
@@ -116,6 +124,12 @@ void PlayState::update(Uint32 delta)
 	checkIfPowerupOver();
 	
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+
+	for (auto& strike : m_Lightning)
+	{
+		strike->setTargetPosition(m_Player.getSprite().getPosition());
+		strike->update(delta);
+	}
 }
 
 void PlayState::updateShield(Uint32 delta)
@@ -325,6 +339,7 @@ void PlayState::render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	m_ParticleRenderer.render(*m_ExplosionParticleSys);
 	m_ParticleRenderer.render(*m_LaserParticleSys);
+	m_LightningRenderer.render(m_Lightning);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));

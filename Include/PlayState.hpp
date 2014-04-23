@@ -17,6 +17,9 @@
 #include "CircleShape.hpp"
 #include "ShapeRenderer.hpp"
 
+#include "Lightning.hpp"
+#include "LightningRenderer.hpp"
+
 #include <vector>
 #include <memory>
 
@@ -124,6 +127,9 @@ private:
 
 	CircleShape m_Shield;
 	ShapeRenderer m_ShapeRenderer;
+
+	std::vector<std::shared_ptr<Lightning>> m_Lightning;
+	LightningRenderer m_LightningRenderer;
 };
 
 #include "PlayState.inl"
