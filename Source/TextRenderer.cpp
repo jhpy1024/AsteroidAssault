@@ -76,7 +76,9 @@ void TextRenderer::render(std::vector<Text>& texts, Texture& texture)
 	m_ColorBuffer.bind();
 	particleShader->setupVertexAttribPointer("in_Color", 4);
 
+	particleShader->setUniform("in_CameraShakeEnabled", 0);
 	glDrawArrays(GL_TRIANGLES, 0, m_VertexBuffer.getNumVertices());
+	particleShader->setUniform("in_CameraShakeEnabled", 1);
 }
 
 void TextRenderer::clearVectors()
