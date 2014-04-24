@@ -1,12 +1,13 @@
 #include "Lightning.hpp"
 #include "Random.hpp"
+#include "MathUtils.hpp"
 
 #include <iostream>
 
 Lightning::Lightning(const glm::vec2& position)
 	: m_Position(position)
 	, m_LastTimeAddedPoint(0)
-	, POINT_CREATION_DELAY(40)
+	, POINT_CREATION_DELAY(500)
 	, MAX_POINT_CREATION_DELAY_OFFSET(10)
 	, MIN_MIDPOINT_OFFSET(-50.f)
 	, MAX_MIDPOINT_OFFSET(50.f)
@@ -34,34 +35,15 @@ void Lightning::createMidpoint()
 	auto getOffset = [&](){ return glm::vec2(Random::genFloat(MIN_MIDPOINT_OFFSET, MAX_MIDPOINT_OFFSET),
 		0.f); };
 
-	// Midpoint(source, target)
-	glm::vec2 m0 = { (m_Position.x + m_TargetPosition.x) / 2.f, (m_Position.y + m_TargetPosition.y) / 2.f };
+	auto m0 = MathUtils::midpoint(m_Position, m_TargetPosition) + getOffset();
+	auto m1 = MathUtils::midpoint(m_Position, m0) + getOffset();
+	auto m2 = MathUtils::midpoint(m0, m_TargetPosition) + getOffset();
+	auto m3 = MathUtils::midpoint(m_Position, m1) + getOffset();
+	auto m4 = MathUtils::midpoint(m1, m0) + getOffset();
+	auto m5 = MathUtils::midpoint(m0, m2) + getOffset();
+	auto m6 = MathUtils::midpoint(m2, m_TargetPosition) + getOffset();
 
-	// Midpoint(source, m0)
-	glm::vec2 m1 = { (m_Position.x + m0.x) / 2.f, (m_Position.y + m0.y) / 2.f };
-
-	// Midpoint(m0, target)
-	glm::vec2 m2 = { (m0.x + m_TargetPosition.x) / 2.f, (m0.y + m_TargetPosition.y) / 2.f };
-
-	// Midpoint(source, m1)
-	glm::vec2 m3 = {(m_Position.x + m1.x) / 2.f, (m_Position.y + m1.y) / 2.f};
-
-	// Midpoint(m1, m0)
-	glm::vec2 m4 = { (m1.x + m0.x) / 2.f, (m1.y + m0.y) / 2.f };
-
-	// Midpoint(m0, m2)
-	glm::vec2 m5 = { (m0.x + m2.x) / 2.f, (m0.y + m2.y) / 2.f };
-
-	// Midpoint(m2, t)
-	glm::vec2 m6 = { (m2.x + m_TargetPosition.x) / 2.f, (m2.y + m_TargetPosition.y) / 2.f };
-
-	m_Midpoints.push_back(m3 + getOffset());
-	m_Midpoints.push_back(m1 + getOffset());
-	m_Midpoints.push_back(m4 + getOffset());
-	m_Midpoints.push_back(m0 + getOffset());
-	m_Midpoints.push_back(m5 + getOffset());
-	m_Midpoints.push_back(m2 + getOffset());
-	m_Midpoints.push_back(m6 + getOffset());
+	m_Midpoints.insert(m_Midpoints.end(), { m3, m1, m4, m0, m5, m2, m6 });
 }
 
 bool Lightning::pointDelayOver() const
