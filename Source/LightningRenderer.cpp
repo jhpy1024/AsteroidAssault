@@ -65,12 +65,12 @@ void LightningRenderer::addVertices(std::shared_ptr<Lightning> lightning)
 
 void LightningRenderer::addColors(std::shared_ptr<Lightning> lightning)
 {
-	for (int i = 0; i < lightning->getMidpoints().size() * 5; ++i)
+	for (int i = 0; i < lightning->getMidpoints().size() * 9; ++i)
 	{
 		m_Colors.push_back(1.f);
 		m_Colors.push_back(1.f);
 		m_Colors.push_back(1.f);
-		m_Colors.push_back(1.f);
+		m_Colors.push_back(Random::genFloat(0.5f, 1.f));
 	}
 }
 
