@@ -43,28 +43,33 @@ void LightningRenderer::render(std::vector<std::shared_ptr<Lightning>>& lightnin
 
 void LightningRenderer::addVertices(std::shared_ptr<Lightning> lightning)
 {
-	for (auto midpoint : lightning->getMidpoints())
+	// Add source point
+	m_Vertices.push_back(lightning->getPosition().x);
+	m_Vertices.push_back(lightning->getPosition().y);
+
+	for (int i = 0; i < lightning->getMidpoints().size(); ++i)
 	{
-		m_Vertices.push_back(lightning->getPosition().x);
-		m_Vertices.push_back(lightning->getPosition().y);
-		m_Vertices.push_back(midpoint.x);
-		m_Vertices.push_back(midpoint.y);
-		m_Vertices.push_back(midpoint.x);
-		m_Vertices.push_back(midpoint.y);
-		m_Vertices.push_back(lightning->getTargetPosition().x);
-		m_Vertices.push_back(lightning->getTargetPosition().y);
+		auto x = lightning->getMidpoints()[i].x;
+		auto y = lightning->getMidpoints()[i].y;
+
+		m_Vertices.push_back(x);
+		m_Vertices.push_back(y);
+		m_Vertices.push_back(x);
+		m_Vertices.push_back(y);
 	}
+
+	// Add target point
+	m_Vertices.push_back(lightning->getTargetPosition().x);
+	m_Vertices.push_back(lightning->getTargetPosition().y);
 }
 
 void LightningRenderer::addColors(std::shared_ptr<Lightning> lightning)
 {
-	for (int i = 0; i < lightning->getMidpoints().size() * 4; ++i)
+	for (int i = 0; i < lightning->getMidpoints().size() * 5; ++i)
 	{
-		auto color = Random::genFloat(0.1f, 0.4f);
-
-		m_Colors.push_back(0.f);
-		m_Colors.push_back(0.2f);
-		m_Colors.push_back(color);
+		m_Colors.push_back(1.f);
+		m_Colors.push_back(1.f);
+		m_Colors.push_back(1.f);
 		m_Colors.push_back(1.f);
 	}
 }

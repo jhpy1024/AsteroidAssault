@@ -61,7 +61,7 @@ void PlayState::init()
 
 	m_LightningRenderer.init();
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		m_Lightning.push_back(std::make_shared<Lightning>(glm::vec2(Game::WIDTH / 2.f, Game::HEIGHT)));
 	}
