@@ -7,7 +7,7 @@
 Lightning::Lightning(const glm::vec2& position)
 	: m_Position(position)
 	, m_LastTimeAddedPoint(0)
-	, POINT_CREATION_DELAY(500)
+	, POINT_CREATION_DELAY(40)
 	, MAX_POINT_CREATION_DELAY_OFFSET(10)
 	, MIN_MIDPOINT_OFFSET(-50.f)
 	, MAX_MIDPOINT_OFFSET(50.f)

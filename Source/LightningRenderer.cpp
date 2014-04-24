@@ -2,6 +2,14 @@
 #include "ShaderManager.hpp"
 #include "Random.hpp"
 
+#include <iostream>
+
+LightningRenderer::LightningRenderer()
+	: OUTLINE_OFFSET(3.f, 0.f)
+{
+
+}
+
 void LightningRenderer::init()
 {
 	m_VertexBuffer.init();
@@ -25,6 +33,10 @@ void LightningRenderer::render(std::vector<std::shared_ptr<Lightning>>& lightnin
 	{
 		addVertices(strike);
 		addColors(strike);
+		addVertices(strike, OUTLINE_OFFSET);
+		addColors(strike, { 0.28f, 0.f, 1.f });
+		addVertices(strike, -OUTLINE_OFFSET);
+		addColors(strike, { 0.28f, 0.f, 1.f });
 	}
 
 	passDataToBuffers();
@@ -41,16 +53,16 @@ void LightningRenderer::render(std::vector<std::shared_ptr<Lightning>>& lightnin
 	glDrawArrays(GL_LINES, 0, m_VertexBuffer.getNumVertices());
 }
 
-void LightningRenderer::addVertices(std::shared_ptr<Lightning> lightning)
+void LightningRenderer::addVertices(std::shared_ptr<Lightning> lightning, const glm::vec2& offset)
 {
 	// Add source point
-	m_Vertices.push_back(lightning->getPosition().x);
-	m_Vertices.push_back(lightning->getPosition().y);
+	m_Vertices.push_back(lightning->getPosition().x + offset.x);
+	m_Vertices.push_back(lightning->getPosition().y + offset.y);
 
 	for (int i = 0; i < lightning->getMidpoints().size(); ++i)
 	{
-		auto x = lightning->getMidpoints()[i].x;
-		auto y = lightning->getMidpoints()[i].y;
+		auto x = lightning->getMidpoints()[i].x + offset.x;
+		auto y = lightning->getMidpoints()[i].y + offset.y;
 
 		m_Vertices.push_back(x);
 		m_Vertices.push_back(y);
@@ -59,18 +71,18 @@ void LightningRenderer::addVertices(std::shared_ptr<Lightning> lightning)
 	}
 
 	// Add target point
-	m_Vertices.push_back(lightning->getTargetPosition().x);
-	m_Vertices.push_back(lightning->getTargetPosition().y);
+	m_Vertices.push_back(lightning->getTargetPosition().x + offset.x);
+	m_Vertices.push_back(lightning->getTargetPosition().y + offset.y);
 }
 
-void LightningRenderer::addColors(std::shared_ptr<Lightning> lightning)
+void LightningRenderer::addColors(std::shared_ptr<Lightning> lightning, const glm::vec3& color)
 {
-	for (int i = 0; i < lightning->getMidpoints().size() * 9; ++i)
+	for (int i = 0; i < lightning->getMidpoints().size() * 2 + 2; ++i)
 	{
+		m_Colors.push_back(color.x);
+		m_Colors.push_back(color.y);
+		m_Colors.push_back(color.z);
 		m_Colors.push_back(1.f);
-		m_Colors.push_back(1.f);
-		m_Colors.push_back(1.f);
-		m_Colors.push_back(Random::genFloat(0.5f, 1.f));
 	}
 }
 

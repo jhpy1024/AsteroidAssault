@@ -339,9 +339,9 @@ void PlayState::render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	m_ParticleRenderer.render(*m_ExplosionParticleSys);
 	m_ParticleRenderer.render(*m_LaserParticleSys);
-	m_LightningRenderer.render(m_Lightning);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_LightningRenderer.render(m_Lightning);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
 	m_TextRenderer.render(m_LivesText, TextureManager::getInstance().getTexture("TextSheet"));
 }
