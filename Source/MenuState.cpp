@@ -7,6 +7,7 @@
 #include "PlayState.hpp"
 #include "AudioManager.hpp"
 #include "AboutState.hpp"
+#include "ShaderManager.hpp"
 
 #include <iostream>
 #include <memory>

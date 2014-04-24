@@ -5,6 +5,7 @@
 #include "Collision.hpp"
 #include "MenuState.hpp"
 #include "StateManager.hpp"
+#include "ShaderManager.hpp"
 
 #include <fstream>
 #include <string>
