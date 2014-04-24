@@ -35,6 +35,7 @@ PlayState::PlayState()
 	, POWERUP_CREATION_DELAY(10000)
 	, TIME_TRIPLE_LASERS_ACTIVE(5000)
 	, TIME_SHIELD_ACTIVE(8000)
+	, m_LightningActive(false)
 {
 	
 }
@@ -60,11 +61,6 @@ void PlayState::init()
 	m_ShapeRenderer.init();
 
 	m_LightningRenderer.init();
-
-	for (int i = 0; i < 1; ++i)
-	{
-		m_Lightning.push_back(std::make_shared<Lightning>(glm::vec2(Game::WIDTH / 2.f, Game::HEIGHT)));
-	}
 }
 
 void PlayState::handleEvent(const SDL_Event& event)
@@ -84,6 +80,9 @@ void PlayState::handleKeyPress(SDL_Keycode key)
 	
 	if (key == SDLK_ESCAPE)
 		StateManager::getInstance().pop();
+
+	if (key == SDLK_l)
+		m_LightningActive = !m_LightningActive;
 }
 
 void PlayState::handleKeyRelease(SDL_Keycode key)
@@ -125,10 +124,23 @@ void PlayState::update(Uint32 delta)
 	
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
 
-	for (auto& strike : m_Lightning)
+	if (m_Lightning.size() > m_Asteroids.size()) m_Lightning.clear();
+
+	if (m_Lightning.size() < m_Asteroids.size())
 	{
-		strike->setTargetPosition(m_Player.getSprite().getPosition());
-		strike->update(delta);
+		auto numToCreate = m_Asteroids.size() - m_Lightning.size();
+
+		for (int i = 0; i < numToCreate; ++i)
+		{
+			m_Lightning.push_back(std::make_shared<Lightning>(glm::vec2(Game::WIDTH / 2.f, Game::HEIGHT)));
+		}
+	}
+
+	for (int i = 0; i < m_Lightning.size(); ++i)
+	{
+		m_Lightning[i]->setPosition({ m_Asteroids[i]->getSprite().getPosition().x, Game::HEIGHT });
+		m_Lightning[i]->setTargetPosition(m_Asteroids[i]->getSprite().getPosition());
+		m_Lightning[i]->update(delta);
 	}
 }
 
@@ -341,7 +353,7 @@ void PlayState::render()
 	m_ParticleRenderer.render(*m_LaserParticleSys);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	m_LightningRenderer.render(m_Lightning);
+	if (m_LightningActive) m_LightningRenderer.render(m_Lightning);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
 	m_TextRenderer.render(m_LivesText, TextureManager::getInstance().getTexture("TextSheet"));
 }

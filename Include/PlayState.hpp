@@ -130,6 +130,7 @@ private:
 
 	std::vector<std::shared_ptr<Lightning>> m_Lightning;
 	LightningRenderer m_LightningRenderer;
+	bool m_LightningActive;
 };
 
 #include "PlayState.inl"

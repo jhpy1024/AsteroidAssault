@@ -5,7 +5,7 @@
 #include <iostream>
 
 LightningRenderer::LightningRenderer()
-	: OUTLINE_OFFSET(3.f, 0.f)
+	: OUTLINE_OFFSET(2.f, 0.f)
 {
 
 }
@@ -34,9 +34,9 @@ void LightningRenderer::render(std::vector<std::shared_ptr<Lightning>>& lightnin
 		addVertices(strike);
 		addColors(strike);
 		addVertices(strike, OUTLINE_OFFSET);
-		addColors(strike, { 0.28f, 0.f, 1.f });
+		addColors(strike, { 0.f, 1.f, 1.f });
 		addVertices(strike, -OUTLINE_OFFSET);
-		addColors(strike, { 0.28f, 0.f, 1.f });
+		addColors(strike, { 0.f, 1.f, 1.f });
 	}
 
 	passDataToBuffers();

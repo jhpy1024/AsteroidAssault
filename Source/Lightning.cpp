@@ -9,9 +9,14 @@ Lightning::Lightning(const glm::vec2& position)
 	, m_LastTimeAddedPoint(0)
 	, POINT_CREATION_DELAY(40)
 	, MAX_POINT_CREATION_DELAY_OFFSET(10)
-	, MIN_MIDPOINT_OFFSET(-50.f)
-	, MAX_MIDPOINT_OFFSET(50.f)
+	, MIN_MIDPOINT_OFFSET(-10.f)
+	, MAX_MIDPOINT_OFFSET(10.f)
 {
+}
+
+void Lightning::setPosition(const glm::vec2& position)
+{
+	m_Position = position;
 }
 
 void Lightning::setTargetPosition(const glm::vec2& position)

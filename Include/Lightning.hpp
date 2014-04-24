@@ -10,6 +10,7 @@ class Lightning
 public:
 	Lightning(const glm::vec2& position);
 
+	void setPosition(const glm::vec2& position);
 	void setTargetPosition(const glm::vec2& position);
 
 	void update(Uint32 delta);
