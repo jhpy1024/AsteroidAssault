@@ -135,6 +135,7 @@ private:
 	LightningRenderer m_LightningRenderer;
 	bool m_LightningActive;
 	Uint32 m_TimeLightningActivated;
+	const Uint32 TIME_LIGHTNING_ACTIVE;
 };
 
 #include "PlayState.inl"

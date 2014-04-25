@@ -37,6 +37,7 @@ PlayState::PlayState()
 	, TIME_SHIELD_ACTIVE(8000)
 	, m_ShieldDownPlayed(false)
 	, m_LightningActive(false)
+	, TIME_LIGHTNING_ACTIVE(500)
 {
 	
 }
@@ -129,9 +130,14 @@ void PlayState::update(Uint32 delta)
 
 void PlayState::updateLightning(Uint32 delta)
 {
-	if (!m_LightningActive) return;
+	if (!m_LightningActive)
+	{
+		m_Lightning.clear();
+		return;
+	}
 
-	if (m_Lightning.size() > m_Asteroids.size()) m_Lightning.clear();
+	if (m_Lightning.size() > m_Asteroids.size())
+		m_Lightning.clear();
 
 	if (m_Lightning.size() < m_Asteroids.size())
 	{
@@ -195,7 +201,7 @@ void PlayState::checkIfPowerupOver()
 		}
 		break;
 	case PowerupType::Lightning:
-		if (SDL_GetTicks() - m_TimeLightningActivated >= 500)
+		if (SDL_GetTicks() - m_TimeLightningActivated >= TIME_LIGHTNING_ACTIVE)
 			m_LightningActive = false;
 		break;
 	default:
@@ -380,7 +386,7 @@ void PlayState::render()
 	m_ParticleRenderer.render(*m_LaserParticleSys);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	if (m_LightningActive) m_LightningRenderer.render(m_Lightning);
+	m_LightningRenderer.render(m_Lightning);
 	m_TextRenderer.render(m_ScoreText, TextureManager::getInstance().getTexture("TextSheet"));
 	m_TextRenderer.render(m_LivesText, TextureManager::getInstance().getTexture("TextSheet"));
 }
@@ -444,15 +450,23 @@ void PlayState::removeStruckAsteroids()
 {
 	if (m_Asteroids.empty()) return;
 
+	int numAsteroidsStruck = 0;
+
 	auto itr = m_Asteroids.begin();
 
 	while (itr != m_Asteroids.end())
 	{
-		if ((*itr)->hasBeenStruck() && (SDL_GetTicks() - (*itr)->getTimeStruck() >= 500))
+		if ((*itr)->hasBeenStruck() && (SDL_GetTicks() - (*itr)->getTimeStruck() >= (TIME_LIGHTNING_ACTIVE + Random::genInt(-100, 500))))
+		{
 			itr = m_Asteroids.erase(itr);
+			++numAsteroidsStruck;
+		}
 		else
 			++itr;
 	}
+
+	m_Score += 100 * numAsteroidsStruck;
+	m_ScoreText.setString("Score: " + std::to_string(m_Score));
 }
 
 void PlayState::removeFlaggedLasers()
