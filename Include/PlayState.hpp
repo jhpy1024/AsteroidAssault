@@ -57,6 +57,7 @@ private:
 	void updateParticles(Uint32 delta);
 	void updatePowerups(Uint32 delta);
 	void updateShield(Uint32 delta);
+	void updateLightning(Uint32 delta);
 
 	bool isFireDelayOver() const;
 	void fireLaser();
@@ -77,6 +78,7 @@ private:
 	void removeAsteroids();
 	void removeOutOfBoundAsteroids();
 	void removeFlaggedAsteroids();
+	void removeStruckAsteroids();
 
 	void checkIfPowerupOver();
 	void collectedPowerup();
@@ -132,6 +134,7 @@ private:
 	std::vector<std::shared_ptr<Lightning>> m_Lightning;
 	LightningRenderer m_LightningRenderer;
 	bool m_LightningActive;
+	Uint32 m_TimeLightningActivated;
 };
 
 #include "PlayState.inl"

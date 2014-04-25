@@ -108,6 +108,7 @@ void PlayState::update(Uint32 delta)
 	updateParticles(delta);
 	updatePowerups(delta);
 	updateShield(delta);
+	updateLightning(delta);
 
 	fireLasersIfNeeded();
 	removeLasers();
@@ -124,6 +125,11 @@ void PlayState::update(Uint32 delta)
 	checkIfPowerupOver();
 	
 	m_ScoreText.setString("Score: " + std::to_string(m_Score));
+}
+
+void PlayState::updateLightning(Uint32 delta)
+{
+	if (!m_LightningActive) return;
 
 	if (m_Lightning.size() > m_Asteroids.size()) m_Lightning.clear();
 
@@ -141,6 +147,10 @@ void PlayState::update(Uint32 delta)
 	{
 		m_Lightning[i]->setPosition({ m_Asteroids[i]->getSprite().getPosition().x, Game::HEIGHT });
 		m_Lightning[i]->setTargetPosition(m_Asteroids[i]->getSprite().getPosition());
+
+		if (!m_Asteroids[i]->hasBeenStruck())
+			m_Asteroids[i]->struckByLightning();
+
 		m_Lightning[i]->update(delta);
 	}
 }
@@ -183,6 +193,10 @@ void PlayState::checkIfPowerupOver()
 			AudioManager::getInstance().playSound("ShieldDown");
 			m_ShieldDownPlayed = true;
 		}
+		break;
+	case PowerupType::Lightning:
+		if (SDL_GetTicks() - m_TimeLightningActivated >= 500)
+			m_LightningActive = false;
 		break;
 	default:
 		break;
@@ -259,6 +273,10 @@ void PlayState::collectedPowerup()
 		break;
 	case PowerupType::Shield:
 		AudioManager::getInstance().playSound("ShieldUp");
+		break;
+	case PowerupType::Lightning:
+		m_LightningActive = true;
+		m_TimeLightningActivated = SDL_GetTicks();
 		break;
 	default:
 		break;
@@ -389,6 +407,7 @@ void PlayState::removeAsteroids()
 {
 	removeOutOfBoundAsteroids();
 	removeFlaggedAsteroids();
+	removeStruckAsteroids();
 }
 
 void PlayState::removePowerups()
@@ -415,6 +434,21 @@ void PlayState::removeFlaggedAsteroids()
 	while (itr != m_Asteroids.end())
 	{
 		if ((*itr)->shouldRemove())
+			itr = m_Asteroids.erase(itr);
+		else
+			++itr;
+	}
+}
+
+void PlayState::removeStruckAsteroids()
+{
+	if (m_Asteroids.empty()) return;
+
+	auto itr = m_Asteroids.begin();
+
+	while (itr != m_Asteroids.end())
+	{
+		if ((*itr)->hasBeenStruck() && (SDL_GetTicks() - (*itr)->getTimeStruck() >= 500))
 			itr = m_Asteroids.erase(itr);
 		else
 			++itr;

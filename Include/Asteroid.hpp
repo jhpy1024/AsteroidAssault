@@ -43,6 +43,9 @@ public:
 	AsteroidType::Type getType() const;
 
 	void reverseDirection();
+	void struckByLightning();
+	bool hasBeenStruck() const;
+	Uint32 getTimeStruck() const;
 
 private:
 	AsteroidType::Type getRandomType() const;
@@ -67,6 +70,9 @@ private:
 	static const float SUB_ASTEROID_SPEED_FACTOR;
 	static const float SUB_ASTEROID_VELOCITY_FACTOR;
 	static const float SUB_ASTEROID_ROTATION_SPEED_FACTOR;
+
+	bool m_HasBeenStruck;
+	Uint32 m_TimeStruck;
 
 };
 

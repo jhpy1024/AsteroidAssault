@@ -12,6 +12,7 @@ Asteroid::Asteroid()
 	, m_RotationSpeed(getRandomRotationSpeed())
 	, m_Speed(getRandomSpeed())
 	, m_Type(getRandomType())
+	, m_HasBeenStruck(false)
 {
 	setupSprite();
 	setupShape();
@@ -23,9 +24,26 @@ Asteroid::Asteroid(const glm::vec2& position, AsteroidType::Type type)
 	, m_RotationSpeed(getRandomRotationSpeed() * SUB_ASTEROID_ROTATION_SPEED_FACTOR)
 	, m_Speed(getRandomSpeed() * SUB_ASTEROID_SPEED_FACTOR)
 	, m_Type(type)
+	, m_HasBeenStruck(false)
 {
 	setupSprite();
 	setupShape();
+}
+
+void Asteroid::struckByLightning()
+{
+	m_HasBeenStruck = true;
+	m_TimeStruck = SDL_GetTicks();
+}
+
+bool Asteroid::hasBeenStruck() const
+{
+	return m_HasBeenStruck;
+}
+
+Uint32 Asteroid::getTimeStruck() const
+{
+	return m_TimeStruck;
 }
 
 void Asteroid::reverseDirection()
