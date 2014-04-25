@@ -29,6 +29,7 @@ private:
 	Sprite m_PlayButton;
 	Sprite m_AboutButton;
 	Sprite m_ExitButton;
+	Sprite m_SoundButton;
 	std::vector<Sprite> m_Sprites;
 	SpriteRenderer m_SpriteRenderer;
 
@@ -36,6 +37,7 @@ private:
 	RectangleShape m_AboutRect;
 	RectangleShape m_ExitRect;
 	RectangleShape m_MouseRect;
+	RectangleShape m_SoundRect;
 
 	StarParticleSystem m_ParticleSys;
 	ParticleRenderer m_ParticleRenderer;

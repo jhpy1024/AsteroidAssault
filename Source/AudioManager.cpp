@@ -6,6 +6,7 @@
 std::unique_ptr<AudioManager> AudioManager::m_Instance;
 
 AudioManager::AudioManager()
+	: m_AudioEnabled(true)
 {
 	// TODO
 	// ====================================================
@@ -21,6 +22,21 @@ AudioManager::~AudioManager()
 {
 	freeAllSounds();
 	freeAllMusic();
+}
+
+void AudioManager::toggleAudioEnabled()
+{
+	m_AudioEnabled = !m_AudioEnabled;
+
+	if (!m_AudioEnabled)
+		Mix_PauseMusic();
+	else
+		Mix_ResumeMusic();
+}
+
+bool AudioManager::isAudioEnabled() const
+{
+	return m_AudioEnabled;
 }
 
 void AudioManager::loadSound(const std::string& id, const std::string& fileName)
@@ -63,12 +79,14 @@ void AudioManager::freeAllMusic()
 
 void AudioManager::playSound(const std::string& id, int loops)
 {
-	Mix_PlayChannel(-1, m_Sounds[id], loops);
+	if (m_AudioEnabled)
+		Mix_PlayChannel(-1, m_Sounds[id], loops);
 }
 
 void AudioManager::playMusic(const std::string& id, int loops)
 {
-	Mix_PlayMusic(m_Music[id], loops);
+	if (m_AudioEnabled)
+		Mix_PlayMusic(m_Music[id], loops);
 }
 
 AudioManager& AudioManager::getInstance()

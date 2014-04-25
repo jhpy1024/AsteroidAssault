@@ -21,6 +21,9 @@ public:
 	void loadMusic(const std::string& id, const std::string& fileName);
 	void playMusic(const std::string& id, int loops = 0);
 
+	void toggleAudioEnabled();
+	bool isAudioEnabled() const;
+
 private:
 	AudioManager();
 
@@ -32,6 +35,8 @@ private:
 
 	std::map<std::string, Mix_Chunk*> m_Sounds;
 	std::map<std::string, Mix_Music*> m_Music;
+
+	bool m_AudioEnabled;
 };
 
 #endif

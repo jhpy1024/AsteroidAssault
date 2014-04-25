@@ -8,6 +8,7 @@
 #include "AudioManager.hpp"
 #include "AboutState.hpp"
 #include "ShaderManager.hpp"
+#include "AudioManager.hpp"
 
 #include <iostream>
 #include <memory>
@@ -26,6 +27,9 @@ void MenuState::init()
 	m_Title.setPosition({ Game::WIDTH / 2.f, Game::HEIGHT * 0.8f });
 	m_Title.setTextureBounds({ 0.f, 50.f }, { 629.f, 38.f });
 
+	m_SoundButton.setTextureBounds({ 0.f, 88.f }, { 64.f, 64.f });
+	m_SoundButton.setPosition({ 64.f, 64.f });
+
 	m_Sprites.push_back(m_PlayButton);
 	m_Sprites.push_back(m_AboutButton);
 	m_Sprites.push_back(m_ExitButton);
@@ -42,6 +46,10 @@ void MenuState::init()
 	m_ExitRect.position = m_ExitButton.getPosition();
 	m_ExitRect.width = m_ExitButton.getSize().x;
 	m_ExitRect.height = m_ExitButton.getSize().y;
+
+	m_SoundRect.position = m_SoundButton.getPosition();
+	m_SoundRect.width = m_SoundButton.getSize().x;
+	m_SoundRect.height = m_SoundButton.getSize().y;
 
 	m_MouseRect.width = m_MouseRect.height = 2.f;
 
@@ -69,6 +77,14 @@ void MenuState::leftButtonPressed()
 		StateManager::getInstance().push(std::make_shared<PlayState>());
 	else if (Collision::isColliding(m_MouseRect, m_AboutRect))
 		StateManager::getInstance().push(std::make_shared<AboutState>());
+	else if (Collision::isColliding(m_MouseRect, m_SoundRect))
+	{
+		AudioManager::getInstance().toggleAudioEnabled();
+		if (AudioManager::getInstance().isAudioEnabled())
+			m_SoundButton.setTextureBounds({ 0.f, 88.f }, { 64.f, 64.f });
+		else
+			m_SoundButton.setTextureBounds({ 64.f, 88.f }, { 64.f, 64.f });
+	}
 	else if (Collision::isColliding(m_MouseRect, m_ExitRect))
 	{
 		SDL_Quit();
@@ -100,4 +116,5 @@ void MenuState::render()
 
 	m_ParticleRenderer.render(m_ParticleSys);
 	m_SpriteRenderer.render(m_Sprites, TextureManager::getInstance().getTexture("MenuSheet"));
+	m_SpriteRenderer.render(m_SoundButton, TextureManager::getInstance().getTexture("MenuSheet"));
 }
