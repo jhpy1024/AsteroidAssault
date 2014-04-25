@@ -12,6 +12,7 @@ namespace PowerupType
 		Laser,
 		Shield,
 		Health,
+		Lightning,
 		Last,
 	};
 };
