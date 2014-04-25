@@ -177,6 +177,8 @@ void PlayState::checkIfPowerupOver()
 	case PowerupType::Shield:
 		if (SDL_GetTicks() - m_TimeCollectedPowerup >= TIME_SHIELD_ACTIVE)
 			m_CurrentPowerup = PowerupType::Last;
+		else if (TIME_SHIELD_ACTIVE - (SDL_GetTicks() - m_TimeCollectedPowerup) <= 1000)
+			AudioManager::getInstance().playSound("PowerDown");
 		break;
 	default:
 		break;

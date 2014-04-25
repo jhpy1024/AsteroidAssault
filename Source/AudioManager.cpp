@@ -12,7 +12,7 @@ AudioManager::AudioManager()
 	// ====================================================
 	// Experiment with the chunk size if there is sound lag
 	// ====================================================
-	auto result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	auto result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
 
 	if (result < 0)
 		std::cerr << "SDL_mixer failed to initialize:\n" << Mix_GetError() << std::endl;
