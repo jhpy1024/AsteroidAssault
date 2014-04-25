@@ -35,6 +35,7 @@ PlayState::PlayState()
 	, POWERUP_CREATION_DELAY(10000)
 	, TIME_TRIPLE_LASERS_ACTIVE(5000)
 	, TIME_SHIELD_ACTIVE(8000)
+	, m_ShieldDownPlayed(false)
 	, m_LightningActive(false)
 {
 	
@@ -177,8 +178,11 @@ void PlayState::checkIfPowerupOver()
 	case PowerupType::Shield:
 		if (SDL_GetTicks() - m_TimeCollectedPowerup >= TIME_SHIELD_ACTIVE)
 			m_CurrentPowerup = PowerupType::Last;
-		else if (TIME_SHIELD_ACTIVE - (SDL_GetTicks() - m_TimeCollectedPowerup) <= 1000)
-			AudioManager::getInstance().playSound("PowerDown");
+		else if ((!m_ShieldDownPlayed) && (TIME_SHIELD_ACTIVE - (SDL_GetTicks() - m_TimeCollectedPowerup) <= 1000))
+		{
+			AudioManager::getInstance().playSound("ShieldDown");
+			m_ShieldDownPlayed = true;
+		}
 		break;
 	default:
 		break;
@@ -252,6 +256,9 @@ void PlayState::collectedPowerup()
 		++m_Lives;
 		m_LivesText.setString("Lives: " + std::to_string(m_Lives));
 		m_LivesText.setColor({ Random::genFloat(0.3f, 1.f), Random::genFloat(0.3f, 1.f), Random::genFloat(0.3f, 1.f), 1.f });
+		break;
+	case PowerupType::Shield:
+		AudioManager::getInstance().playSound("ShieldUp");
 		break;
 	default:
 		break;

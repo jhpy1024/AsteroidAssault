@@ -126,6 +126,7 @@ private:
 	const Uint32 TIME_SHIELD_ACTIVE;
 
 	CircleShape m_Shield;
+	bool m_ShieldDownPlayed;
 	ShapeRenderer m_ShapeRenderer;
 
 	std::vector<std::shared_ptr<Lightning>> m_Lightning;
