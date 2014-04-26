@@ -458,7 +458,6 @@ void PlayState::removeStruckAsteroids()
 
 		if (hasBeenStruck && timeSinceStruck >= delay)
 		{
-			std::cout << "Time since struck = " << timeSinceStruck << "\nDelay = " << delay << std::endl;
 			itr = m_Asteroids.erase(itr);
 			++numAsteroidsStruck;
 		}
