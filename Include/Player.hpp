@@ -19,6 +19,7 @@ enum class PlayerShipType
 	GreenRectangular,
 	OrangeRectangular,
 	RedRectangular,
+	Last
 };
 
 class Player : public GameObject

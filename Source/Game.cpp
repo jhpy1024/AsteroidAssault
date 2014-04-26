@@ -7,9 +7,8 @@
 #include "AudioManager.hpp"
 #include "Random.hpp"
 #include "StateManager.hpp"
-#include "PlayState.hpp"
 #include "MenuState.hpp"
-#include "DeadState.hpp"
+#include "ShipSelectState.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -35,7 +34,7 @@ void Game::init()
 
 	setupDefaultMatrices();
 
-	StateManager::getInstance().push(std::make_shared<MenuState>());
+	StateManager::getInstance().push(std::make_shared<ShipSelectState>());
 }
 
 void Game::loadAudio()
