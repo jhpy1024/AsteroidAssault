@@ -130,34 +130,30 @@ void PlayState::update(Uint32 delta)
 
 void PlayState::updateLightning(Uint32 delta)
 {
-	if (!m_LightningActive)
-	{
-		m_Lightning.clear();
-		return;
-	}
+	for (auto& lightning : m_Lightning)
+		lightning->update(delta);
 
-	if (m_Lightning.size() > m_Asteroids.size())
-		m_Lightning.clear();
-
-	if (m_Lightning.size() < m_Asteroids.size())
+	if (m_LightningActive)
 	{
+		if (m_Lightning.size() > m_Asteroids.size())
+			m_Lightning.clear();
+
 		auto numToCreate = m_Asteroids.size() - m_Lightning.size();
-
 		for (int i = 0; i < numToCreate; ++i)
-		{
 			m_Lightning.push_back(std::make_shared<Lightning>(glm::vec2(Game::WIDTH / 2.f, Game::HEIGHT)));
+
+		for (int i = 0; i < m_Lightning.size(); ++i)
+		{
+			m_Lightning[i]->setPosition({ m_Asteroids[i]->getSprite().getPosition().x, Game::HEIGHT });
+			m_Lightning[i]->setTargetPosition(m_Asteroids[i]->getSprite().getPosition());
+
+			if (!(m_Asteroids[i]->hasBeenStruck()))
+				m_Asteroids[i]->struckByLightning();
 		}
-	}
-
-	for (int i = 0; i < m_Lightning.size(); ++i)
+	} 
+	else
 	{
-		m_Lightning[i]->setPosition({ m_Asteroids[i]->getSprite().getPosition().x, Game::HEIGHT });
-		m_Lightning[i]->setTargetPosition(m_Asteroids[i]->getSprite().getPosition());
-
-		if (!m_Asteroids[i]->hasBeenStruck())
-			m_Asteroids[i]->struckByLightning();
-
-		m_Lightning[i]->update(delta);
+		m_Lightning.clear();
 	}
 }
 
@@ -456,8 +452,13 @@ void PlayState::removeStruckAsteroids()
 
 	while (itr != m_Asteroids.end())
 	{
-		if ((*itr)->hasBeenStruck() && (SDL_GetTicks() - (*itr)->getTimeStruck() >= (TIME_LIGHTNING_ACTIVE + Random::genInt(-100, 500))))
+		auto delay = TIME_LIGHTNING_ACTIVE + Random::genInt(200, 2000);
+		bool hasBeenStruck = (*itr)->hasBeenStruck();
+		auto timeSinceStruck = SDL_GetTicks() - (*itr)->getTimeStruck();
+
+		if (hasBeenStruck && timeSinceStruck >= delay)
 		{
+			std::cout << "Time since struck = " << timeSinceStruck << "\nDelay = " << delay << std::endl;
 			itr = m_Asteroids.erase(itr);
 			++numAsteroidsStruck;
 		}
