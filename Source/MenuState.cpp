@@ -58,6 +58,11 @@ void MenuState::init()
 	m_ParticleSys.setEmissionCount(20);
 
 	AudioManager::getInstance().playMusic("TitleMusic", -1);
+
+	if (AudioManager::getInstance().isAudioEnabled())
+		m_SoundButton.setTextureBounds({ 0.f, 88.f }, { 64.f, 64.f });
+	else
+		m_SoundButton.setTextureBounds({ 64.f, 88.f }, { 64.f, 64.f });
 }
 
 void MenuState::handleEvent(const SDL_Event& event)
