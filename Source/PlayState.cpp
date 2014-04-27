@@ -280,6 +280,7 @@ void PlayState::collectedPowerup()
 	case PowerupType::Lightning:
 		m_LightningActive = true;
 		m_TimeLightningActivated = SDL_GetTicks();
+		AudioManager::getInstance().playSound("Lightning");
 		break;
 	default:
 		break;

@@ -43,6 +43,7 @@ void Game::loadAudio()
 	AudioManager::getInstance().loadMusic("TitleMusic", "Resources/Music/TitleMusic.wav");
 	AudioManager::getInstance().loadSound("ShieldUp", "Resources/Sounds/shieldUp.ogg");
 	AudioManager::getInstance().loadSound("ShieldDown", "Resources/Sounds/shieldDown.ogg");
+	AudioManager::getInstance().loadSound("Lightning", "Resources/Sounds/lightning.ogg");
 }
 
 void Game::handleEvent(const SDL_Event& event)
