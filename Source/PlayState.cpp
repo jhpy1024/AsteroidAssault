@@ -1,4 +1,5 @@
 #include "PlayState.hpp"
+#include "MenuState.hpp"
 #include "AsteroidFactory.hpp"
 #include "Collision.hpp"
 #include "Random.hpp"
@@ -81,7 +82,7 @@ void PlayState::handleKeyPress(SDL_Keycode key)
 		m_IsShooting = true;
 	
 	if (key == SDLK_ESCAPE)
-		StateManager::getInstance().pop();
+		StateManager::getInstance().clearAndPush(std::make_shared<MenuState>());
 
 	if (key == SDLK_l)
 		m_LightningActive = !m_LightningActive;
