@@ -4,7 +4,7 @@
 #include "Mouse.hpp"
 #include "Collision.hpp"
 #include "StateManager.hpp"
-#include "PlayState.hpp"
+#include "ShipSelectState.hpp"
 #include "AudioManager.hpp"
 #include "AboutState.hpp"
 #include "ShaderManager.hpp"
@@ -79,7 +79,7 @@ void MenuState::handleEvent(const SDL_Event& event)
 void MenuState::leftButtonPressed()
 {
 	if (Collision::isColliding(m_MouseRect, m_PlayRect))
-		StateManager::getInstance().push(std::make_shared<PlayState>());
+		StateManager::getInstance().push(std::make_shared<ShipSelectState>());
 	else if (Collision::isColliding(m_MouseRect, m_AboutRect))
 		StateManager::getInstance().push(std::make_shared<AboutState>());
 	else if (Collision::isColliding(m_MouseRect, m_SoundRect))

@@ -26,7 +26,7 @@
 class PlayState : public State
 {
 public:
-	PlayState();
+	PlayState(PlayerShipType shipType = static_cast<PlayerShipType>(0));
 
 	void init() override;
 

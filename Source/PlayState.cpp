@@ -13,8 +13,8 @@
 
 #include <iostream>
 
-PlayState::PlayState()
-	: m_Player(glm::vec2(Game::WIDTH / 2.f, 100.f), PlayerShipType::GreenRectangular)
+PlayState::PlayState(PlayerShipType shipType)
+	: m_Player(glm::vec2(Game::WIDTH / 2.f, 100.f), shipType)
 	, ASTEROID_CREATION_COUNT(5)
 	, ASTEROID_CREATION_DELAY(2000)
 	, m_LastTimeAsteroidsCreated(0)

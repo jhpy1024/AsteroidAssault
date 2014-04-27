@@ -26,17 +26,23 @@ private:
 	void previousShip();
 	void nextShip();
 
+	TextureBounds getTextureBounds() const;
+
 private:
 	PlayerShipType m_CurrentShip;
 
 	Sprite m_ShipPreview;
 	Sprite m_LeftArrow;
 	Sprite m_RightArrow;
+	Sprite m_SelectButton;
+	Sprite m_Title;
 	SpriteRenderer m_SpriteRenderer;
 	std::vector<Sprite> m_Sprites;
 
 	RectangleShape m_LeftRect;
 	RectangleShape m_RightRect;
+	RectangleShape m_SelectRect;
+	RectangleShape m_MouseRect;
 };
 
 #endif

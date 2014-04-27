@@ -8,7 +8,6 @@
 #include "Random.hpp"
 #include "StateManager.hpp"
 #include "MenuState.hpp"
-#include "ShipSelectState.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -34,7 +33,7 @@ void Game::init()
 
 	setupDefaultMatrices();
 
-	StateManager::getInstance().push(std::make_shared<ShipSelectState>());
+	StateManager::getInstance().push(std::make_shared<MenuState>());
 }
 
 void Game::loadAudio()
@@ -103,6 +102,7 @@ void Game::loadTextures()
 	textureManager.addTexture("DeadSheet", "Resources/Textures/DeadSheet.png");
 	textureManager.addTexture("PowerupSheet", "Resources/Textures/PowerupSheet.png");
 	textureManager.addTexture("AboutSheet", "Resources/Textures/AboutSheet.png");
+	textureManager.addTexture("ShipSelectSheet", "Resources/Textures/ShipSelectSheet.png");
 } 
 
 void Game::loadShaders()
