@@ -5,6 +5,7 @@
 #include "Mouse.hpp"
 #include "StateManager.hpp"
 #include "PlayState.hpp"
+#include "AudioManager.hpp"
 
 #include <memory>
 
@@ -70,6 +71,8 @@ void ShipSelectState::handleKeyPress(SDL_Keycode key)
 
 void ShipSelectState::previousShip()
 {
+	AudioManager::getInstance().playSound("Click");
+
 	auto currentIndex = static_cast<int>(m_CurrentShip);
 
 	if (currentIndex > 0)
@@ -82,6 +85,8 @@ void ShipSelectState::previousShip()
 
 void ShipSelectState::nextShip()
 {
+	AudioManager::getInstance().playSound("Click");
+
 	auto currentIndex = static_cast<int>(m_CurrentShip);
 	auto lastIndex = static_cast<int>(PlayerShipType::Last) - 1;
 
@@ -164,5 +169,8 @@ void ShipSelectState::leftButtonPressed()
 	else if (Collision::isColliding(m_MouseRect, m_RightRect))
 		nextShip();
 	else if (Collision::isColliding(m_MouseRect, m_SelectRect))
+	{
+		AudioManager::getInstance().playSound("Click");
 		StateManager::getInstance().push(std::make_shared<PlayState>(m_CurrentShip));
+	}
 }

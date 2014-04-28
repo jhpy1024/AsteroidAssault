@@ -4,6 +4,7 @@
 #include "TextureManager.hpp"
 #include "Collision.hpp"
 #include "StateManager.hpp"
+#include "AudioManager.hpp"
 
 AboutState::AboutState()
 	: m_ParticleSys({ 0.f, 1.f, 0.f })	
@@ -68,7 +69,10 @@ void AboutState::handleEvent(const SDL_Event& event)
 void AboutState::leftButtonPressed()
 {
 	if (Collision::isColliding(m_MouseRect, m_BackRect))
+	{
+		AudioManager::getInstance().playSound("Click");
 		StateManager::getInstance().pop();
+	}
 }
 
 void AboutState::handleKeyPress(SDL_Keycode key)

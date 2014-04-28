@@ -79,11 +79,18 @@ void MenuState::handleEvent(const SDL_Event& event)
 void MenuState::leftButtonPressed()
 {
 	if (Collision::isColliding(m_MouseRect, m_PlayRect))
+	{
+		AudioManager::getInstance().playSound("Click");
 		StateManager::getInstance().push(std::make_shared<ShipSelectState>());
+	}
 	else if (Collision::isColliding(m_MouseRect, m_AboutRect))
+	{
+		AudioManager::getInstance().playSound("Click");
 		StateManager::getInstance().push(std::make_shared<AboutState>());
+	}
 	else if (Collision::isColliding(m_MouseRect, m_SoundRect))
 	{
+		AudioManager::getInstance().playSound("Click");
 		AudioManager::getInstance().toggleAudioEnabled();
 		if (AudioManager::getInstance().isAudioEnabled())
 			m_SoundButton.setTextureBounds({ 0.f, 88.f }, { 64.f, 64.f });

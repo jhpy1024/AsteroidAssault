@@ -6,6 +6,7 @@
 #include "MenuState.hpp"
 #include "StateManager.hpp"
 #include "ShaderManager.hpp"
+#include "AudioManager.hpp"
 
 #include <fstream>
 #include <string>
@@ -100,9 +101,13 @@ void DeadState::handleEvent(const SDL_Event& event)
 void DeadState::leftButtonPressed()
 {
 	if (Collision::isColliding(m_MouseRect, m_RetryRect))
+	{
+		AudioManager::getInstance().playSound("Click");
 		StateManager::getInstance().clearAndPush(std::make_shared<MenuState>());
+	}
 	else if (Collision::isColliding(m_MouseRect, m_ExitRect))
 	{
+		AudioManager::getInstance().playSound("Click");
 		SDL_Quit();
 		exit(0);
 	}
