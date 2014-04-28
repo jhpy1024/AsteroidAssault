@@ -12,6 +12,14 @@
 
 #include <iostream>
 #include <memory>
+#include <SDL_mixer.h>
+
+MenuState::MenuState()
+	: m_IsSlidingMusic(false)
+	, m_IsSlidingSound(false)
+{
+
+}
 
 void MenuState::init()
 {
@@ -27,8 +35,23 @@ void MenuState::init()
 	m_Title.setPosition({ Game::WIDTH / 2.f, Game::HEIGHT * 0.8f });
 	m_Title.setTextureBounds({ 0.f, 50.f }, { 629.f, 38.f });
 
-	m_SoundButton.setTextureBounds({ 0.f, 88.f }, { 64.f, 64.f });
-	m_SoundButton.setPosition({ 64.f, 64.f });
+	m_MusicSliderBackground.setTextureBounds({ 0.f, 0.f }, { 300.f, 35.f });
+	m_MusicSliderBackground.setPosition({ Game::WIDTH / 2.f, Game::HEIGHT * 0.15f });
+	auto musicSliderX = (AudioManager::getInstance().getMusicVolume() * 300) / 128 + (m_MusicSliderBackground.getPosition().x - m_MusicSliderBackground.getSize().x / 2.f);
+	m_MusicSlider.setTextureBounds({ 300.f, 0.f }, { 30.f, 35.f });
+	m_MusicSlider.setPosition({ musicSliderX - m_MusicSlider.getSize().x / 2.f, m_MusicSliderBackground.getPosition().y });
+	m_MusicSliderRect.position = m_MusicSlider.getPosition();
+	m_MusicSliderRect.width = m_MusicSlider.getSize().x;
+	m_MusicSliderRect.height = m_MusicSlider.getSize().y;
+
+	m_SoundSliderBackground.setTextureBounds({ 0.f, 35.f }, { 300.f, 35.f });
+	m_SoundSliderBackground.setPosition({ Game::WIDTH / 2.f, Game::HEIGHT * 0.05f });
+	auto soundSliderX = (AudioManager::getInstance().getSoundVolume() * 300) / 128 + (m_SoundSliderBackground.getPosition().x - m_SoundSliderBackground.getSize().x / 2.f);
+	m_SoundSlider.setTextureBounds({ 300.f, 0.f }, { 30.f, 35.f });
+	m_SoundSlider.setPosition({ soundSliderX - m_SoundSlider.getSize().x / 2.f, m_SoundSliderBackground.getPosition().y });
+	m_SoundSliderRect.position = m_SoundSlider.getPosition();
+	m_SoundSliderRect.width = m_SoundSlider.getSize().x;
+	m_SoundSliderRect.height = m_SoundSlider.getSize().y;
 
 	m_Sprites.push_back(m_PlayButton);
 	m_Sprites.push_back(m_AboutButton);
@@ -47,10 +70,6 @@ void MenuState::init()
 	m_ExitRect.width = m_ExitButton.getSize().x;
 	m_ExitRect.height = m_ExitButton.getSize().y;
 
-	m_SoundRect.position = m_SoundButton.getPosition();
-	m_SoundRect.width = m_SoundButton.getSize().x;
-	m_SoundRect.height = m_SoundButton.getSize().y;
-
 	m_MouseRect.width = m_MouseRect.height = 2.f;
 
 	m_ParticleRenderer.init();
@@ -58,11 +77,6 @@ void MenuState::init()
 	m_ParticleSys.setEmissionCount(20);
 
 	AudioManager::getInstance().playMusic("TitleMusic", -1);
-
-	if (AudioManager::getInstance().isAudioEnabled())
-		m_SoundButton.setTextureBounds({ 0.f, 88.f }, { 64.f, 64.f });
-	else
-		m_SoundButton.setTextureBounds({ 64.f, 88.f }, { 64.f, 64.f });
 }
 
 void MenuState::handleEvent(const SDL_Event& event)
@@ -72,6 +86,14 @@ void MenuState::handleEvent(const SDL_Event& event)
 		if (event.button.button == SDL_BUTTON_LEFT)
 		{
 			leftButtonPressed();
+		}
+	}
+	else if (event.type == SDL_MOUSEBUTTONUP)
+	{
+		if (event.button.button == SDL_BUTTON_LEFT)
+		{
+			m_IsSlidingMusic = false;
+			m_IsSlidingSound = false;
 		}
 	}
 }
@@ -88,14 +110,13 @@ void MenuState::leftButtonPressed()
 		AudioManager::getInstance().playSound("Click");
 		StateManager::getInstance().push(std::make_shared<AboutState>());
 	}
-	else if (Collision::isColliding(m_MouseRect, m_SoundRect))
+	else if (Collision::isColliding(m_MouseRect, m_MusicSliderRect))
 	{
-		AudioManager::getInstance().playSound("Click");
-		AudioManager::getInstance().toggleAudioEnabled();
-		if (AudioManager::getInstance().isAudioEnabled())
-			m_SoundButton.setTextureBounds({ 0.f, 88.f }, { 64.f, 64.f });
-		else
-			m_SoundButton.setTextureBounds({ 64.f, 88.f }, { 64.f, 64.f });
+		m_IsSlidingMusic = true;
+	}
+	else if (Collision::isColliding(m_MouseRect, m_SoundSliderRect))
+	{
+		m_IsSlidingSound = true;
 	}
 	else if (Collision::isColliding(m_MouseRect, m_ExitRect))
 	{
@@ -118,7 +139,52 @@ void MenuState::update(Uint32 delta)
 {
 	m_MouseRect.position = Mouse::getPosition();
 	
+	if (m_IsSlidingMusic)
+	{
+		updateSlider(m_MusicSlider, m_MusicSliderBackground, m_MusicSliderRect);
+		AudioManager::getInstance().setMusicVolume(calculateVolume(m_MusicSlider, m_MusicSliderBackground));
+	}
+	if (m_IsSlidingSound)
+	{
+		updateSlider(m_SoundSlider, m_SoundSliderBackground, m_SoundSliderRect);
+		AudioManager::getInstance().setSoundVolume(calculateVolume(m_SoundSlider, m_SoundSliderBackground));
+	}
+
 	m_ParticleSys.update(delta);
+}
+
+int MenuState::calculateVolume(Sprite& slider, Sprite& sliderBackground)
+{
+	auto sliderLeft = slider.getPosition().x - slider.getSize().x / 2.f;
+	auto backgroundLeft = sliderBackground.getPosition().x - sliderBackground.getSize().x / 2.f;
+
+	std::cout << "Volume = " << ((sliderLeft - backgroundLeft) / 300) * 128 << std::endl;
+
+	return ((sliderLeft - backgroundLeft) / 300) * 128;
+}
+
+void MenuState::updateSlider(Sprite& slider, Sprite& sliderBackground, RectangleShape& sliderRect)
+{
+	slider.setPosition({ Mouse::getX(), slider.getPosition().y });
+	sliderRect.position = slider.getPosition();
+
+	auto sliderLeft = slider.getPosition().x - (slider.getSize().x / 2.f);
+	auto sliderRight = slider.getPosition().x + (slider.getSize().x / 2.f);
+	auto sliderBackgroundLeft = sliderBackground.getPosition().x - (sliderBackground.getSize().x / 2.f);
+	auto sliderBackgroundRight = sliderBackground.getPosition().x + (sliderBackground.getSize().x / 2.f);
+
+	if (sliderLeft < sliderBackgroundLeft)
+	{
+		slider.setPosition({ sliderBackgroundLeft + (slider.getSize().x / 2.f), slider.getPosition().y });
+		sliderRect.position = slider.getPosition();
+	}
+	else if (sliderRight > sliderBackgroundRight)
+	{
+		slider.setPosition({ sliderBackgroundRight - (slider.getSize().x / 2.f), slider.getPosition().y });
+		sliderRect.position = slider.getPosition();
+	}
+
+	
 }
 
 void MenuState::render()
@@ -128,5 +194,8 @@ void MenuState::render()
 
 	m_ParticleRenderer.render(m_ParticleSys);
 	m_SpriteRenderer.render(m_Sprites, TextureManager::getInstance().getTexture("MenuSheet"));
-	m_SpriteRenderer.render(m_SoundButton, TextureManager::getInstance().getTexture("MenuSheet"));
+	m_SpriteRenderer.render(m_MusicSliderBackground, TextureManager::getInstance().getTexture("UI"));
+	m_SpriteRenderer.render(m_MusicSlider, TextureManager::getInstance().getTexture("UI"));
+	m_SpriteRenderer.render(m_SoundSliderBackground, TextureManager::getInstance().getTexture("UI"));
+	m_SpriteRenderer.render(m_SoundSlider, TextureManager::getInstance().getTexture("UI"));
 }

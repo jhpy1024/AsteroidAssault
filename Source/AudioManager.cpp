@@ -7,6 +7,8 @@ std::unique_ptr<AudioManager> AudioManager::m_Instance;
 
 AudioManager::AudioManager()
 	: m_AudioEnabled(true)
+	, m_MusicVolume(128)
+	, m_SoundVolume(128)
 {
 	// TODO
 	// ====================================================
@@ -22,6 +24,29 @@ AudioManager::~AudioManager()
 {
 	freeAllSounds();
 	freeAllMusic();
+}
+
+int AudioManager::getMusicVolume() const
+{
+	return m_MusicVolume;
+}
+
+int AudioManager::getSoundVolume() const
+{
+	return m_SoundVolume;
+}
+
+void AudioManager::setMusicVolume(int volume)
+{
+	Mix_VolumeMusic(volume);
+	m_MusicVolume = volume;
+}
+
+void AudioManager::setSoundVolume(int volume)
+{
+	for (auto& pair : m_Sounds)
+		Mix_VolumeChunk(pair.second, volume);
+	m_SoundVolume = volume;
 }
 
 void AudioManager::toggleAudioEnabled()

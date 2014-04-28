@@ -105,6 +105,7 @@ void Game::loadTextures()
 	textureManager.addTexture("PowerupSheet", "Resources/Textures/PowerupSheet.png");
 	textureManager.addTexture("AboutSheet", "Resources/Textures/AboutSheet.png");
 	textureManager.addTexture("ShipSelectSheet", "Resources/Textures/ShipSelectSheet.png");
+	textureManager.addTexture("UI", "Resources/Textures/UI.png");
 } 
 
 void Game::loadShaders()

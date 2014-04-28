@@ -24,6 +24,12 @@ public:
 	void toggleAudioEnabled();
 	bool isAudioEnabled() const;
 
+	void setMusicVolume(int volume);
+	void setSoundVolume(int volume);
+
+	int getMusicVolume() const;
+	int getSoundVolume() const;
+
 private:
 	AudioManager();
 
@@ -37,6 +43,9 @@ private:
 	std::map<std::string, Mix_Music*> m_Music;
 
 	bool m_AudioEnabled;
+
+	int m_MusicVolume;
+	int m_SoundVolume;
 };
 
 #endif
